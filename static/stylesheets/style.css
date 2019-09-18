@@ -1,0 +1,39 @@
+:root {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #dddddd;
+  /* font-family: zapfino, Cambria, cursive; */
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(5, auto);
+  position: relative;
+  grid-gap: 1em;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.container > * {
+  background-color: darkgray;
+  color: white;
+  padding: 1em;
+  border-radius: 0.5em;
+}
+
+.text-input {
+  font-family: zapfino, Helvetica, Arial, sans-serif;
+  min-height: 300px;
+  outline: none;
+  resize: none;
+  border: 1px solid #f0f0f0;
+  font-size: 18px; 
+}
+
+.page-heading {
+  text-align: center;
+}
