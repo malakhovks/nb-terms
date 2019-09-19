@@ -2,34 +2,94 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Word2Vec similarity Demo</title>
-  <link rel="stylesheet" type="text/css" href="./static/stylesheets/style.css">
+    <meta charset="UTF-8">
+    <title>Word2Vec similarity Demo</title>
+    <link rel="stylesheet" type="text/css" href="./static/stylesheets/style.css">
+    <link rel="stylesheet" type="text/css" href="./static/stylesheets/pure-min.css">
+    <!-- <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css"
+        integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous"> -->
 </head>
 
 <body>
-  <div class="container">
     <header>
-      <h3 class="page-heading">Language Modelling and Text Generation using LSTMs Demo</h1>
+        <h2 class="page-heading">Word2Vec cosine similarity Demo</h2>
     </header>
-    <textarea class="text-input" placeholder="Insert text . . ."></textarea>
 
-    <div class="prediction">
-      <lable>Prediction</lable>
-    </div>
-    <div class="lang">
-      <lable class="cosine-similarity-label">Cosine similarity: </lable>
-      <lable class="cosine-similarity"></lable>
-    </div>
-    <div class="description">
-      <ul>
-        <li>
-          <a href="https://www.analyticsvidhya.com/blog/2018/03/text-generation-using-python-nlp/">
-            How to create a poet / writer using Deep Learning (Text Generation using Python)?</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <script src="./static/javascripts/events.js"></script>
+    <section class="container">
+        <div class="left-half">
+            <h3 class="page-heading">Paste your texts</h3>
+            <div class="nested-container">
+
+                <textarea class="text-input" placeholder="Insert text 1 . . ."></textarea>
+                <textarea class="text-input" placeholder="Insert text 2 . . ."></textarea>
+
+                <button class="pure-button pure-button-primary">Compute cosine similarity</button>
+                <div class="similarity">
+                    <lable class="cosine-similarity-label">Cosine similarity: </lable>
+                    <lable class="cosine-similarity"></lable>
+                </div>
+            </div>
+        </div>
+        <div class="right-half">
+            <article>
+                <h3>Theory</h3>
+                <p>In distributional semantics, words are usually represented as vectors in a multi-dimensional space of
+                    their contexts. Semantic similarity between two words is then calculated as a cosine similarity
+                    between their corresponding vectors; it takes values between -1 and 1 (usually only values above 0
+                    are used in practical tasks). 0 value roughly means the words lack similar contexts, and thus their
+                    meanings are unrelated to each other. 1 value means that the words' contexts are absolutely
+                    identical, and thus their meaning is very similar.</p>
+                <p>Distributional semantics is under the hood of almost all contemporary natural language understanding
+                    systems. As a rule, the so called predictive models are employed, which learn hiqh-quality dense
+                    vectors representing word meaning (embeddings). These models are often trained using shallow
+                    artifical neural networks based on the task of predicting the next word in a sequence: language
+                    modeling. One of the first and arguably the most well-known tool in this field now is word2vec, but
+                    new models and algorithms are published regularly.</p>
+                <div class="description">
+                    <h3>References</h3>
+                    <ul>
+                        <li>
+                            <a href="http://vectors.nlpl.eu/explore/embeddings/en/">
+                                WebVectors: word embeddings online (This service computes semantic relations between
+                                words in English and Norwegian)</a>
+                        </li>
+                        <li>
+                            <a href="https://rusvectores.org/en/">
+                                RusVectōrēs: word embeddings for Russian online (RusVectōrēs service computes semantic
+                                relations between words in Russian)</a>
+                        </li>
+                        <li>
+                            <a href="https://fasttext.cc/">
+                                fastText (library for efficient text classification and representation learning)</a>
+                        </li>
+                        <li>
+                            <a href="https://spacy.io/">
+                                spaCy (is a library for advanced Natural Language Processing in Python and Cython)</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/RaRe-Technologies/gensim">
+                                Gensim (is a Python library for topic modelling, document indexing and similarity
+                                retrieval with large corpora)</a>
+                        </li>
+                    </ul>
+                    <h3>CV concepts</h3>
+                    <ul>
+                        <li>
+                            <a href="/cvparsing" target="_blank">
+                                CV parsing concept</a>
+                        </li>
+                        <li>
+                            <a href="/cvwe" target="_blank">
+                                CV processing using distributional semantic modeling</a>
+                        </li>
+                    </ul>
+                </div>
+            </article>
+        </div>
+    </section>
 </body>
+<!-- ---------------------------------------------------------------------------------------------------- -->
+<script src="./static/javascripts/events.js"></script>
+<script src="./static/javascripts/libs/jquery-3.4.1.min.js"></script>
+
 </html>

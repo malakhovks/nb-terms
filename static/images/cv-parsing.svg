@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" viewBox="21 78 810.5 413.75" width="810.5pt" height="413.75pt" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <metadata> Produced by OmniGraffle 7.5 
+    <dc:date>2019-09-19 07:17:49 +0000</dc:date>
+  </metadata>
+  <defs>
+    <font-face font-family="Times New Roman" font-size="16" panose-1="2 2 8 3 7 5 5 2 3 4" units-per-em="1000" underline-position="-108.88672" underline-thickness="95.21484" slope="0" x-height="456.54297" cap-height="662.1094" ascent="891.1133" descent="-216.3086" font-weight="bold">
+      <font-face-src>
+        <font-face-name name="TimesNewRomanPS-BoldMT"/>
+      </font-face-src>
+    </font-face>
+    <font-face font-family="Times New Roman" font-size="12" panose-1="2 2 6 3 5 4 5 2 3 4" units-per-em="1000" underline-position="-108.88672" underline-thickness="48.828125" slope="0" x-height="447.2656" cap-height="662.1094" ascent="891.1133" descent="-216.3086" font-weight="500">
+      <font-face-src>
+        <font-face-name name="TimesNewRomanPSMT"/>
+      </font-face-src>
+    </font-face>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="SharpArrow_Marker" viewBox="-4 -4 10 8" markerWidth="10" markerHeight="8" color="black">
+      <g>
+        <path d="M 5 0 L -3 -3 L 0 0 L 0 0 L -3 3 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+    <font-face font-family="Times New Roman" font-size="14" panose-1="2 2 8 3 7 5 5 2 3 4" units-per-em="1000" underline-position="-108.88672" underline-thickness="95.21484" slope="0" x-height="456.54297" cap-height="662.1094" ascent="891.1133" descent="-216.3086" font-weight="bold">
+      <font-face-src>
+        <font-face-name name="TimesNewRomanPS-BoldMT"/>
+      </font-face-src>
+    </font-face>
+    <font-face font-family="Times New Roman" font-size="14" panose-1="2 2 6 3 5 4 5 2 3 4" units-per-em="1000" underline-position="-108.88672" underline-thickness="48.828125" slope="0" x-height="447.2656" cap-height="662.1094" ascent="891.1133" descent="-216.3086" font-weight="500">
+      <font-face-src>
+        <font-face-name name="TimesNewRomanPSMT"/>
+      </font-face-src>
+    </font-face>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledBall_Marker" viewBox="-7 -4 8 8" markerWidth="8" markerHeight="8" color="black">
+      <g>
+        <circle cx="-2.9999986" cy="0" r="2.9999973" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="SharpArrow_Marker_2" viewBox="-6 -4 10 8" markerWidth="10" markerHeight="8" color="black">
+      <g>
+        <path d="M -5 0 L 3 3 L 0 0 L 0 0 L 3 -3 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+  </defs>
+  <g stroke="none" stroke-opacity="1" stroke-dasharray="none" fill="none" fill-opacity="1">
+    <title>CV parsing</title>
+    <g>
+      <title>Layer 1</title>
+      <a xl:href="https://en.wikipedia.org/wiki/Distributional_semantics">
+        <text transform="translate(420 83.66016)" fill="black">
+          <tspan font-family="Times New Roman" font-size="16" font-weight="bold" x="4.3046875" y="14" textLength="23.109375">CV</tspan>
+          <tspan font-family="Times New Roman" font-size="16" font-weight="bold" x="27.125" y="14" textLength="55.57031"> parsing</tspan>
+        </text>
+      </a>
+      <rect x="449.5" y="242.5" width="28" height="145" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <text transform="translate(454.5 307.7451)" fill="black">
+        <tspan font-family="Times New Roman" font-size="12" font-weight="500" x="6" y="11" textLength="6">2</tspan>
+      </text>
+      <rect x="361.5" y="242.5" width="28" height="145" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <text transform="translate(366.5 307.7451)" fill="black">
+        <tspan font-family="Times New Roman" font-size="12" font-weight="500" x="6" y="11" textLength="6">1</tspan>
+      </text>
+      <line x1="389.5" y1="315" x2="442.6" y2="315" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <line x1="212" y1="289.4348" x2="250.58356" y2="289.26183" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <line x1="212" y1="314.7039" x2="250.58356" y2="314.53093" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <line x1="212" y1="338.4348" x2="250.58356" y2="338.26183" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <text transform="translate(26 283.81055)" fill="black">
+        <tspan font-family="Times New Roman" font-size="14" font-weight="bold" x="21.91201" y="12" textLength="126.37598">Domain-specific data</tspan>
+        <tspan font-family="Times New Roman" font-size="14" font-weight="bold" x="70.32754" y="27.594727" textLength="29.544922">(CV)</tspan>
+        <tspan font-family="Times New Roman" font-size="14" font-weight="500" x="5.799705" y="43.189453" textLength="162.10059">represented as e-documents: </tspan>
+        <tspan font-family="Times New Roman" font-size="14" font-weight="500" x="48.555076" y="58.78418" textLength="73.08984">pdf, docx, rtf</tspan>
+      </text>
+      <text transform="translate(327 164.33719)" fill="black">
+        <tspan font-family="Times New Roman" font-size="14" font-weight="bold" x="3.4648438" y="12" textLength="9.337891">T</tspan>
+        <tspan font-family="Times New Roman" font-size="14" font-weight="bold" x="11.517578" y="12" textLength="82.01758">ext extraction</tspan>
+      </text>
+      <line x1="375.5" y1="192.2691" x2="375.5" y2="242.5" marker-start="url(#FilledBall_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke-dasharray="2,2"/>
+      <a xl:href="https://en.wikipedia.org/wiki/Information_extraction">
+        <text transform="translate(392 450.0681)" fill="black">
+          <tspan font-family="Times New Roman" font-size="14" font-weight="bold" x="2.8740234" y="12" textLength="137.25195">Information extraction</tspan>
+        </text>
+      </a>
+      <line x1="463.5" y1="437.7309" x2="463.5" y2="387.5" marker-start="url(#FilledBall_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke-dasharray="2,2"/>
+      <rect x="537.5" y="242.5" width="28" height="145" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <text transform="translate(542.5 307.7451)" fill="black">
+        <tspan font-family="Times New Roman" font-size="12" font-weight="500" x="6" y="11" textLength="6">3</tspan>
+      </text>
+      <line x1="477.5" y1="315" x2="530.6" y2="315" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <text transform="translate(497.25 164.33719)" fill="black">
+        <tspan font-family="Times New Roman" font-size="14" font-weight="bold" x="2.724121" y="12" textLength="103.05176">JSON generation</tspan>
+      </text>
+      <line x1="551.5" y1="192.2691" x2="551.5" y2="242.5" marker-start="url(#FilledBall_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke-dasharray="2,2"/>
+      <rect x="625.5" y="242.5" width="28" height="145" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <text transform="translate(630.5 307.7451)" fill="black">
+        <tspan font-family="Times New Roman" font-size="12" font-weight="500" x="6" y="11" textLength="6">4</tspan>
+      </text>
+      <line x1="565.5" y1="315" x2="618.6" y2="315" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <text transform="translate(581.875 450.0681)" fill="black">
+        <tspan font-family="Times New Roman" font-size="14" font-weight="bold" x="1.614746" y="12" textLength="112.02051">Saving to database</tspan>
+      </text>
+      <line x1="639.5" y1="437.7309" x2="639.5" y2="387.5" marker-start="url(#FilledBall_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke-dasharray="2,2"/>
+      <line x1="692.3999" y1="289.40386" x2="724.0836" y2="289.26183" marker-end="url(#SharpArrow_Marker)" marker-start="url(#SharpArrow_Marker_2)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <line x1="692.3999" y1="314.67295" x2="724.0836" y2="314.53093" marker-end="url(#SharpArrow_Marker)" marker-start="url(#SharpArrow_Marker_2)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <line x1="692.3999" y1="338.40386" x2="724.0836" y2="338.26183" marker-end="url(#SharpArrow_Marker)" marker-start="url(#SharpArrow_Marker_2)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <text transform="translate(757.5 306.43354)" fill="black">
+        <tspan font-family="Times New Roman" font-size="14" font-weight="bold" x=".09472656" y="12" textLength="68.81055">Data access</tspan>
+      </text>
+      <rect x="287.5" y="242.5" width="14" height="145" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <text transform="translate(292.5 307.7451)" fill="black">
+        <tspan font-family="Times New Roman" font-size="12" font-weight="500" x="0" y="11" textLength="6">0</tspan>
+      </text>
+      <line x1="301.5" y1="315" x2="354.6" y2="315" marker-end="url(#SharpArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <line x1="293.7199" y1="437.7317" x2="294.5" y2="387.5" marker-start="url(#FilledBall_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke-dasharray="2,2"/>
+      <a xl:href="https://en.wikipedia.org/wiki/Information_extraction">
+        <text transform="translate(196 444.59836)" fill="black">
+          <tspan font-family="Times New Roman" font-size="14" font-weight="bold" x="28.818848" y="12" textLength="136.8623">Data access technology</tspan>
+          <tspan font-family="Times New Roman" font-size="14" font-weight="500" x="23.38086" y="27.594727" textLength="151.23828">(import e-documents from </tspan>
+          <tspan font-family="Times New Roman" font-size="14" font-weight="500" x="70.822266" y="43.189453" textLength="52.85547">database)</tspan>
+        </text>
+      </a>
+    </g>
+  </g>
+</svg>
