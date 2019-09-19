@@ -29,3 +29,32 @@
         }
     }
 }); */
+
+var $textArea1 = $('#text-area-1'),
+    $textArea2 = $("#text-area-2"),
+    $buttonFindSimilarity = $("#button-find-similarity"),
+    $labelCosineSimilarity = $("#label-cosine-similarity");
+
+$(document).ready(function () {
+    $textArea1.val("Company representative, manned underwater operations, HSE advisor; Research: chaired research into noise in diving for NOROG; Human factors/ergonomics (incl: control room design, noise, light, DSE, manual handling, etc.) Conference paper referee for Ergonomics Society HSEQ management; Life support supervision, saturation diving; Offshore occupational health & safety; General and offshore nursing; Lecturer, producer of training material, written and film; Expert witness in court; Technical author and proof-reader.");
+    $textArea2.val("Geophysicist with 28 years of experience within seismic interpretation, depth conversion, well planning including use of 3D visualization tools, seismic 4D monitoring. Application support: Petrel, GeoFrameCharisma, Irap, RMS, SviPro.");
+});
+$buttonFindSimilarity.click(function () {
+    findSimilarity();
+});
+
+function findSimilarity() {
+    if (self.fetch) {
+        fetch('/wv/api/en/similarity', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text1: $textArea1.val(), text2: $textArea2.val() })
+        }).then(res => res.json())
+            .then(response => { console.log('Success:', JSON.stringify(response)); $labelCosineSimilarity.text(response.similarity) })
+            .catch(error => console.error('Error:', error));
+    } else {
+        alert('Error: Fetch API not supported');
+    }
+}

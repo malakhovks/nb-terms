@@ -16,7 +16,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 # Load globally spaCy model via package name
-# NLP_EN = spacy.load('en_core_web_lg')
+NLP_EN = spacy.load('en_core_web_lg')
 
 class JSONResponse(Response):
     default_mimetype = 'application/json'
@@ -52,6 +52,13 @@ def cvp():
 @app.route('/cvwe')
 def cvwe():
     return Response(render_template('cvwe.html'), mimetype='text/html')
+
+@app.route('/wv/api/en/similarity', methods=['POST'])
+def get_similarity():
+    req_data = request.get_json()
+    doc1 = NLP_EN(req_data['text1'])
+    doc2 = NLP_EN(req_data['text2'])
+    return jsonify(similarity = doc1.similarity(doc2))
 
 if __name__ == '__main__':
     # default port = 5000
