@@ -1,0 +1,33 @@
+{
+    "Personal name": {
+        "First name": "b",
+        "Last name": "d"
+    },
+    "Gender": "male",
+    "Job title": "",
+    "Birthday": "",
+    "Location": "",
+    "Nationality": "",
+    "Languages": "",
+    "Key skills": "",
+    "Work Experience": [
+        {
+            "": ""
+        },
+        {
+            "": ""
+        }
+    ],
+    "Education": [
+        {
+            "": ""
+        },
+        {
+            "": ""
+        }
+    ],
+    "Courses": [
+        "",
+        ""
+    ]
+}

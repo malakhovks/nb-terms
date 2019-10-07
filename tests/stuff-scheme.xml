@@ -1,0 +1,309 @@
+<Graph nodesize="10" vspacing="3" hspacing="20" padding="4" guid="950D8AF1-25FA-D462-CE88-FE1FD384E0E6" searchurl="https://www.google.com.ua/#output=search%26q=###SEARCH###">
+  <datagroups>
+    <datagroup>Бали в різних напрямках [Наукові бал]</datagroup>
+    <datagroup>Кількість мов, якими володієте</datagroup>
+    <datagroup>Бали в різних напрямках [Організаційні бал]</datagroup>
+    <datagroup>Бали в різних напрямках [Медіа бал]</datagroup>
+    <datagroup>Бали в різних напрямках [Інженерні бал]</datagroup>
+    <datagroup>Бали в різних напрямках [Комунікаційні бал]</datagroup>
+    <datagroup>Кількість вдало виконанених проектів</datagroup>
+    <datagroup>Бали в різних напрямках [Проектні бал]</datagroup>
+    <datagroup>Загальний бал</datagroup>
+    <datagroup>Бали в різних напрямках [ІТ бал]</datagroup>
+    <datagroup>Бали в різних напрямках [Економ бал]</datagroup>
+    <datagroup>Вага посадового окладу</datagroup>
+    <datagroup>null</datagroup>
+  </datagroups>
+  <Nodes>
+    <Node guid="FE22BBA0D4E1" nodeName="Андрійченко Дмитро Борисович" nclass="" shape="square" color="13421772" xPos="40" yPos="40" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">3</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">4</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">4</data>
+      <data tclass="Загальний бал" type="text" link="">3,375</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">2</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">3</data>
+      <data tclass="Вага посадового окладу" type="text" link="">1</data>
+      <data tclass="" type="href" link="https://vk.com/dimonandriichenko?z=photo23740009_324366656%2Falbum23740009_0%2Frev">фото</data>
+    </Node>
+    <Node guid="FE22BBA1D9CB" nodeName="Тарасенко Роман Анатолійович" nclass="" shape="square" color="13421772" xPos="40" yPos="70" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">3</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">1</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">2</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">1</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">2</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">4</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">3</data>
+      <data tclass="Загальний бал" type="text" link="">2,25</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">1</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">2</data>
+      <data tclass="Вага посадового окладу" type="text" link="">1</data>
+      <data tclass="" type="href" link="http://cs617228.vk.me/v617228927/b7a3/wP_eOY1NuNI.jpg">фото</data>
+    </Node>
+    <Node guid="FE22BBA2B6CA" nodeName="Семко Анастасія" nclass="" shape="square" color="13421772" xPos="40" yPos="100" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">4</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">5</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">5</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">6</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">5</data>
+      <data tclass="Загальний бал" type="text" link="">4,375</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">4</data>
+      <data tclass="Вага посадового окладу" type="text" link="">1</data>
+      <data tclass="" type="href" link="https://vk.com/semko_ana?z=photo151143163_343485281%2Fphotos151143163">фото</data>
+    </Node>
+    <Node guid="FE22BBA49B1C" nodeName="Драчук Олександр Андрійович" nclass="" shape="square" color="13421772" xPos="40" yPos="130" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">2</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">2</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">1</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">1</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">1</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">3</data>
+      <data tclass="Загальний бал" type="text" link="">2,125</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">2</data>
+      <data tclass="Вага посадового окладу" type="text" link="">1</data>
+      <data tclass="" type="href" link="https://pp.vk.me/c409026/v409026123/2dc4/k0j9XtEpeuU.jpg">фото</data>
+    </Node>
+    <Node guid="FE22BBA51652" nodeName="Марущак Герман Русланович" nclass="" shape="square" color="13421772" xPos="40" yPos="160" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">3</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">4</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">1</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">4</data>
+      <data tclass="Загальний бал" type="text" link="">3,5</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">3</data>
+      <data tclass="Вага посадового окладу" type="text" link="">1</data>
+      <data tclass="" type="href" link="">фото</data>
+    </Node>
+    <Node guid="FE22BBA65E91" nodeName="Капуста Дмитро Олегович" nclass="" shape="square" color="13421772" xPos="40" yPos="190" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">3</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">2</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">4</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">3</data>
+      <data tclass="Загальний бал" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">3</data>
+      <data tclass="Вага посадового окладу" type="text" link="">1</data>
+      <data tclass="" type="href" link="https://pp.vk.me/c625223/v625223433/f783/0yUysixAO9s.jpg">фото</data>
+    </Node>
+    <Node guid="FE22BBA76AD1" nodeName="Бондаренко Юлия Сергеевна" nclass="" shape="square" color="13421772" xPos="40" yPos="220" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">4</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">2</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">2</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">4</data>
+      <data tclass="Загальний бал" type="text" link="">3,375</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">3</data>
+      <data tclass="Вага посадового окладу" type="text" link="">1</data>
+      <data tclass="" type="href" link="https://pp.vk.me/c624526/v624526444/44d48/9UX3pKr1odo.jpg">фото</data>
+    </Node>
+    <Node guid="FE22BBA8A0C7" nodeName="Васильева Анна Владимировна" nclass="" shape="square" color="13421772" xPos="40" yPos="250" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">3</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">2</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">2</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">4</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">4</data>
+      <data tclass="Загальний бал" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">3</data>
+      <data tclass="Вага посадового окладу" type="text" link="">1</data>
+      <data tclass="" type="href" link="https://pp.vk.me/c622024/v622024126/1a0ec/1dsDJIdCk0k.jpg">фото</data>
+    </Node>
+    <Node guid="FE22BBAAF42A" nodeName="Котляр Євгений Сергеевич" nclass="" shape="square" color="13421772" xPos="40" yPos="280" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">4</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">4</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">4</data>
+      <data tclass="Загальний бал" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">0</data>
+      <data tclass="Вага посадового окладу" type="text" link="">1</data>
+      <data tclass="" type="href" link="https://pp.vk.me/c629331/v629331882/17559/y-niN1XlAE4.jpg">фото</data>
+    </Node>
+    <Node guid="FE22BBAB209E" nodeName="Каменская Виктория Владимировна" nclass="" shape="square" color="13421772" xPos="40" yPos="310" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">4</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">4</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">4</data>
+      <data tclass="Загальний бал" type="text" link="">3,5</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">2</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">2</data>
+      <data tclass="Вага посадового окладу" type="text" link="">1</data>
+      <data tclass="" type="href" link="https://pp.vk.me/c628821/v628821641/12f1f/sEzHIgbXUt0.jpg">фото</data>
+    </Node>
+    <Node guid="FE22BBAC18A4" nodeName="Обща Лариса" nclass="" shape="square" color="13421772" xPos="40" yPos="340" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">4</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">2</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">3</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">1</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">3</data>
+      <data tclass="Загальний бал" type="text" link="">3,5</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">4</data>
+      <data tclass="Вага посадового окладу" type="text" link="">1</data>
+      <data tclass="" type="href" link="https://vk.com/photo97209759_286526474">фото</data>
+    </Node>
+    <Node guid="FE22BBAD6329" nodeName="Кащеев Илья Алексеевич" nclass="" shape="square" color="13421772" xPos="40" yPos="370" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">4</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">4</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">4</data>
+      <data tclass="Загальний бал" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">4</data>
+      <data tclass="Вага посадового окладу" type="text" link="">1</data>
+      <data tclass="" type="href" link="https://pp.vk.me/c617128/v617128210/20fae/N8mECKIyeRs.jpg">фото</data>
+    </Node>
+    <Node guid="FE22BBAF0F96" nodeName="Осипенко Едуард Володимирович" nclass="" shape="square" color="13421772" xPos="40" yPos="400" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">4</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">4</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">4</data>
+      <data tclass="Загальний бал" type="text" link="">3,625</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">2</data>
+      <data tclass="Вага посадового окладу" type="text" link="">1</data>
+      <data tclass="" type="href" link="https://pp.vk.me/c621925/v621925208/21b2e/BlHPTVsiEyU.jpg">фото</data>
+    </Node>
+    <Node guid="FE22BBB02DEC" nodeName="Беляк Богдан Олегович" nclass="" shape="square" color="13421772" xPos="40" yPos="430" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">0</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">2</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">0</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">4</data>
+      <data tclass="Загальний бал" type="text" link="">1,875</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">4</data>
+      <data tclass="Вага посадового окладу" type="text" link="">1</data>
+      <data tclass="" type="href" link="https://pp.vk.me/c629503/v629503779/147ec/wMs4WqDei-U.jpg">фото</data>
+    </Node>
+    <Node guid="FE22BBB17666" nodeName="Гончаренко Владислав Витальевич" nclass="" shape="square" color="13421772" xPos="40" yPos="460" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">4</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">2</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">3</data>
+      <data tclass="Загальний бал" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">5</data>
+      <data tclass="Вага посадового окладу" type="text" link="">1</data>
+      <data tclass="" type="href" link="https://pp.vk.me/c624019/v624019780/578c4/WVXU2D1xraY.jpg">фото</data>
+    </Node>
+    <Node guid="FE22BBB38CAD" nodeName="Шаповалов Євген Ьорисович" nclass="" shape="square" color="13421772" xPos="40" yPos="490" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">4</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">2</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">3</data>
+      <data tclass="Загальний бал" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">5</data>
+      <data tclass="Вага посадового окладу" type="text" link="">2</data>
+    </Node>
+    <Node guid="FE22BBB4A0F8" nodeName="Шаповалов Віктор Ьорисович" nclass="" shape="square" color="13421772" xPos="40" yPos="520" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">4</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">2</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">3</data>
+      <data tclass="Загальний бал" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">5</data>
+      <data tclass="Вага посадового окладу" type="text" link="">3</data>
+    </Node>
+    <Node guid="FE22BBB6804E" nodeName="Салюк Анатолій Іванович" nclass="" shape="square" color="13421772" xPos="40" yPos="550" font="Verdana" fontsize="14">
+      <data tclass="Бали в різних напрямках [Наукові бал]" type="text" link="">4</data>
+      <data tclass="Кількість мов, якими володієте" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Організаційні бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Медіа бал]" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [Інженерні бал]" type="text" link="">4</data>
+      <data tclass="Бали в різних напрямках [Комунікаційні бал]" type="text" link="">2</data>
+      <data tclass="Кількість вдало виконанених проектів" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Проектні бал]" type="text" link="">3</data>
+      <data tclass="Загальний бал" type="text" link="">3</data>
+      <data tclass="Бали в різних напрямках [ІТ бал]" type="text" link="">0</data>
+      <data tclass="Бали в різних напрямках [Економ бал]" type="text" link="">5</data>
+      <data tclass="Вага посадового окладу" type="text" link="">4</data>
+    </Node>
+    <Node guid="FE22BBB8B694" nodeName="Персонал" nclass="" shape="circle" color="13421772" xPos="743.8" yPos="312.95" font="Verdana" fontsize="14"/>
+  </Nodes>
+  <Linkgroups>
+    <Group name="Default" color="10066329"/>
+  </Linkgroups>
+  <Edges>
+    <Edge guid="FE22BBB9658B" edgeName="link_141" node1="Андрійченко Дмитро Борисович" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBBA71F5" edgeName="link_142" node1="Тарасенко Роман Анатолійович" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBBBC994" edgeName="link_143" node1="Семко Анастасія" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBBC69D4" edgeName="link_144" node1="Драчук Олександр Андрійович" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBBCA478" edgeName="link_145" node1="Марущак Герман Русланович" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBBD9E58" edgeName="link_146" node1="Капуста Дмитро Олегович" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBBE966A" edgeName="link_147" node1="Бондаренко Юлия Сергеевна" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBBEA5D4" edgeName="link_148" node1="Васильева Анна Владимировна" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBBFDF3D" edgeName="link_149" node1="Котляр Євгений Сергеевич" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBC0A5F8" edgeName="link_150" node1="Каменская Виктория Владимировна" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBC1E0A9" edgeName="link_151" node1="Обща Лариса" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBC17712" edgeName="link_152" node1="Кащеев Илья Алексеевич" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBC2218A" edgeName="link_153" node1="Осипенко Едуард Володимирович" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBC36523" edgeName="link_154" node1="Беляк Богдан Олегович" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBC3AFD3" edgeName="link_155" node1="Гончаренко Владислав Витальевич" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBC4209D" edgeName="link_156" node1="Шаповалов Євген Ьорисович" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBC520D5" edgeName="link_157" node1="Шаповалов Віктор Ьорисович" node2="Персонал" group="Default" istwoway="false"/>
+    <Edge guid="FE22BBC65822" edgeName="link_158" node1="Салюк Анатолій Іванович" node2="Персонал" group="Default" istwoway="false"/>
+  </Edges>
+</Graph>

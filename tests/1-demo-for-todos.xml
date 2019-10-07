@@ -1,0 +1,42 @@
+<Graph guid="" hspacing="20" nodesize="10" padding="4" searchurl="https://www.google.com.ua/#output=search%26q=###SEARCH###" vspacing="3">
+    <Nodes>
+        <Node color="13421772" font="Verdana" fontsize="14" guid="f6db83cd16fb" nclass="" nodeName="Stuff" shape="circle" xPos="" yPos=""/>
+        <Node color="13421772" font="Verdana" fontsize="14" guid="81cf622ecd91" nclass="" nodeName="SPS Site Representative" shape="circle" xPos="" yPos=""/>
+        <Node Font="Verdana" color="13421772" fontsize="14" guid="63d1d26830ea" nclass="" nodeName="Rune Beylegaard" shape="square" xPos="" yPos="">
+            <data link="" tclass="Consultancy Firm" type="text">Ridge</data>
+            <data link="" tclass="First Name" type="text">Rune</data>
+            <data link="" tclass="Last Name" type="text">Beylegaard</data>
+            <data link="" tclass="Job Title" type="text">SPS Site Representative</data>
+            <data link="" tclass="Birthday" type="text">14. February 1963</data>
+            <data link="" tclass="Location" type="text">Kragerø, Norway</data>
+            <data link="" tclass="Nationality" type="text">Norwegian</data>
+            <data link="" tclass="Languages" type="text">Norwegian, English (Fluent) and German</data>
+            <data link="" tclass="Skills" type="text">Senior experience from follow up of 100+ X-mas trees for a high number of vertical and horizontal projects and clients. In depth knowledge to Aker Solution and their sub-suppliers in Norway, Finland, Poland, UK, Italy, Czech Republic, Sweden and Denmark.
+Site responsibility for HSE, Quality, manufacturing and testing of manifolds and protection structures, including site Team Leader experience of a 4-discipline site team.  
+Wide range subsea products experience from horizontal and vertical X-mas trees and associating tooling delivered by Aker Solutions, FMC, Cameron and Vetco.
+Hands-on experience with strong background from NDE, welding, assembly, machining, design, development and testing of branch leading technology like RLWI- (Riserless Well Intervention)
+Construction, Quality Control, Testing, Functional Operational supervision of X-mas trees and associated equipment. Secure Lessons Learned records and implementation of LL actions.
+Expediting and monitoring contractors/subcontractors work performance with regards to general performance, implementation of Quality Plans, Inspection and Test Plans and Procedures.
+Quality Control/Inspection and testing of industrial applications such as control units, HP units, tooling, pumps and valve skids for Norsk Hydro offshore and land-based plants world-wide.</data>
+        </Node>
+    </Nodes>
+    <Edges>
+        <Edge edgeName="" group="Default" guid="6946da4de8cb" istwoway="false" node1="Rune Beylegaard" node2="Stuff"/>
+        <Edge edgeName="" group="Default" guid="4489b9270d71" istwoway="false" node1="Rune Beylegaard" node2="SPS Site Representative"/>
+    </Edges>
+    <Linkgroups>
+        <Group color="10066329" name="Default"/>
+    </Linkgroups>
+    <datagroups>
+        <datagroup>First Name</datagroup>
+        <datagroup>Last Name</datagroup>
+        <datagroup>Birthday</datagroup>
+        <datagroup>Job Title</datagroup>
+        <datagroup>Location</datagroup>
+        <datagroup>Languages</datagroup>
+        <datagroup>Nationality</datagroup>
+        <datagroup>Speak Norwegian</datagroup>
+        <datagroup>Skills</datagroup>
+        <datagroup>Consultancy Firm</datagroup>
+    </datagroups>
+</Graph>

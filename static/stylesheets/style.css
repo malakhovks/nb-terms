@@ -20,8 +20,9 @@ body {
 }
 
 .nested-container > * {
-  background-color: darkgray;
-  color: white;
+  /* background-color: darkgray; */
+  background-color: #c1c0c0;
+  /* color: white; */
   padding: 5px;
   /* border-radius: 0.5em; */
 }
@@ -30,20 +31,26 @@ body {
   font-family: Helvetica, Arial, sans-serif;
   min-height: 200px;
   /* min-width: 800px; */
-  min-width: 50vw;
+  min-width: 25vw;
   outline: none;
   resize: none;
   border: 2px solid #f0f0f0;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 .similarity {
-  min-width: 50vw;
-  font-size: 18px;
+  min-width: 25vw;
+  font-size: 14px;
 }
 
 .page-heading {
   text-align: center;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+.internal-heading {
+  margin-top: 1px;
 }
 
 .pure-button {
@@ -52,6 +59,7 @@ body {
 
 .container {
   display: grid;
+  grid-template-columns: min-content auto;
 }
 
 .left-half {
@@ -60,12 +68,40 @@ body {
   margin: 0.5em;
 }
 
-.right-half {
+.middle-half {
   /* background: #b6701e; */
   grid-column: 2;
   margin: 0.5em;
 }
 
+.right-half {
+  /* background: #b6701e; */
+  grid-column: 3;
+  margin: 0.5em;
+}
+
 .cv {
   text-align:center;
+}
+
+.description {
+  font-size: 14px
+}
+
+.docx-data {
+  min-width: 100%;
+}
+
+#text-area-3 {
+  min-height: 400px;
+  min-width: 100%;
+}
+
+#button-extract-cv-data, #button-extract-cvs-data {
+  float: right;
+}
+
+.artcl {
+  max-width: 25vw;
+  min-width: 100%;
 }
