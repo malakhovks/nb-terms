@@ -125,7 +125,7 @@ def get_data_from_ridge_docx_into_json(docx_path):
 # --------------------------------------------------------------------------------------------------------
 
 # Ridge-templated CV (DOCX) processing into XML-------------------------------------------------------------------
-def docx_ridge_to_xml_string(docx_path):
+def docx_ridge_to_xml(docx_path, flg):
     # Init docx document
     document = Document(docx_path)
     paragraphs_temp = []
@@ -152,9 +152,11 @@ def docx_ridge_to_xml_string(docx_path):
     ET.SubElement(element_datagroups, "datagroup").text = "Job Title"
     ET.SubElement(element_datagroups, "datagroup").text = "Location"
     ET.SubElement(element_datagroups, "datagroup").text = "Languages"
+    ET.SubElement(element_datagroups, "datagroup").text = "Language"
     ET.SubElement(element_datagroups, "datagroup").text = "Nationality"
     ET.SubElement(element_datagroups, "datagroup").text = "Speak Norwegian"
     ET.SubElement(element_datagroups, "datagroup").text = "Skills"
+    ET.SubElement(element_datagroups, "datagroup").text = "Skill"
     ET.SubElement(element_datagroups, "datagroup").text = "Consultancy Firm"
 
     # create <Edges> element
@@ -180,141 +182,15 @@ def docx_ridge_to_xml_string(docx_path):
     element_Node.set("Font", "Verdana")
     element_Node.set("fontsize", "14")
 
-    # add default node with Ridge value
-    ET.SubElement(element_Node, "data", {"tclass": "Consultancy Firm", "type" : "text", "link" : ""}).text = "Ridge"
+    element_Data_Skills = ET.Element("data")
+    element_Data_Skills.set("tclass", "Skills")
+    element_Data_Skills.set("type", "text")
+    element_Data_Skills.set("link", "")
 
-    # add node with vacancy value
-    ET.SubElement(element_Node, "data", {"tclass": "First Name", "type" : "text", "link" : ""}).text = document.core_properties.subject.split(' ', 1)[0]
-
-    ET.SubElement(element_Node, "data", {"tclass": "Last Name", "type" : "text", "link" : ""}).text = document.core_properties.subject.split(document.core_properties.subject.split(' ', 1)[0] + ' ', 1)[1]
-
-    # First table extraction BIO
-    table = document.tables[0]
-    bio_data = []
-    keys = None
-    for i, row in enumerate(table.rows):
-        text = (cell.text for cell in row.cells)
-        # Construct a tuple for this row
-        # if contain letters and numbers
-        row_data = tuple(x for x in text if re.search(r'[A-Za-z0-9]+', x))
-        bio_data.append(row_data)
-    # remove an empty tuple(s) from a list of tuples
-    bio_data = [t for t in bio_data if t]
-
-    logging.debug(bio_data)
-
-    for i in bio_data:
-        if "Title" in i[0]:
-            ET.SubElement(element_Node, "data", {"tclass": "Job Title", "type" : "text", "link" : ""}).text =i[1].strip()
-            ET.SubElement(element_Nodes, "Node", {"guid" : str(uuid.uuid4()).rpartition('-')[-1], "nodeName" : i[1], "nclass" : "", "shape" : "circle", "color" : "13421772", "xPos" : "", "yPos" : "", "font" : "Verdana", "fontsize" : "14"})
-            ET.SubElement(element_Edges, "Edge", {"guid" : str(uuid.uuid4()).rpartition('-')[-1], "edgeName" : "", "node1" : document.core_properties.subject, "node2" : i[1], "group" : "Default", "istwoway" : "false"})
-        if i[0] == "Nationality:":
-            ET.SubElement(element_Node, "data", {"tclass": "Nationality", "type" : "text", "link" : ""}).text = i[1]
-        if i[0] == "Languages:":
-            ET.SubElement(element_Node, "data", {"tclass": "Languages", "type" : "text", "link" : ""}).text = i[1]
-        if i[0] == "Date of Birth:":
-            ET.SubElement(element_Node, "data", {"tclass": "Birthday", "type" : "text", "link" : ""}).text = i[1]
-        if i[0] == "Location:":
-            ET.SubElement(element_Node, "data", {"tclass": "Location", "type" : "text", "link" : ""}).text = i[1]
-        if '\n' in i[0]:
-            list_bio_temp_left = i[0].split("\n", 1)
-            list_bio_temp_right = i[1].split("\n", 1)
-            for j in list_bio_temp_left:
-                if 'Date of Birth' in j:
-                    ET.SubElement(element_Node, "data", {"tclass": "Birthday", "type" : "text", "link" : ""}).text = list_bio_temp_right[list_bio_temp_left.index(j)]
-                if 'Year of Birth' in j:
-                    ET.SubElement(element_Node, "data", {"tclass": "Birthday", "type" : "text", "link" : ""}).text = list_bio_temp_right[list_bio_temp_left.index(j)]
-                if 'Location' in j:
-                    ET.SubElement(element_Node, "data", {"tclass": "Location", "type" : "text", "link" : ""}).text = list_bio_temp_right[list_bio_temp_left.index(j)]
-                if 'Nationality' in j:
-                    ET.SubElement(element_Node, "data", {"tclass": "Nationality", "type" : "text", "link" : ""}).text = list_bio_temp_right[list_bio_temp_left.index(j)]
-                if 'Languages' in j:
-                    ET.SubElement(element_Node, "data", {"tclass": "Languages", "type" : "text", "link" : ""}).text = list_bio_temp_right[list_bio_temp_left.index(j)]
-
-    # Key Skills extraction
-    for para in document.paragraphs:
-        if re.search(r'[A-Za-z0-9]+', para.text):
-            text = para.text
-            paragraphs_temp.append(''.join(text))
-    if 'Work Experience' in paragraphs_temp:
-        if 'Key Strengths' in paragraphs_temp:
-            paragraphs_temp = paragraphs_temp[paragraphs_temp.index('Key Strengths')+1 : paragraphs_temp.index('Work Experience')]
-            ET.SubElement(element_Node, "data", {"tclass": "Skills", "type" : "text", "link" : ""}).text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
-        if 'Key Skills' in paragraphs_temp:
-            paragraphs_temp = paragraphs_temp[paragraphs_temp.index('Key Skills')+1 : paragraphs_temp.index('Work Experience')]
-            ET.SubElement(element_Node, "data", {"tclass": "Skills", "type" : "text", "link" : ""}).text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
-    if 'Qualifications' in paragraphs_temp:
-        if 'Key Strengths' in paragraphs_temp:
-            paragraphs_temp = paragraphs_temp[paragraphs_temp.index('Key Strengths')+1 : paragraphs_temp.index('Qualifications')]
-            ET.SubElement(element_Node, "data", {"tclass": "Skills", "type" : "text", "link" : ""}).text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
-        if 'Key Skills' in paragraphs_temp:
-            paragraphs_temp = paragraphs_temp[paragraphs_temp.index('Key Skills')+1 : paragraphs_temp.index('Qualifications')]
-            ET.SubElement(element_Node, "data", {"tclass": "Skills", "type" : "text", "link" : ""}).text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
-
-    element_Nodes.append(element_Node)
-    root_element_Graph.append(element_Nodes)
-    root_element_Graph.append(element_Edges)
-    root_element_Graph.append(element_Linkgroups)
-    root_element_Graph.append(element_datagroups)
-    return ET.tostring(root_element_Graph, encoding='utf8', method='xml')
-
-# --------------------------------------------------------------------------------------------------------
-
-# Ridge-templated CV (DOCX) processing into XML-------------------------------------------------------------------
-def docx_ridge_to_xml(docx_path):
-    # Init docx document
-    document = Document(docx_path)
-    paragraphs_temp = []
-
-    # create root element <Graph>
-    root_element_Graph = ET.Element("Graph")
-    root_element_Graph.set("nodesize", "10")
-    root_element_Graph.set("vspacing", "3")
-    root_element_Graph.set("hspacing", "20")
-    root_element_Graph.set("padding", "4")
-    root_element_Graph.set("guid", "")
-    root_element_Graph.set("searchurl", "https://www.google.com.ua/#output=search%26q=###SEARCH###")
-
-    # create <Linkgroups> element
-    element_Linkgroups = ET.Element("Linkgroups")
-    ET.SubElement(element_Linkgroups, "Group", {"name" : "Default", "color" : "10066329"})
-
-    # create <datagroups> element
-    element_datagroups = ET.Element("datagroups")
-    # create <datagroup> element as subelements of <datagroups> element
-    ET.SubElement(element_datagroups, "datagroup").text = "First Name"
-    ET.SubElement(element_datagroups, "datagroup").text = "Last Name"
-    ET.SubElement(element_datagroups, "datagroup").text = "Birthday"
-    ET.SubElement(element_datagroups, "datagroup").text = "Job Title"
-    ET.SubElement(element_datagroups, "datagroup").text = "Location"
-    ET.SubElement(element_datagroups, "datagroup").text = "Languages"
-    ET.SubElement(element_datagroups, "datagroup").text = "Nationality"
-    ET.SubElement(element_datagroups, "datagroup").text = "Speak Norwegian"
-    ET.SubElement(element_datagroups, "datagroup").text = "Skills"
-    ET.SubElement(element_datagroups, "datagroup").text = "Consultancy Firm"
-
-    # create <Edges> element
-    element_Edges = ET.Element("Edges")
-
-    # add default edge
-    ET.SubElement(element_Edges, "Edge", {"guid" : str(uuid.uuid4()).rpartition('-')[-1], "edgeName" : "", "node1" : document.core_properties.subject, "node2" : "Stuff", "group" : "Default", "istwoway" : "false"})
-
-    # create <Nodes> element
-    element_Nodes = ET.Element("Nodes")
-
-    # add default node
-    ET.SubElement(element_Nodes, "Node", {"guid" : str(uuid.uuid4()).rpartition('-')[-1], "nodeName" : "Stuff", "nclass" : "", "shape" : "circle", "color" : "13421772", "xPos" : "", "yPos" : "", "font" : "Verdana", "fontsize" : "14"})
-
-    element_Node = ET.Element("Node")
-    element_Node.set("guid", str(uuid.uuid4()).rpartition('-')[-1])
-    element_Node.set("nodeName", document.core_properties.subject)
-    element_Node.set("nclass", "")
-    element_Node.set("shape", "square")
-    element_Node.set("color", "13421772")
-    element_Node.set("xPos", "")
-    element_Node.set("yPos", "")
-    element_Node.set("Font", "Verdana")
-    element_Node.set("fontsize", "14")
+    element_Data_Languages = ET.Element("data")
+    element_Data_Languages.set("tclass", "Languages")
+    element_Data_Languages.set("type", "text")
+    element_Data_Languages.set("link", "")
 
     # add default node with Ridge value
     ET.SubElement(element_Node, "data", {"tclass": "Consultancy Firm", "type" : "text", "link" : ""}).text = "Ridge"
@@ -345,7 +221,11 @@ def docx_ridge_to_xml(docx_path):
         if i[0] == "Nationality:":
             ET.SubElement(element_Node, "data", {"tclass": "Nationality", "type" : "text", "link" : ""}).text = i[1]
         if i[0] == "Languages:":
-            ET.SubElement(element_Node, "data", {"tclass": "Languages", "type" : "text", "link" : ""}).text = i[1]
+            # ET.SubElement(element_Node, "data", {"tclass": "Languages", "type" : "text", "link" : ""}).text = i[1]
+            element_Data_Languages.text = i[1]
+            for lang in i[1].split(','):
+                ET.SubElement(element_Data_Languages, "data", {"tclass": "Language", "type" : "text", "link" : ""}).text = lang.strip()
+            element_Node.append(element_Data_Languages)
         if i[0] == "Date of Birth:":
             ET.SubElement(element_Node, "data", {"tclass": "Birthday", "type" : "text", "link" : ""}).text = i[1]
         if i[0] == "Location:":
@@ -363,7 +243,11 @@ def docx_ridge_to_xml(docx_path):
                 if 'Nationality' in j:
                     ET.SubElement(element_Node, "data", {"tclass": "Nationality", "type" : "text", "link" : ""}).text = list_bio_temp_right[list_bio_temp_left.index(j)]
                 if 'Languages' in j:
-                    ET.SubElement(element_Node, "data", {"tclass": "Languages", "type" : "text", "link" : ""}).text = list_bio_temp_right[list_bio_temp_left.index(j)]
+                    # ET.SubElement(element_Node, "data", {"tclass": "Languages", "type" : "text", "link" : ""}).text = list_bio_temp_right[list_bio_temp_left.index(j)]
+                    element_Data_Languages.text = list_bio_temp_right[list_bio_temp_left.index(j)]
+                    for lang in list_bio_temp_right[list_bio_temp_left.index(j)].split(','):
+                        ET.SubElement(element_Data_Languages, "data", {"tclass": "Language", "type" : "text", "link" : ""}).text = lang.strip()
+                    element_Node.append(element_Data_Languages)
 
     # Key Skills extraction
     for para in document.paragraphs:
@@ -373,25 +257,44 @@ def docx_ridge_to_xml(docx_path):
     if 'Work Experience' in paragraphs_temp:
         if 'Key Strengths' in paragraphs_temp:
             paragraphs_temp = paragraphs_temp[paragraphs_temp.index('Key Strengths')+1 : paragraphs_temp.index('Work Experience')]
-            ET.SubElement(element_Node, "data", {"tclass": "Skills", "type" : "text", "link" : ""}).text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
+            # ET.SubElement(element_Node, "data", {"tclass": "Skills", "type" : "text", "link" : ""}).text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
+            element_Data_Skills.text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
+            for temp in paragraphs_temp:
+                ET.SubElement(element_Data_Skills, "data", {"tclass": "Skill", "type" : "text", "link" : ""}).text = temp
+            element_Node.append(element_Data_Skills)
         if 'Key Skills' in paragraphs_temp:
             paragraphs_temp = paragraphs_temp[paragraphs_temp.index('Key Skills')+1 : paragraphs_temp.index('Work Experience')]
-            ET.SubElement(element_Node, "data", {"tclass": "Skills", "type" : "text", "link" : ""}).text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
+            # ET.SubElement(element_Node, "data", {"tclass": "Skills", "type" : "text", "link" : ""}).text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
+            element_Data_Skills.text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
+            for temp in paragraphs_temp:
+                ET.SubElement(element_Data_Skills, "data", {"tclass": "Skill", "type" : "text", "link" : ""}).text = temp
+            element_Node.append(element_Data_Skills)
     if 'Qualifications' in paragraphs_temp:
         if 'Key Strengths' in paragraphs_temp:
             paragraphs_temp = paragraphs_temp[paragraphs_temp.index('Key Strengths')+1 : paragraphs_temp.index('Qualifications')]
-            ET.SubElement(element_Node, "data", {"tclass": "Skills", "type" : "text", "link" : ""}).text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
+            # ET.SubElement(element_Node, "data", {"tclass": "Skills", "type" : "text", "link" : ""}).text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
+            element_Data_Skills.text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
+            for temp in paragraphs_temp:
+                ET.SubElement(element_Data_Skills, "data", {"tclass": "Skill", "type" : "text", "link" : ""}).text = temp
+            element_Node.append(element_Data_Skills)
         if 'Key Skills' in paragraphs_temp:
             paragraphs_temp = paragraphs_temp[paragraphs_temp.index('Key Skills')+1 : paragraphs_temp.index('Qualifications')]
-            ET.SubElement(element_Node, "data", {"tclass": "Skills", "type" : "text", "link" : ""}).text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
+            # ET.SubElement(element_Node, "data", {"tclass": "Skills", "type" : "text", "link" : ""}).text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
+            element_Data_Skills.text = re.sub('\s\s+', ' ', ' '.join(paragraphs_temp))
+            for temp in paragraphs_temp:
+                ET.SubElement(element_Data_Skills, "data", {"tclass": "Skill", "type" : "text", "link" : ""}).text = temp
+            element_Node.append(element_Data_Skills)
 
     element_Nodes.append(element_Node)
     root_element_Graph.append(element_Nodes)
     root_element_Graph.append(element_Edges)
     root_element_Graph.append(element_Linkgroups)
     root_element_Graph.append(element_datagroups)
-    # return ET.tostring(root_element_Graph, encoding='utf8', method='xml')
-    return root_element_Graph
+
+    if flg:
+        return ET.tostring(root_element_Graph, encoding='utf8', method='xml')
+    else:
+        return root_element_Graph
 
 # --------------------------------------------------------------------------------------------------------
 
@@ -481,7 +384,7 @@ def get_data_from_cv_xml():
             file.save(destination)
             file.close()
             if os.path.isfile(destination):
-                return docx_ridge_to_xml_string(destination)
+                return docx_ridge_to_xml(destination, True)
         except Exception as e:
             logging.error(e, exc_info=True)
         return abort(500)
@@ -505,18 +408,18 @@ def get_data_from_cvs_xml():
             file.close()
             if os.path.isfile(destination):
                 # logging.debug(docx_ridge_to_xml(destination).getchildren())
-                list_xml.append(ET.tostring(docx_ridge_to_xml(destination), encoding='unicode', method='xml'))
+                list_xml.append(ET.tostring(docx_ridge_to_xml(destination, False), encoding='unicode', method='xml'))
                 if xml_final_tree is None:
-                    xml_final_tree = docx_ridge_to_xml(destination)
+                    xml_final_tree = docx_ridge_to_xml(destination, False)
                 else:
                     for el_Node_old in xml_final_tree.iter('Node'):
                         list_xml.append(el_Node_old.get('nodeName'))
                     # ---------
-                    for el_Node in docx_ridge_to_xml(destination).iter('Node'):
+                    for el_Node in docx_ridge_to_xml(destination, False).iter('Node'):
                         # xml_final_tree.find('Nodes').append(el_Node)
                         if el_Node.get('nodeName') not in list_xml:
                             xml_final_tree.find('Nodes').append(el_Node)
-                    for el_Edge in docx_ridge_to_xml(destination).iter('Edge'):
+                    for el_Edge in docx_ridge_to_xml(destination, False).iter('Edge'):
                         xml_final_tree.find('Edges').append(el_Edge)
     return ET.tostring(xml_final_tree, encoding='unicode', method='xml')
 
