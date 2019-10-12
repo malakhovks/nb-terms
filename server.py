@@ -321,6 +321,10 @@ def get_data_from_free_docx(docx_path):
 def index():
     return Response(render_template('index.html'), mimetype='text/html')
 
+@app.route('/ner')
+def ner():
+    return Response(render_template('ner.html'), mimetype='text/html')
+
 @app.route('/cvparsing')
 def cvparsing():
     return Response(render_template('cvparsing.html'), mimetype='text/html')
