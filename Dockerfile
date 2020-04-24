@@ -1,4 +1,5 @@
-FROM python:3.7-slim
+FROM python:3.8-slim
+# FROM python:3.7-slim
 
 LABEL maintainer "Kyrylo Malakhov <malakhovks@nas.gov.ua> and Vitalii Velychko <aduisukr@gmail.com>"
 LABEL description "Simple web service for computation of semantic similarity via word2vec pre-trained distributional semantic models (word embeddings)."
