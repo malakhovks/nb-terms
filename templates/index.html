@@ -12,7 +12,7 @@
 
 <body>
     <header>
-        <h2 class="page-heading">CV processing Demo</h2>
+        <h2 class="page-heading">CV processing Demo / Bot messages processing </h2>
     </header>
 
     <section class="container">
@@ -20,7 +20,7 @@
             <h3 class="internal-heading">Compute cosine similarity</h3>
             <div class="nested-container">
 
-<!--                 <select disabled id="lang-select" title="Choose your language">
+                <!--                 <select disabled id="lang-select" title="Choose your language">
                     <option value="0">-- Choose language --</option>
                     <option value="1">English</option>
                     <option value="2">Norwegian</option>
@@ -62,20 +62,21 @@
                         </li>
                         <li>
                             <a href="http://vectors.nlpl.eu/explore/embeddings/en/" target="_blank">
-                                WebVectors: </a>distributional semantics, word embeddings, language modeling (in Norwegian)
+                                WebVectors: </a>distributional semantics, word embeddings, language modeling (in
+                            Norwegian)
                         </li>
                         <li>
                             <a href="https://spacy.io/" target="_blank">
                                 spaCy </a>(advanced Natural Language Processing in Python and Cython)
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="https://fasttext.cc/" target="_blank">
                                 fastText </a>(efficient text classification and representation learning)
-                        </li>
+                        </li> -->
                         <li>
                             <a href="https://github.com/RaRe-Technologies/gensim" target="_blank">
                                 Gensim </a>(topic modelling, document indexing and similarity
-                                retrieval with large corpora)
+                            retrieval with large corpora)
                         </li>
                     </ul>
                     <h3 class="internal-heading">CV processing concepts</h3>
@@ -100,15 +101,31 @@
                         accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document">
                     <button class="pure-button pure-button-primary" id="button-extract-cv-data">CV processing</button>
                 </div>
-                <textarea class="text-input" id="text-area-3" placeholder="Here will be CV data in XML . . ."></textarea>
-<!--                 <div class="description">
-                    <h3 class="internal-heading">References</h3>
-                </div> -->
+                <textarea class="text-input" id="text-area-3"
+                    placeholder="Here will be CV data in XML . . ."></textarea>
                 <div class="docx-data">
                     <input type="file" id="input-docx-files" name="file[]" multiple
                         accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document">
-                    <button class="pure-button pure-button-primary" id="button-extract-cvs-data">Multiple CVs processing</button>
+                    <button class="pure-button pure-button-primary" id="button-extract-cvs-data">Multiple CVs
+                        processing</button>
                 </div>
+            </div>
+            <div class="description">
+                <p>
+                </p>
+                <h3 class="internal-heading">Processing messages into XML (API endpoints)</h3>
+                <ul>
+                    <li>
+                        POST <a href="http://host:80/api/bot/nb/parcexml" target="_blank">http://host:80/api/bot/nb/parcexml</a>
+                        <br>
+                        <span style="white-space: pre-line">{"message": "Selvkjørende biler flytter forsikringsansvaret over på produsentene."}</span>
+                    </li>
+                    <li>
+                        POST <a href="http://host:80/api/bot/nb/allterms" target="_blank">http://host:80/api/bot/nb/allterms</a>
+                        <br>
+                        <span style="white-space: pre-line">{"message": "Selvkjørende biler flytter forsikringsansvaret over på produsentene."}</span>
+                    </li>
+                </ul>
             </div>
         </div>
     </section>
