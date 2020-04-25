@@ -439,7 +439,7 @@ def get_similarity():
     req_data = request.get_json()
     doc1 = NLP_EN_VECTORES(req_data['text1'])
     doc2 = NLP_EN_VECTORES(req_data['text2'])
-    return Response(jsonify(similarity = doc1.similarity(doc2)), mimetype='application/json')
+    return jsonify(similarity = doc1.similarity(doc2))
 
 # --------------------------------------------------------------------------------------------------------
 @app.route('/api/bot/nb/allterms', methods=['POST'])
