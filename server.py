@@ -535,10 +535,12 @@ def get_parcexml():
                 new_speech_element = ET.Element('speech')
                 # relate the universal dependencies parts of speech with konspekt tags
                 if (request.args.get('pos', None) == 'ud') or (request.args.get('pos', None) == None):
-                    new_speech_element.text = speech_dict_POS_tags[lemma.pos_]
+                    # new_speech_element.text = speech_dict_POS_tags[lemma.pos_]
+                    new_speech_element.text = lemma.pos_
                 # relate the spaCy parts of speech with konspekt tags
                 if request.args.get('pos', None) == 'spacy':
-                    new_speech_element.text = speech_dict_POS_tags[lemma.tag_]
+                    # new_speech_element.text = speech_dict_POS_tags[lemma.tag_]
+                    new_speech_element.text = lemma.tag_
                 new_item_element.append(new_speech_element)
                 # create and append <pos>
                 new_pos_element = ET.Element('pos')
