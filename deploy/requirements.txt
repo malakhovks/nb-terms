@@ -2,6 +2,7 @@ spacy>=2.2.0,<3.0.0
 https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-2.2.5/en_core_web_lg-2.2.5.tar.gz#egg=en_core_web_lg
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5/en_core_web_sm-2.2.5.tar.gz#egg=en_core_web_sm
 https://github.com/explosion/spacy-models/releases/download/nb_core_news_sm-2.2.5/nb_core_news_sm-2.2.5.tar.gz#egg=nb_core_news_sm
+nltk>=3.5
 Flask>=1.1.1
 flask-cors>=3
 python-docx>=0.8.10
