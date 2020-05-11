@@ -20,7 +20,7 @@ RUN apt-get -y clean \
     && curl http://vectors.nlpl.eu/repository/20/95.zip -o 95.zip \
     && unzip 95.zip -d ./tmp/ \
     && python -m spacy init-model nb ./tmp/nb_nowac_vectores --vectors-loc ./tmp/model.txt \
-    # && rm 95.zip \
+    && rm 95.zip \
     && rm -r /root/.cache \
     && apt-get -y clean \
     && apt-get -y autoremove
