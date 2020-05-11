@@ -23,6 +23,9 @@ Temporary Items
 .apdisk
 
 *.tmp
+.tmp/
+tmp/
+/tmp
 
 # Word temporary
 ~$*.doc*
