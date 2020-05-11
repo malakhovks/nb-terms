@@ -39,6 +39,7 @@ ALLOWED_EXTENSIONS = set(['docx'])
 
 # Load globally spaCy model via package name
 NLP_NB = spacy.load('nb_core_news_sm')
+NLP_NB_VECTORES = spacy.load('/tmp/nb_nowac_vectores')
 # NLP_EN_VECTORES = spacy.load('en_core_web_lg')
 
 # load SnowballStemmer stemmer from nltk
@@ -439,12 +440,14 @@ def get_data_from_cvs_xml():
                         xml_final_tree.find('Edges').append(el_Edge)
     return Response(ET.tostring(xml_final_tree, encoding='unicode', method='xml'), mimetype='text/xml')
 
-# @app.route('/wv/api/en/similarity', methods=['POST'])
-# def get_similarity():
-#     req_data = request.get_json()
-#     doc1 = NLP_EN_VECTORES(req_data['text1'])
-#     doc2 = NLP_EN_VECTORES(req_data['text2'])
-#     return jsonify(similarity = doc1.similarity(doc2))
+@app.route('/wv/api/en/similarity', methods=['POST'])
+def get_similarity():
+    req_data = request.get_json()
+    doc1 = NLP_NB_VECTORES(req_data['text1'])
+    doc2 = NLP_NB_VECTORES(req_data['text2'])
+    # doc1 = NLP_EN_VECTORES(req_data['text1'])
+    # doc2 = NLP_EN_VECTORES(req_data['text2'])
+    return jsonify(similarity = doc1.similarity(doc2))
 
 # --------------------------------------------------------------------------------------------------------
 @app.route('/api/bot/nb/alltermsxml', methods=['POST'])
