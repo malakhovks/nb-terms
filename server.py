@@ -39,7 +39,7 @@ ALLOWED_EXTENSIONS = set(['docx'])
 
 # Load globally spaCy model via package name
 NLP_NB = spacy.load('nb_core_news_sm')
-NLP_NB_VECTORES = spacy.load('/tmp/nb_nowac_vectores')
+NLP_NB_VECTORES = spacy.load('./tmp/nb_nowac_vectores')
 # NLP_EN_VECTORES = spacy.load('en_core_web_lg')
 
 # load SnowballStemmer stemmer from nltk
