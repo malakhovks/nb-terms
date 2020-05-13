@@ -39,7 +39,7 @@ ALLOWED_EXTENSIONS = set(['docx'])
 
 # Load globally spaCy model via package name
 NLP_NB = spacy.load('nb_core_news_sm')
-NLP_NB_VECTORES = spacy.load('./tmp/nb_nowac_vectores')
+# NLP_NB_VECTORES = spacy.load('./tmp/nb_nowac_vectores')
 # NLP_EN_VECTORES = spacy.load('en_core_web_lg')
 
 # load SnowballStemmer stemmer from nltk
@@ -84,11 +84,8 @@ def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Ridge DOCX-templated CV processing into JSON-----------------------------------------------------------
+""" # Ridge DOCX-templated CV processing into JSON-----------------------------------------------------------
 def get_data_from_ridge_docx_into_json(docx_path):
-    """
-    Take the path of a docx file as argument, return the text in unicode.
-    """
     cv_data = {}
     personal_name_cv = {}
     paragraphs_temp = []
@@ -131,11 +128,11 @@ def get_data_from_ridge_docx_into_json(docx_path):
     json_cv_data = json.dumps(cv_data)
 
     # return '\n'.join(paragraphs_temp)
-    return json_cv_data
+    return json_cv_data """
 
 # --------------------------------------------------------------------------------------------------------
 
-# Ridge-templated CV (DOCX) processing into XML-------------------------------------------------------------------
+""" # Ridge-templated CV (DOCX) processing into XML-------------------------------------------------------------------
 def docx_ridge_to_xml(docx_path, flg):
     # Init docx document
     document = Document(docx_path)
@@ -305,7 +302,7 @@ def docx_ridge_to_xml(docx_path, flg):
     if flg:
         return ET.tostring(root_element_Graph, encoding='utf8', method='xml')
     else:
-        return root_element_Graph
+        return root_element_Graph """
 
 # --------------------------------------------------------------------------------------------------------
 
@@ -328,7 +325,7 @@ def get_data_from_free_docx(docx_path):
 # ------------------------------------------------------------------------------------------------------
 # """
 
-@app.route('/')
+""" @app.route('/')
 def index():
     return Response(render_template('index.html'), mimetype='text/html')
 
@@ -342,13 +339,13 @@ def cvparsing():
 
 @app.route('/cvwe')
 def cvwe():
-    return Response(render_template('cvwe.html'), mimetype='text/html')
+    return Response(render_template('cvwe.html'), mimetype='text/html') """
 
 """
 # API ---------------------------------------------------------------------------------------------------
 # """
 
-@app.route('/api/cv/ridge/docx/extract/json', methods=['POST'])
+""" @app.route('/api/cv/ridge/docx/extract/json', methods=['POST'])
 def get_data_from_cv_json():
     # check if the post request has the file part
     if 'file' not in request.files:
@@ -375,11 +372,11 @@ def get_data_from_cv_json():
                     return Response(get_data_from_ridge_docx_into_json(destination), mimetype='application/json')
             except Exception as e:
                 logging.error(e, exc_info=True)
-            return abort(500)
+            return abort(500) """
 
 # --------------------------------------------------------------------------------------------------------
 
-@app.route('/api/cv/ridge/docx/extract/xml', methods=['POST'])
+""" @app.route('/api/cv/ridge/docx/extract/xml', methods=['POST'])
 def get_data_from_cv_xml():
     # check if the post request has the file part
     if 'file' not in request.files:
@@ -404,11 +401,11 @@ def get_data_from_cv_xml():
                 return Response(docx_ridge_to_xml(destination, True), mimetype='text/xml')
         except Exception as e:
             logging.error(e, exc_info=True)
-        return abort(500)
+        return abort(500) """
 
 # --------------------------------------------------------------------------------------------------------
 
-@app.route('/api/cv/multiple/ridge/docx/extract/xml', methods=['POST'])
+""" @app.route('/api/cv/multiple/ridge/docx/extract/xml', methods=['POST'])
 def get_data_from_cvs_xml():
     uploaded_files = request.files.getlist("file")
     list_xml = []
@@ -438,16 +435,16 @@ def get_data_from_cvs_xml():
                             xml_final_tree.find('Nodes').append(el_Node)
                     for el_Edge in docx_ridge_to_xml(destination, False).iter('Edge'):
                         xml_final_tree.find('Edges').append(el_Edge)
-    return Response(ET.tostring(xml_final_tree, encoding='unicode', method='xml'), mimetype='text/xml')
+    return Response(ET.tostring(xml_final_tree, encoding='unicode', method='xml'), mimetype='text/xml') """
 
-@app.route('/wv/api/en/similarity', methods=['POST'])
+""" @app.route('/wv/api/en/similarity', methods=['POST'])
 def get_similarity():
     req_data = request.get_json()
     doc1 = NLP_NB_VECTORES(req_data['text1'])
     doc2 = NLP_NB_VECTORES(req_data['text2'])
     # doc1 = NLP_EN_VECTORES(req_data['text1'])
     # doc2 = NLP_EN_VECTORES(req_data['text2'])
-    return jsonify(similarity = doc1.similarity(doc2))
+    return jsonify(similarity = doc1.similarity(doc2)) """
 
 # --------------------------------------------------------------------------------------------------------
 @app.route('/api/bot/nb/alltermsxml', methods=['POST'])

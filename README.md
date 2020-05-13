@@ -1,2 +1,4 @@
-# cv-demo
-Simple web service for computation of semantic similarity via word2vec pre-trained distributional semantic models (word embeddings). Ridge-templated CV (DOCX) processing into XML (TODOS)
+# nb-terms
+## nb-terms is an NLU-powered web service for the contextual and semantic analysis (Norwegian Bokmål)
+
+nb-terms is an NLU-powered web service for the contextual and semantic analysis of the natural language messages (Norwegian Bokmål).
