@@ -1,0 +1,17 @@
+Filmen under viser hvordan du legger en stop loss-ordre hos Nordnet.
+
+Apple vurderer å kjøpe britisk oppstartfirma for en milliard dollar. Selvkjørende biler flytter forsikringsansvaret over på produsentene. San Francisco vurderer å forby robotbud på fortauene. London er en stor by i Storbritannia.
+
+For å flytte aksjer fra en annen bank eller megler til Nordnet, må du sende oss signert overføringsfullmakt. På overføringsfullmakten må du fylle i VPS-kontonummeret ditt. Dette kan du få fra banken/meglerhuset du skal overføre fra, eller i VPS investortjenester. Ønsker du å flytte en aksjesparekonto inn til oss, kan du lese mer om det her.
+For overføringer til aksje- og fondskonto, kan følgende overføringsfullmakt benyttes. Om du ikke har anledning til å signere med BankID, kan følgende overføringsfullmakt sendes via meldingstjenesten når du er logget inn eller i posten. Husk å send med attestert ID om du benytter post-alternativet.
+
+Se for øvrig alle overføringsfullmakter som PDF eller digitalt under menypunktet "Flytt konto, aksjer og fond".
+
+Hva kan jeg investere i på aksjesparekonto?
+Du kan investere i børsnoterte aksjer og egenkapitalbevis registrert innenfor EØS. Du kan også investere i aksjefond som har minimum 80 % aksjeandel og er hjemmehørende innenfor EU/EØS. Her får du full oversikt over det du kan investere i på aksjesparekonto.
+
+Dersom du forsøker å handle et verdipapir som ikke er godkjent for handel på Aksjesparekonto, mottar du følgende beskjed:
+
+"Ordren din kunne ikke gjennomføres - Du kan kun handle aksjer og aksjefond utstedt i EØS på aksjesparekonto"
+
+I de fleste tilfeller får du beskjeden når du forsøker å handle et verdipapir som ikke er skattemessig hjemmehørende innenfor EØS, til tross for at det muligens handles på Oslo Børs. Eksempelvis er en god del oljeselskap på Oslo Børs skattemessig hjemmehørende utenfor EØS hvilket gjør at selskapet dermed faller utenfor investeringsuniverset på Aksjesparekonto.
