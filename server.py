@@ -56,6 +56,10 @@ from nltk.stem.snowball import SnowballStemmer
 # Load globally english SnowballStemmer
 NORWEGIAN_STEMMER = SnowballStemmer("norwegian")
 
+# for hunspell https://github.com/blatinier/pyhunspell
+import hunspell
+nb_spell = hunspell.HunSpell('./deploy/dictionary/nb.dic', '/deploy/dictionary/nb.aff')
+
 __author__ = "Kyrylo Malakhov <malakhovks@nas.gov.ua> and Vitalii Velychko <aduisukr@gmail.com>"
 __copyright__ = "Copyright (C) 2020 Kyrylo Malakhov <malakhovks@nas.gov.ua> and Vitalii Velychko <aduisukr@gmail.com>"
 
@@ -786,6 +790,11 @@ def get_parcexml():
                 new_word_element = ET.Element('word')
                 new_word_element.text = lemma.text
                 new_item_element.append(new_word_element)
+                if request.args.get('spell', None) == True:
+                    # create and append <spell>
+                    new_spell_element = ET.Element('spell')
+                    new_spell_element.text = nb_spell.spell(lemma.text)
+                    new_item_element.append(new_spell_element)
                 # create and append <lemma>
                 new_lemma_element = ET.Element('lemma')
                 new_lemma_element.text = lemma.lemma_ #.encode('ascii', 'ignore')

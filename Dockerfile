@@ -11,8 +11,11 @@ RUN apt-get -y clean \
     && apt-get -y install nginx \
     && apt-get -y install python-dev \
     && apt-get -y install build-essential \
-    && apt-get -y install curl \
-    && apt-get -y install unzip \
+    # && apt-get -y install curl \
+    # && apt-get -y install unzip \
+    # for hunspell https://github.com/blatinier/pyhunspell
+    && apt-get -y install libhunspell-dev \
+    # ------------------------------------------------------------------
     && pip install -r ./deploy/requirements.txt --src /usr/local/src \
     && rm -r /root/.cache \
     && apt-get -y clean \
