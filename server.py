@@ -15,8 +15,8 @@ import json
 from werkzeug.utils import secure_filename
 import logging
 # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.DEBUG)
-# logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.ERROR)
+# logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.ERROR)
 
 # load libraries for string proccessing
 import re, string
@@ -58,7 +58,7 @@ NORWEGIAN_STEMMER = SnowballStemmer("norwegian")
 
 # for hunspell https://github.com/blatinier/pyhunspell
 import hunspell
-nb_spell = hunspell.HunSpell('./deploy/dictionary/nb.dic', '/deploy/dictionary/nb.aff')
+nb_spell = hunspell.HunSpell('./deploy/dictionary/nb.dic', './deploy/dictionary/nb.aff')
 
 __author__ = "Kyrylo Malakhov <malakhovks@nas.gov.ua> and Vitalii Velychko <aduisukr@gmail.com>"
 __copyright__ = "Copyright (C) 2020 Kyrylo Malakhov <malakhovks@nas.gov.ua> and Vitalii Velychko <aduisukr@gmail.com>"
@@ -790,11 +790,12 @@ def get_parcexml():
                 new_word_element = ET.Element('word')
                 new_word_element.text = lemma.text
                 new_item_element.append(new_word_element)
-                if request.args.get('spell', None) == True:
-                    # create and append <spell>
-                    new_spell_element = ET.Element('spell')
-                    new_spell_element.text = nb_spell.spell(lemma.text)
-                    new_item_element.append(new_spell_element)
+                if 'spell' in req_data:
+                    if req_data['spell'] == True:
+                        # create and append <spell>
+                        new_spell_element = ET.Element('spell')
+                        new_spell_element.text = str(nb_spell.spell(lemma.text))
+                        new_item_element.append(new_spell_element)
                 # create and append <lemma>
                 new_lemma_element = ET.Element('lemma')
                 new_lemma_element.text = lemma.lemma_ #.encode('ascii', 'ignore')
@@ -805,22 +806,22 @@ def get_parcexml():
                 new_item_element.append(new_number_element)
                 # create and append <speech>
                 new_speech_element = ET.Element('speech')
-                # relate the universal dependencies parts of speech with konspekt tags
-                if request.args.get('pos', None) == 'udkonspekt':
-                    new_speech_element.text = speech_dict_POS_tags[lemma.pos_]
-                # relate the spaCy parts of speech with konspekt tags
-                if request.args.get('pos', None) == 'spacykonspekt':
-                    new_speech_element.text = speech_dict_POS_tags[lemma.tag_]
-                # spaCy Fine-grained part-of-speech.
-                # tag_map.py in https://github.com/explosion/spaCy/tree/master/spacy/lang
-                if request.args.get('pos', None) == 'spacy':
-                    new_speech_element.text = lemma.tag_
-                # Coarse-grained part-of-speech from the Universal POS tag set.
-                # https://spacy.io/api/annotation#pos-tagging
-                if request.args.get('pos', None) == 'ud':
-                    new_speech_element.text = lemma.pos_
-                # default Coarse-grained part-of-speech from the Universal POS tag set.
-                if request.args.get('pos', None) == None:
+                if 'pos' in req_data:
+                    if req_data['pos'] == 'ud':
+                        new_speech_element.text = lemma.pos_
+                    elif req_data['pos'] == 'udkonspekt':
+                        # relate the universal dependencies parts of speech with konspekt tags
+                        new_speech_element.text = speech_dict_POS_tags[lemma.pos_]
+                    elif req_data['pos'] == 'spacykonspekt':
+                        # relate the spaCy parts of speech with konspekt tags
+                        new_speech_element.text = speech_dict_POS_tags[lemma.tag_]
+                    elif req_data['pos'] == 'spacy':
+                        # spaCy Fine-grained part-of-speech.
+                        # tag_map.py in https://github.com/explosion/spaCy/tree/master/spacy/lang
+                        new_speech_element.text = lemma.tag_
+                if 'pos' not in req_data:
+                    # Coarse-grained part-of-speech from the Universal POS tag set.
+                    # https://spacy.io/api/annotation#pos-tagging
                     new_speech_element.text = lemma.pos_
                 new_item_element.append(new_speech_element)
                 # create and append <pos>
@@ -973,6 +974,11 @@ def get_parcexml_from_documents():
                 new_word_element = ET.Element('word')
                 new_word_element.text = lemma.text
                 new_item_element.append(new_word_element)
+                if request.args.get('spell', None) == 'yes':
+                    # create and append <spell>
+                    new_spell_element = ET.Element('spell')
+                    new_spell_element.text = str(nb_spell.spell(lemma.text))
+                    new_item_element.append(new_spell_element)
                 # create and append <lemma>
                 new_lemma_element = ET.Element('lemma')
                 new_lemma_element.text = lemma.lemma_ #.encode('ascii', 'ignore')
