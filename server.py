@@ -202,6 +202,7 @@ def index():
 # API ---------------------------------------------------------------------------------------------------
 # """
 # --------------------------------------------------------------------------------------------------------
+# Text messages
 @app.route('/api/bot/nb/alltermsxml', methods=['POST'])
 def get_allterms():
     req_data = request.get_json()
@@ -711,7 +712,7 @@ def get_allterms():
         logging.error(e, exc_info=True)
         return abort(500)
 # --------------------------------------------------------------------------------------------------------
-
+# Text messages
 @app.route('/api/bot/nb/parcexml', methods=['POST'])
 def get_parcexml():
     # POS UD
@@ -868,7 +869,7 @@ def get_parcexml():
         logging.error(e, exc_info=True)
         return abort(500)
 # --------------------------------------------------------------------------------------------------------
-
+# Text documents
 @app.route('/api/bot/nb/documents/parcexml', methods=['POST'])
 def get_parcexml_from_documents():
     # check if the post request has the file part
