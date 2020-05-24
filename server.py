@@ -790,12 +790,24 @@ def get_parcexml():
                 new_word_element = ET.Element('word')
                 new_word_element.text = lemma.text
                 new_item_element.append(new_word_element)
+                # create and append <spell>
                 if 'spell' in req_data:
                     if req_data['spell'] == True:
-                        # create and append <spell>
                         new_spell_element = ET.Element('spell')
-                        new_spell_element.text = str(nb_spell.spell(lemma.text))
-                        new_item_element.append(new_spell_element)
+                        new_correctness_element = ET.Element('correctness')
+                        if nb_spell.spell(lemma.text):
+                            new_correctness_element.text = str(nb_spell.spell(lemma.text))
+                            new_spell_element.append(new_correctness_element)
+                            new_item_element.append(new_spell_element)
+                        else:
+                            new_correctness_element.text = str(nb_spell.spell(lemma.text))
+                            new_spell_element.append(new_correctness_element)
+                            new_suggest_element = ET.Element('suggest')
+                            for sggst in nb_spell.suggest(lemma.text):
+                                new_sug_element = ET.Element('sug')
+                                new_sug_element.text = sggst
+                                new_spell_element.append(new_sug_element)
+                            new_item_element.append(new_spell_element)
                 # create and append <lemma>
                 new_lemma_element = ET.Element('lemma')
                 new_lemma_element.text = lemma.lemma_ #.encode('ascii', 'ignore')
@@ -974,11 +986,23 @@ def get_parcexml_from_documents():
                 new_word_element = ET.Element('word')
                 new_word_element.text = lemma.text
                 new_item_element.append(new_word_element)
+                # create and append <spell>
                 if request.args.get('spell', None) == 'yes':
-                    # create and append <spell>
                     new_spell_element = ET.Element('spell')
-                    new_spell_element.text = str(nb_spell.spell(lemma.text))
-                    new_item_element.append(new_spell_element)
+                    new_correctness_element = ET.Element('correctness')
+                    if nb_spell.spell(lemma.text):
+                        new_correctness_element.text = str(nb_spell.spell(lemma.text))
+                        new_spell_element.append(new_correctness_element)
+                        new_item_element.append(new_spell_element)
+                    else:
+                        new_correctness_element.text = str(nb_spell.spell(lemma.text))
+                        new_spell_element.append(new_correctness_element)
+                        new_suggest_element = ET.Element('suggest')
+                        for sggst in nb_spell.suggest(lemma.text):
+                            new_sug_element = ET.Element('sug')
+                            new_sug_element.text = sggst
+                            new_spell_element.append(new_sug_element)
+                        new_item_element.append(new_spell_element)
                 # create and append <lemma>
                 new_lemma_element = ET.Element('lemma')
                 new_lemma_element.text = lemma.lemma_ #.encode('ascii', 'ignore')
