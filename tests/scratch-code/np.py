@@ -35,7 +35,7 @@ print(textacy.ke.textrank(doc, normalize="lemma", topn=10))
 print('-------------------------------------------------------------------------------------')
 # TEXTACY --------------------------------------------
 
-""" print('spaCy matcher -------------------------------------------------------------------------------------')
+print('spaCy matcher -------------------------------------------------------------------------------------')
 examples = [
     "Apple vurderer å kjøpe britisk oppstartfirma for en milliard dollar.",
     "San Francisco vurderer å forby robotbud på fortauene.",
@@ -49,8 +49,8 @@ patterns = [
     # [{'ENT_TYPE': 'GPE_LOC'}]
     ]
 matcher = Matcher(nlp.vocab)
-matcher.add("PROPN", None, patterns[0])
-matcher.add("NOUN", None, patterns[1])
+# matcher.add("PROPN", None, patterns[0])
+# matcher.add("NOUN", None, patterns[1])
 matcher.add("NOUN/ADJ/PROPN+NOUN/ADJ/PROPN", None, patterns[2])
 # matcher.add("GPE", None, patterns[3])
 for text in examples:
@@ -59,5 +59,10 @@ for text in examples:
     for match_id, start, end in matches:
         string_id = nlp.vocab.strings[match_id]
         span = doc[start:end]
-        print(string_id, span.start_char, span.end_char, span.text, span.root.pos_, span.root.text) """
+        print(string_id, span.start_char, span.end_char, span.text, span.root.pos_, span.root.text)
+        if len(span) == 2:
+            if [tkn.text for tkn in span].index(span.root.text) == 0:
+                print('child: ' + span[1].text)
+            else:
+                print('child: ' + span[0].text)
 

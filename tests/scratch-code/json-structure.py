@@ -79,7 +79,12 @@ term_properties_2['prop_1'] = '12'
 term_properties_2['prop_2'] = '22'
 term_name['name_1'] = term_properties_1
 term_name['name_2'] = term_properties_2
+term_name['name_2']['reldown'] = [1,1,1]
 
-if 'name_1' in term_name:
+if 'name_2' in term_name:
     print(term_name['name_2'])
 
+# for key, value in term_name.items():
+#     print(key)
+
+# print(list(term_name).index('name_2'))
