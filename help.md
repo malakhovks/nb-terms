@@ -1,4 +1,4 @@
-# nb-term API
+# nb-terms API
 
 ### API endpoints
 
