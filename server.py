@@ -717,7 +717,7 @@ def get_allterms():
         logging.error(e, exc_info=True)
         return abort(500)
 # Text messages
-@app.route('/api/bot/nb/allterms', methods=['POST'])
+@app.route('/api/bot/nb/message/json/allterms', methods=['POST'])
 def get_allterms_json():
     req_data = request.get_json()
 
@@ -725,7 +725,7 @@ def get_allterms_json():
     allterms = {
       "termsintext": {
         "exporterms": {
-            "term": []
+            "term": {}
         },
         "sentences": {
             "sent": []
@@ -733,15 +733,16 @@ def get_allterms_json():
       }
     }
 
-    term_array = allterms['termsintext']['exporterms']['term']
+    terms_element = allterms['termsintext']['exporterms']['term']
     sent_array = allterms['termsintext']['sentences']['sent']
     # for allterms JSON structure
 
     # patterns for spaCy Matcher https://spacy.io/usage/rule-based-matching
     patterns = [
     # 1 term
-    [{'POS': 'PROPN'}],
-    [{'POS': 'NOUN'}],
+    [{'POS': {'IN':['NOUN', 'PROPN']}}],
+    # [{'POS': 'PROPN'}],
+    # [{'POS': 'NOUN'}],
     # 2 terms
     [{'POS': {'IN':['NOUN', 'ADJ','PROPN']}}, {'POS': {'IN':['NOUN', 'ADJ','PROPN']}}],
     # 3 terms
@@ -752,27 +753,15 @@ def get_allterms_json():
     [{'POS': {'IN':['NOUN', 'ADJ','PROPN']}}, {'POS': {'IN':['NOUN', 'ADJ','PROPN', 'ADP']}}, {'POS': {'IN':['NOUN', 'ADJ','PROPN']}}]
     ]
     matcher = Matcher(NLP_NB.vocab)
-    matcher.add("PROPN", None, patterns[0])
-    matcher.add("NOUN", None, patterns[1])
-    matcher.add("NOUN/ADJ/PROPN+NOUN/ADJ/PROPN", None, patterns[2])
-    matcher.add("NOUN/ADJ/PROPN+NOUN/ADJ/PROPN+NOUN/ADJ/PROPN", None, patterns[3])
-    matcher.add("NOUN/ADJ/PROPN+NOUN/ADJ/PROPN+NOUN/ADJ/PROPN+NOUN/ADJ/PROPN", None, patterns[4])
-    matcher.add("NOUN/ADJ/PROPN+NOUN/ADJ/PROPN/ADP+NOUN/ADJ/PROPN", None, patterns[5])
+    matcher.add("NOUN/PROPN", None, patterns[0])
+    matcher.add("NOUN/ADJ/PROPN+NOUN/ADJ/PROPN", None, patterns[1])
+    matcher.add("NOUN/ADJ/PROPN+NOUN/ADJ/PROPN+NOUN/ADJ/PROPN", None, patterns[2])
+    matcher.add("NOUN/ADJ/PROPN+NOUN/ADJ/PROPN+NOUN/ADJ/PROPN+NOUN/ADJ/PROPN", None, patterns[3])
+    matcher.add("NOUN/ADJ/PROPN+NOUN/ADJ/PROPN/ADP+NOUN/ADJ/PROPN", None, patterns[4])
 
     try:
         # spaCy doc init + default sentence normalization
         doc = NLP_NB(req_data['message'])
-
-        # create the <allterms.xml> file structure
-        # create root element <termsintext>
-        root_termsintext_element = ET.Element("termsintext")
-        # create element <sentences>
-        sentences_element = ET.Element("sentences")
-        # create element <filepath>
-        # filepath_element = ET.Element("filepath")
-        # filepath_element.text = file.filename
-        # create element <exporterms>
-        exporterms_element = ET.Element("exporterms")
 
         # Helper list for 1-word terms
         one_word_terms_help_list = []
@@ -791,15 +780,12 @@ def get_allterms_json():
         for sentence_index, sentence in enumerate(doc.sents):
             # default sentence normalization
             sentence_clean = sentence.text
-            # create and append <sent>
-            new_sent_element = ET.Element('sent')
-            new_sent_element.text = sentence_clean #.encode('ascii', 'ignore') errors='replace'
-            sentences_element.append(new_sent_element)
+
             # for processing specific sentence
             doc_for_chunks = NLP_NB(sentence_clean)
 
             # MATCHING NOUN --------------------------------------
-            logging.debug('doc_for_chunks: ' + doc_for_chunks.text)
+            logging.debug('Sentence: ' + doc_for_chunks.text)
             matches = matcher(doc_for_chunks)
             # add sentence to sent array
             sent_array.append(doc_for_chunks.text)
@@ -807,585 +793,192 @@ def get_allterms_json():
                 string_id = NLP_NB.vocab.strings[match_id]
                 span = doc_for_chunks[start:end]
 
-                logging.debug('Matched span: ' + span.text + ' | Span lenght: ' + str(len(span)))
-
                 if len(span) == 1:
 
                     logging.debug('Matched span: ' + span.text + ' | Span lenght: ' + str(len(span)) + ' | Span POS: ' + span.root.pos_)
 
                     if span.lemma_ not in one_word_terms_help_list_json:
                         one_word_terms_help_list_json.append(span.lemma_)
-                        term = {}
+                        term_properties = {}
                         sentpos_array = []
-                        term['wcount'] = '1'
-                        term['ttype'] = span.root.pos_
-                        term['tname'] = span.lemma_
-                        term['osn'] = NORWEGIAN_STEMMER.stem(span.text)
+                        term_properties['wcount'] = '1'
+                        term_properties['ttype'] = span.root.pos_
+                        term_properties['tname'] = span.lemma_
+                        term_properties['osn'] = NORWEGIAN_STEMMER.stem(span.text)
                         sentpos_array.append(str(sentence_index) + '/' + str(span.start+1))
-                        term['sentpos'] = sentpos_array
-                        term_array.append(term)
+                        term_properties['sentpos'] = sentpos_array
+                        terms_element[span.lemma_] = term_properties
 
                     else:
-                        for item in term_array:
-                            if item['tname'] == span.lemma_:
-                                if str(sentence_index) + '/' + str(span.start+1) not in item['sentpos']:
-                                    item['sentpos'].append(str(sentence_index) + '/' + str(span.start+1))
-                                break
-
-                # logging.debug(allterms)
+                        if span.lemma_ in terms_element:
+                            if str(sentence_index) + '/' + str(span.start+1) not in terms_element[span.lemma_]['sentpos']:
+                                terms_element[span.lemma_]['sentpos'].append(str(sentence_index) + '/' + str(span.start+1))
 
                 if len(span) == 2:
 
-                    logging.debug('Matched span: ' + span.text + ' | Span lenght: ' + str(len(span)) + ' | Span POS: ' + str([tkn.pos_ for tkn in span]))
+                    logging.debug('Matched span: ' + span.text + ' | Span lenght: ' + str(len(span)) + ' | Span POS: ' + str([tkn.pos_ for tkn in span]) + ' | Span\'s root: ' + span.root.lemma_ + ' | Span subtree: ' + str([sub.head for sub in span.subtree]))
 
                     if span.lemma_ not in two_word_terms_help_list_json:
                         two_word_terms_help_list_json.append(span.lemma_)
-                        term = {}
+                        term_properties = {}
                         sentpos_array = []
-                        term['tname'] = span.lemma_
-                        term['wcount'] = '2'
+                        term_properties['wcount'] = '2'
+                        term_properties['ttype'] = '_'.join(tkn.pos_ for tkn in span)
+                        term_properties['tname'] = span.lemma_
+                        term_properties['osn'] = [NORWEGIAN_STEMMER.stem(tkn.text) for tkn in span]
                         sentpos_array.append(str(sentence_index) + '/' + str(span.start+1))
-                        term['osn'] = [NORWEGIAN_STEMMER.stem(tkn.text) for tkn in span]
-                        # if ['NOUN','NOUN'] == [tkn.pos_ for tkn in span]:
-                        #     logging.debug('NOUN_NOUN span!')
-                        #     term['ttype'] = 'NOUN_NOUN'
-                        term['ttype'] = '_'.join(tkn.pos_ for tkn in span)
-                        term['sentpos'] = sentpos_array
-                        term_array.append(term)
+                        term_properties['sentpos'] = sentpos_array
+                        terms_element[span.lemma_] = term_properties
 
-                        # if span.root.pos_ == 'NOUN':
-                        #     for item in term_array:
-                        #         if item['tname'] == span.root.lemma_:
-                        #             if 'reldown' in item:
-                        #                 item['reldown'].append(term_array.index(term_array[-1]))
-                        #             else:
-                        #                 reldown_array = []
-                        #                 reldown_array.append(term_array.index(term_array[-1]))
-                        #                 item['reldown'] = reldown_array
+                        if span.root.pos_ in ['NOUN', 'PROPN']:
+                            if span.root.lemma_ in terms_element:
+                                if 'reldown' in terms_element[span.root.lemma_]:
+                                    terms_element[span.root.lemma_]['reldown'].append(list(terms_element).index(span.lemma_) + 1)
+                                else:
+                                    reldown_array = []
+                                    reldown_array.append(list(terms_element).index(span.lemma_) + 1)
+                                    terms_element[span.root.lemma_]['reldown'] = reldown_array
+                            else:
+                                one_word_terms_help_list_json.append(span.root.lemma_)
+                                term_properties = {}
+                                sentpos_array = []
+                                term_properties['wcount'] = '1'
+                                term_properties['ttype'] = span.root.pos_
+                                term_properties['tname'] = span.root.lemma_
+                                term_properties['osn'] = NORWEGIAN_STEMMER.stem(span.root.text)
+                                sentpos_array.append(str(sentence_index) + '/' + str(span.root.i+1))
+                                term_properties['sentpos'] = sentpos_array
+                                reldown_array = []
+                                reldown_array.append(list(terms_element).index(span.lemma_) + 1)
+                                term_properties['reldown'] = reldown_array
+                                terms_element[span.root.lemma_] = term_properties
+
+                            # if ROOT in 0 position
+                            if [tkn.text for tkn in span].index(span.root.text) == 0:
+                                if  span[1].pos_ in ['NOUN', 'PROPN']:
+                                    if span[1].lemma_ in terms_element:
+                                        if 'reldown' in terms_element[span[1].lemma_]:
+                                            terms_element[span[1].lemma_]['reldown'].append(list(terms_element).index(span.lemma_) + 1)
+                                        else:
+                                            reldown_array = []
+                                            reldown_array.append(list(terms_element).index(span.lemma_) + 1)
+                                            terms_element[span[1].lemma_]['reldown'] = reldown_array
+                                    else:
+                                        one_word_terms_help_list_json.append(span[1].lemma_)
+                                        term_properties = {}
+                                        sentpos_array = []
+                                        term_properties['wcount'] = '1'
+                                        term_properties['ttype'] = span[1].pos_
+                                        term_properties['tname'] = span[1].lemma_
+                                        term_properties['osn'] = NORWEGIAN_STEMMER.stem(span[1].text)
+                                        sentpos_array.append(str(sentence_index) + '/' + str(span[1].i+1))
+                                        term_properties['sentpos'] = sentpos_array
+                                        reldown_array = []
+                                        reldown_array.append(list(terms_element).index(span.lemma_) + 1)
+                                        term_properties['reldown'] = reldown_array
+                                        terms_element[span[1].lemma_] = term_properties
+                            # if ROOT in 1 position
+                            else:
+                                if span[0].pos_ in ['NOUN', 'PROPN']:
+                                    if span[0].lemma_ in terms_element:
+                                        if 'reldown' in terms_element[span[0].lemma_]:
+                                            terms_element[span[0].lemma_]['reldown'].append(list(terms_element).index(span.lemma_) + 1)
+                                        else:
+                                            reldown_array = []
+                                            reldown_array.append(list(terms_element).index(span.lemma_) + 1)
+                                            terms_element[span[0].lemma_]['reldown'] = reldown_array
+                                    else:
+                                        one_word_terms_help_list_json.append(span[1].lemma_)
+                                        term_properties = {}
+                                        sentpos_array = []
+                                        term_properties['wcount'] = '1'
+                                        term_properties['ttype'] = span[0].pos_
+                                        term_properties['tname'] = span[0].lemma_
+                                        term_properties['osn'] = NORWEGIAN_STEMMER.stem(span[0].text)
+                                        sentpos_array.append(str(sentence_index) + '/' + str(span[0].i+1))
+                                        term_properties['sentpos'] = sentpos_array
+                                        reldown_array = []
+                                        reldown_array.append(list(terms_element).index(span.lemma_) + 1)
+                                        term_properties['reldown'] = reldown_array
+                                        terms_element[span[0].lemma_] = term_properties
+
+                            if 'relup' in terms_element[span.lemma_]:
+                                terms_element[span.lemma_]['relup'].append(list(terms_element).index(span.lemma_) + 1)
+                            else:
+                                relup_array = []
+                                relup_array.append(list(terms_element).index(span.root.lemma_) + 1)
+                                terms_element[span.lemma_]['relup'] = relup_array
+
+                        # if span.root.pos_ == 'ADJ':
+                        #     if span.root.lemma_ in terms_element:
+                        #         if 'reldown' in terms_element[span.root.lemma_]:
+                        #             terms_element[span.root.lemma_]['reldown'].append(list(terms_element).index(span.root.lemma_) + 1)
                         #         else:
-                        #             one_word_terms_help_list_json.append(span.root.lemma_)
-                        #             term = {}
-                        #             sentpos_array = []
-                        #             term['wcount'] = '1'
-                        #             term['ttype'] = span.root.pos_
-                        #             term['tname'] = span.root.lemma_
-                        #             term['osn'] = NORWEGIAN_STEMMER.stem(span.root.text)
-                        #             sentpos_array.append(str(sentence_index) + '/' + str(span.root.i+1))
-                        #             term['sentpos'] = sentpos_array
-                        #             term_array.append(term)
+                        #             reldown_array = []
+                        #             reldown_array.append(list(terms_element).index(span.root.lemma_) + 1)
+                        #             terms_element[span.root.lemma_]['reldown'] = reldown_array
+                        #     else:
+                        #         one_word_terms_help_list_json.append(span.root.lemma_)
+                        #         term_properties = {}
+                        #         sentpos_array = []
+                        #         term_properties['wcount'] = '1'
+                        #         term_properties['ttype'] = span.root.pos_
+                        #         term_properties['tname'] = span.root.lemma_
+                        #         term_properties['osn'] = NORWEGIAN_STEMMER.stem(span.root.text)
+                        #         sentpos_array.append(str(sentence_index) + '/' + str(span.root.i+1))
+                        #         term_properties['sentpos'] = sentpos_array
+                        #         reldown_array = []
+                        #         reldown_array.append(list(terms_element).index(span.lemma_) + 1)
+                        #         term_properties['reldown'] = reldown_array
+                        #         terms_element[span.root.lemma_] = term_properties
+
+                        #     if 'relup' in terms_element[span.lemma_]:
+                        #         terms_element[span.lemma_]['relup'].append(list(terms_element).index(span.lemma_) + 1)
+                        #     else:
+                        #         relup_array = []
+                        #         relup_array.append(list(terms_element).index(span.root.lemma_) + 1)
+                        #         terms_element[span.lemma_]['relup'] = relup_array
 
                     else:
-                        for item in term_array:
-                            if item['tname'] == span.lemma_:
-                                if str(sentence_index) + '/' + str(span.start+1) not in item['sentpos']:
-                                    item['sentpos'].append(str(sentence_index) + '/' + str(span.start+1))
-                                break
+                        if span.lemma_ in terms_element:
+                            if str(sentence_index) + '/' + str(span.start+1) not in terms_element[span.lemma_]['sentpos']:
+                                terms_element[span.lemma_]['sentpos'].append(str(sentence_index) + '/' + str(span.start+1))
 
                 if len(span) == 3:
 
-                    logging.debug('Matched span: ' + span.text + ' | Span lenght: ' + str(len(span)) + ' | Span POS: ' + str([tkn.pos_ for tkn in span]))
+                    logging.debug('Matched span: ' + span.text + ' | Span lenght: ' + str(len(span)) + ' | Span POS: ' + str([tkn.pos_ for tkn in span]) + ' | Span\'s root: ' + span.root.lemma_ + ' | Span subtree: ' + str([sub.head for sub in span.subtree]))
 
                     if span.lemma_ not in three_word_terms_help_list_json:
                         three_word_terms_help_list_json.append(span.lemma_)
-                        term = {}
+                        term_properties = {}
                         sentpos_array = []
-                        term['tname'] = span.lemma_
-                        term['wcount'] = '3'
+                        term_properties['wcount'] = '3'
+                        term_properties['ttype'] = '_'.join(tkn.pos_ for tkn in span)
+                        term_properties['tname'] = span.lemma_
+                        term_properties['osn'] = [NORWEGIAN_STEMMER.stem(tkn.text) for tkn in span]
                         sentpos_array.append(str(sentence_index) + '/' + str(span.start+1))
-                        term['osn'] = [NORWEGIAN_STEMMER.stem(tkn.text) for tkn in span]
-                        term['ttype'] = '_'.join(tkn.pos_ for tkn in span)
-                        term['sentpos'] = sentpos_array
-                        term_array.append(term)
+                        term_properties['sentpos'] = sentpos_array
+                        terms_element[span.lemma_] = term_properties
+
                     else:
-                        for item in term_array:
-                            if item['tname'] == span.lemma_:
-                                if str(sentence_index) + '/' + str(span.start+1) not in item['sentpos']:
-                                    item['sentpos'].append(str(sentence_index) + '/' + str(span.start+1))
-                                break
+                        if span.lemma_ in terms_element:
+                            if str(sentence_index) + '/' + str(span.start+1) not in terms_element[span.lemma_]['sentpos']:
+                                terms_element[span.lemma_]['sentpos'].append(str(sentence_index) + '/' + str(span.start+1))
 
                 if len(span) == 4:
 
-                    logging.debug('Matched span: ' + span.text + ' | Span lenght: ' + str(len(span)) + ' | Span POS: ' + str([tkn.pos_ for tkn in span]))
+                    logging.debug('Matched span: ' + span.text + ' | Span lenght: ' + str(len(span)) + ' | Span POS: ' + str([tkn.pos_ for tkn in span]) + ' | Span\'s root: ' + span.root.lemma_ + ' | Span subtree: ' + str([sub.head for sub in span.subtree]))
 
-                logging.debug(allterms)
+        logging.debug(allterms)
 
-            # sentence NP shallow parsing cycle
-            for chunk in doc_for_chunks.noun_chunks:
-                doc_for_tokens = NLP_NB(chunk.text)
-                '''
-                # EXTRACT ONE-WORD TERMS ----------------------------------------------------------------------
-                '''
-                if len(doc_for_tokens) == 1:
-
-                    if doc_for_tokens[0].pos_ in ['NOUN', 'PROPN']:
-
-                        if doc_for_tokens[0].lemma_ in one_word_terms_help_list:
-                            for term in exporterms_element.findall('term'):
-                                if term.find('tname').text == doc_for_tokens[0].lemma_:
-                                    new_sentpos_element = ET.Element('sentpos')
-                                    new_sentpos_element.text = str(sentence_index) + '/' + str(chunk.start+1)
-                                    term.append(new_sentpos_element)
-
-                        if doc_for_tokens[0].lemma_ not in one_word_terms_help_list:
-
-                            one_word_terms_help_list.append(doc_for_tokens[0].lemma_)
-                            # create and append <wcount>
-                            new_wcount_element = ET.Element('wcount')
-                            new_wcount_element.text = '1'
-                            # create and append <ttype>
-                            new_ttype_element = ET.Element('ttype')
-                            new_ttype_element.text = doc_for_tokens[0].pos_
-                            # create <term>
-                            new_term_element = ET.Element('term')
-                            # create and append <tname>
-                            new_tname_element = ET.Element('tname')
-                            new_tname_element.text = doc_for_tokens[0].lemma_
-                            # create and append <osn>
-                            new_osn_element = ET.Element('osn')
-                            new_osn_element.text = NORWEGIAN_STEMMER.stem(doc_for_tokens[0].text)
-
-                            # create and append <sentpos>
-                            new_sentpos_element = ET.Element('sentpos')
-                            new_sentpos_element.text = str(sentence_index) + '/' + str(chunk.start+1)
-                            new_term_element.append(new_sentpos_element)
-
-                            # append to <term>
-                            new_term_element.append(new_ttype_element)
-                            new_term_element.append(new_tname_element)
-                            new_term_element.append(new_osn_element)
-                            new_term_element.append(new_wcount_element)
-
-                            # append to <exporterms>
-                            exporterms_element.append(new_term_element)
-
-                if len(doc_for_tokens) == 2:
-
-                    '''
-                    # Extract one-word terms from 2-words statements (excluding articles DET)
-                    '''
-                    # if doc_for_tokens[0].pos_ in ['DET', 'PUNCT']:
-                    if doc_for_tokens[0].pos_ in ['DET', 'PUNCT', 'PART', 'ADP']:
-
-                        if doc_for_tokens[1].lemma_ in one_word_terms_help_list:
-                            for term in exporterms_element.findall('term'):
-                                if term.find('tname').text == doc_for_tokens[1].lemma_:
-                                    new_sentpos_element = ET.Element('sentpos')
-                                    new_sentpos_element.text = str(sentence_index) + '/' + str(chunk.start+2)
-                                    term.append(new_sentpos_element)
-
-                        if doc_for_tokens[1].lemma_ not in one_word_terms_help_list:
-
-                            one_word_terms_help_list.append(doc_for_tokens[1].lemma_)
-                            # create and append <wcount>
-                            new_wcount_element = ET.Element('wcount')
-                            new_wcount_element.text = '1'
-                            # create and append <ttype>
-                            new_ttype_element = ET.Element('ttype')
-                            new_ttype_element.text = doc_for_tokens[1].pos_
-                            # create <term>
-                            new_term_element = ET.Element('term')
-                            # create and append <tname>
-                            new_tname_element = ET.Element('tname')
-                            new_tname_element.text = doc_for_tokens[1].lemma_
-                            # create and append <osn>
-                            new_osn_element = ET.Element('osn')
-                            new_osn_element.text = NORWEGIAN_STEMMER.stem(doc_for_tokens[1].text)
-
-                            # create and append <sentpos>
-                            new_sentpos_element = ET.Element('sentpos')
-                            new_sentpos_element.text = str(sentence_index) + '/' + str(chunk.start+2)
-                            new_term_element.append(new_sentpos_element)
-
-                            # append to <term>
-                            new_term_element.append(new_ttype_element)
-                            new_term_element.append(new_tname_element)
-                            new_term_element.append(new_osn_element)
-                            new_term_element.append(new_wcount_element)
-
-                            # append to <exporterms>
-                            exporterms_element.append(new_term_element)
-
-                    '''
-                    # EXTRACT TWO-WORD TERMS ---------------------------------------------------------------
-                    '''
-                    # if doc_for_tokens[0].pos_ not in ['DET', 'PUNCT']:
-                    if doc_for_tokens[0].pos_ not in ['DET', 'PUNCT', 'PART', 'ADP']:
-
-                        # print('two-word term lemma ---> ' + chunk.lemma_ +' POS[0]:'+ doc_for_tokens[0].pos_ + ' POS[0]:'+ doc_for_tokens[0].tag_ + ' HEAD[0]:' + doc_for_tokens[0].head.lower_ +' POS[1]:' + doc_for_tokens[1].pos_ + ' POS[1]:'+ doc_for_tokens[1].tag_ + ' HEAD[1]:' + doc_for_tokens[1].head.lower_)
-
-                        # print('--------------------')
-
-                        # If two-word term already exists in two_word_terms_help_list
-                        # if chunk.lower_ in two_word_terms_help_list:
-                        if chunk.lemma_ in two_word_terms_help_list:
-
-                            # add new <sentpos> for existing two-word term
-                            for term in exporterms_element.findall('term'):
-                                # if term.find('tname').text == chunk.lower_:
-                                if term.find('tname').text == chunk.lemma_:
-                                    new_sentpos_element = ET.Element('sentpos')
-                                    new_sentpos_element.text = str(sentence_index) + '/' + str(chunk.start+1)
-                                    term.append(new_sentpos_element)
-
-                            # Check If root (root of Noun chunks always is a NOUN) of the two-word term
-                            # already exists in one_word_terms_help_list
-                            if chunk.root.lemma_ in one_word_terms_help_list:
-
-                                sent_pos_helper = []
-
-                                for relup_index, one_term in enumerate(exporterms_element.findall('term')):
-
-                                    if one_term.find('tname').text == chunk.root.lemma_:
-
-                                        for sent_pos in one_term.findall('sentpos'):
-                                            sent_pos_helper.append(sent_pos.text)
-
-                                        # create and append new <sentpos>
-                                        # check if new <sentpos> already exist, if no then add new <sentpos>
-                                        if chunk.root.lower_ == doc_for_tokens[0].lower_:
-                                            if (str(sentence_index) + '/' + str(chunk.start+1)) not in sent_pos_helper:
-                                                new_sentpos_element = ET.Element('sentpos')
-                                                new_sentpos_element.text = str(sentence_index) + '/' + str(chunk.start+1)
-                                                one_term.append(new_sentpos_element)
-                                        else:
-                                            if (str(sentence_index) + '/' + str(chunk.start+2)) not in sent_pos_helper:
-                                                new_sentpos_element = ET.Element('sentpos')
-                                                new_sentpos_element.text = str(sentence_index) + '/' + str(chunk.start+2)
-                                                one_term.append(new_sentpos_element)
-
-                            # Check If child of the root (Child not always be a NOUN, so not always be a term) of the two-word term
-                            # already exists in one_word_terms_help_list
-                            for t in doc_for_tokens:
-                                    if t.lemma_ != chunk.root.lemma_:
-                                        # if child of the root is NOUN, so it is a term
-                                        if t.pos_ in ['NOUN']:
-                                            if t.lemma_ in one_word_terms_help_list:
-
-                                                sent_pos_helper = []
-                                                if t.i == 0:
-                                                    index_helper = chunk.start+1
-                                                else:
-                                                    index_helper = chunk.start+2
-
-                                                for relup_index, one_term in enumerate(exporterms_element.findall('term')):
-
-                                                    if one_term.find('tname').text == t.lemma_:
-
-                                                        for sent_pos in one_term.findall('sentpos'):
-                                                            sent_pos_helper.append(sent_pos.text)
-
-                                                        if (str(sentence_index) + '/' + str(index_helper)) not in sent_pos_helper:
-                                                                new_sentpos_element = ET.Element('sentpos')
-                                                                new_sentpos_element.text = str(sentence_index) + '/' + str(index_helper)
-                                                                one_term.append(new_sentpos_element)
-
-
-                        # If two-word term not exists in two_word_terms_help_list
-                        if chunk.lemma_ not in two_word_terms_help_list:
-
-                            # update two_word_terms_help_list with the new two-word term
-                            # two_word_terms_help_list.append(chunk.lower_)
-                            two_word_terms_help_list.append(chunk.lemma_)
-
-                            # create and append <wcount>
-                            new_wcount_element = ET.Element('wcount')
-                            new_wcount_element.text = '2'
-                            # create and append <ttype>
-                            new_ttype_element = ET.Element('ttype')
-                            new_ttype_element.text = doc_for_tokens[0].pos_ + '_' + doc_for_tokens[1].pos_
-                            # create <term>
-                            new_term_element = ET.Element('term')
-                            # create and append <tname>
-                            new_tname_element = ET.Element('tname')
-                            # new_tname_element.text = chunk.lower_
-                            new_tname_element.text = chunk.lemma_
-                            # create and append <osn>
-                            new_osn_element = ET.Element('osn')
-                            new_osn_element.text = NORWEGIAN_STEMMER.stem(doc_for_tokens[0].text)
-                            new_term_element.append(new_osn_element)
-                            new_osn_element = ET.Element('osn')
-                            new_osn_element.text = NORWEGIAN_STEMMER.stem(doc_for_tokens[1].text)
-                            new_term_element.append(new_osn_element)
-                            # create and append <sentpos>
-                            new_sentpos_element = ET.Element('sentpos')
-                            new_sentpos_element.text = str(sentence_index) + '/' + str(chunk.start+1)
-                            new_term_element.append(new_sentpos_element)
-
-                            # append to <term>
-                            new_term_element.append(new_ttype_element)
-                            new_term_element.append(new_tname_element)
-                            new_term_element.append(new_wcount_element)
-
-                            # append to <exporterms>
-                            exporterms_element.append(new_term_element)
-
-                            # Check If root (root of Noun chunks always is a NOUN) of the two-word term
-                            # already exists in one_word_terms_help_list
-                            # add relup/reldown
-                            if chunk.root.lemma_ in one_word_terms_help_list:
-
-                                sent_pos_helper = []
-
-                                for relup_index, one_term in enumerate(exporterms_element.findall('term')):
-
-                                    if one_term.find('tname').text == chunk.root.lemma_:
-
-                                        for sent_pos in one_term.findall('sentpos'):
-                                            sent_pos_helper.append(sent_pos.text)
-
-                                        if chunk.root.lower_ == doc_for_tokens[0].lower_:
-                                            if (str(sentence_index) + '/' + str(chunk.start+1)) not in sent_pos_helper:
-                                                new_sentpos_element = ET.Element('sentpos')
-                                                new_sentpos_element.text = str(sentence_index) + '/' + str(chunk.start+1)
-                                                one_term.append(new_sentpos_element)
-                                        else:
-                                            if (str(sentence_index) + '/' + str(chunk.start+2)) not in sent_pos_helper:
-                                                new_sentpos_element = ET.Element('sentpos')
-                                                new_sentpos_element.text = str(sentence_index) + '/' + str(chunk.start+2)
-                                                one_term.append(new_sentpos_element)
-
-                                        for reldown_index, two_term in enumerate(exporterms_element.findall('term')):
-
-                                            # if two_term.find('tname').text == chunk.lower_:
-                                            if two_term.find('tname').text == chunk.lemma_:
-                                                new_relup_element = ET.Element('relup')
-                                                new_relup_element.text = str(relup_index)
-                                                two_term.append(new_relup_element)
-                                                new_reldown_element = ET.Element('reldown')
-                                                new_reldown_element.text = str(reldown_index)
-                                                one_term.append(new_reldown_element)
-
-                            # Check If root NOUN not exists in one_word_terms_help_list
-                            # add root NOUN to one_word_terms_help_list
-                            # add relup/reldown
-                            if chunk.root.lemma_ not in one_word_terms_help_list:
-
-                                # print('root NOUN not exists in one_word_terms_help_list --->> ' + chunk.root.lemma_)
-                                # print('--------------------')
-
-                                one_word_terms_help_list.append(chunk.root.lemma_)
-
-                                # create and append <wcount>
-                                new_wcount_element = ET.Element('wcount')
-                                new_wcount_element.text = '1'
-                                # create and append <ttype>
-                                new_ttype_element = ET.Element('ttype')
-                                new_ttype_element.text = 'NOUN'
-                                # create <term>
-                                new_term_element = ET.Element('term')
-                                # create and append <tname>
-                                new_tname_element = ET.Element('tname')
-                                new_tname_element.text = chunk.root.lemma_
-                                # create and append <osn>
-                                new_osn_element = ET.Element('osn')
-                                new_osn_element.text = NORWEGIAN_STEMMER.stem(chunk.root.lower_)
-                                # create and append <sentpos>
-                                new_sentpos_element = ET.Element('sentpos')
-                                if chunk.root.lower_ == doc_for_tokens[0].lower_:
-                                    new_sentpos_element.text = str(sentence_index) + '/' + str(chunk.start+1)
-                                else:
-                                    new_sentpos_element.text = str(sentence_index) + '/' + str(chunk.start+2)
-                                new_term_element.append(new_sentpos_element)
-                                # append to <term>
-                                new_term_element.append(new_ttype_element)
-                                new_term_element.append(new_tname_element)
-                                new_term_element.append(new_wcount_element)
-
-                                # append to <exporterms>
-                                exporterms_element.append(new_term_element)
-
-                                for relup_index, one_term in enumerate(exporterms_element.findall('term')):
-
-                                    if one_term.find('tname').text == chunk.root.lemma_:
-                                        for reldown_index, two_term in enumerate(exporterms_element.findall('term')):
-
-                                            # if two_term.find('tname').text == chunk.lower_:
-                                            if two_term.find('tname').text == chunk.lemma_:
-                                                new_relup_element = ET.Element('relup')
-                                                new_relup_element.text = str(relup_index)
-                                                two_term.append(new_relup_element)
-                                                new_reldown_element = ET.Element('reldown')
-                                                new_reldown_element.text = str(reldown_index)
-                                                one_term.append(new_reldown_element)
-
-                            for t in doc_for_tokens:
-                                    if t.lemma_ != chunk.root.lemma_:
-                                        if t.pos_ in ['NOUN']:
-
-                                            # print('-------->>>>>>' + t.lemma_)
-
-                                            if t.lemma_ in one_word_terms_help_list:
-
-                                                sent_pos_helper = []
-                                                if t.i == 0:
-                                                    index_helper = chunk.start+1
-                                                else:
-                                                    index_helper = chunk.start+2
-
-
-                                                for relup_index, one_term in enumerate(exporterms_element.findall('term')):
-
-                                                    if one_term.find('tname').text == t.lemma_:
-                                                        for reldown_index, two_term in enumerate(exporterms_element.findall('term')):
-
-                                                            # if two_term.find('tname').text == chunk.lower_:
-                                                            if two_term.find('tname').text == chunk.lemma_:
-
-                                                                for sent_pos in one_term.findall('sentpos'):
-                                                                    sent_pos_helper.append(sent_pos.text)
-
-                                                                if (str(sentence_index) + '/' + str(index_helper)) not in sent_pos_helper:
-                                                                    new_sentpos_element = ET.Element('sentpos')
-                                                                    new_sentpos_element.text = str(sentence_index) + '/' + str(index_helper)
-                                                                    one_term.append(new_sentpos_element)
-
-                                                                new_relup_element = ET.Element('relup')
-                                                                new_relup_element.text = str(relup_index)
-                                                                two_term.append(new_relup_element)
-                                                                new_reldown_element = ET.Element('reldown')
-                                                                new_reldown_element.text = str(reldown_index)
-                                                                one_term.append(new_reldown_element)
-
-                                            if t.lemma_ not in one_word_terms_help_list:
-
-                                                # print('if t.lemma_ not in one_word_terms_help_list ----->>>>>>' + t.lemma_)
-
-                                                sent_pos_helper = []
-
-                                                if t.i == 0:
-                                                    index_helper = chunk.start+1
-                                                else:
-                                                    index_helper = chunk.start+2
-
-                                                one_word_terms_help_list.append(t.lemma_)
-
-                                                # create and append <wcount>
-                                                new_wcount_element = ET.Element('wcount')
-                                                new_wcount_element.text = '1'
-                                                # create and append <ttype>
-                                                new_ttype_element = ET.Element('ttype')
-                                                new_ttype_element.text = 'NOUN'
-                                                # create <term>
-                                                new_term_element = ET.Element('term')
-                                                # create and append <tname>
-                                                new_tname_element = ET.Element('tname')
-                                                new_tname_element.text = t.lemma_
-                                                # create and append <osn>
-                                                new_osn_element = ET.Element('osn')
-                                                new_osn_element.text = NORWEGIAN_STEMMER.stem(t.lower_)
-                                                # create and append <sentpos>
-                                                new_sentpos_element = ET.Element('sentpos')
-                                                new_sentpos_element.text = str(sentence_index) + '/' + str(index_helper)
-                                                # append to <term>
-                                                new_term_element.append(new_sentpos_element)
-                                                new_term_element.append(new_ttype_element)
-                                                new_term_element.append(new_tname_element)
-                                                new_term_element.append(new_wcount_element)
-
-                                                # append to <exporterms>
-                                                exporterms_element.append(new_term_element)
-
-                                                for relup_index, one_term in enumerate(exporterms_element.findall('term')):
-
-                                                    if one_term.find('tname').text == t.lemma_:
-                                                        for reldown_index, two_term in enumerate(exporterms_element.findall('term')):
-
-                                                            # if two_term.find('tname').text == chunk.lower_:
-                                                            if two_term.find('tname').text == chunk.lemma_:
-
-                                                                for sent_pos in one_term.findall('sentpos'):
-                                                                    sent_pos_helper.append(sent_pos.text)
-
-                                                                if (str(sentence_index) + '/' + str(index_helper)) not in sent_pos_helper:
-                                                                    new_sentpos_element = ET.Element('sentpos')
-                                                                    new_sentpos_element.text = str(sentence_index) + '/' + str(index_helper)
-                                                                    one_term.append(new_sentpos_element)
-
-                                                                new_relup_element = ET.Element('relup')
-                                                                new_relup_element.text = str(relup_index)
-                                                                two_term.append(new_relup_element)
-                                                                new_reldown_element = ET.Element('reldown')
-                                                                new_reldown_element.text = str(reldown_index)
-                                                                one_term.append(new_reldown_element)
-
-                '''
-                # EXTRACT THREE-WORD TERMS
-                '''
-                if len(doc_for_tokens) == 3:
-
-                    logging.debug('three-word term lemma ---> ' + chunk.lemma_ +' POS[0]:'+ doc_for_tokens[0].pos_ + ' POS[1]:' + doc_for_tokens[1].pos_ + ' POS[2]:' + doc_for_tokens[2].pos_)
-                    logging.debug('--------------------')
-
-                if len(doc_for_tokens) > 3:
-
-                    logging.debug('multi-word term lemma ---> ' + chunk.lemma_)
-                    logging.debug('--------------------')
-
-                    # if doc_for_tokens[0].pos_ not in ['DET', 'PUNCT']:
-                    if doc_for_tokens[0].pos_ not in ['DET', 'PUNCT', 'PART', 'ADP']:
-
-                        # If multiple-word term already exists in multiple_word_terms_help_list
-                        if chunk.lemma_ in multiple_word_terms_help_list:
-
-                            # add new <sentpos> for existing two-word term
-                            for term in exporterms_element.findall('term'):
-                                if term.find('tname').text == chunk.lemma_:
-                                    new_sentpos_element = ET.Element('sentpos')
-                                    new_sentpos_element.text = str(sentence_index) + '/' + str(chunk.start+1)
-                                    term.append(new_sentpos_element)
-                        
-                        # If multiple-word term not exists in multiple_word_terms_help_list
-                        if chunk.lemma_ not in multiple_word_terms_help_list:
-                            # update  multiple_word_terms_help_list with the new multiple-word term
-                            multiple_word_terms_help_list.append(chunk.lemma_)
-
-                            # create and append <wcount>
-                            new_wcount_element = ET.Element('wcount')
-                            new_wcount_element.text = str(len(chunk))
-                            # create and append <ttype>
-                            multiple_pos_helper = []
-                            for multiple_pos in doc_for_tokens:
-                                multiple_pos_helper.append(multiple_pos.pos_)
-                            new_ttype_element = ET.Element('ttype')
-                            new_ttype_element.text = '_'.join(multiple_pos_helper)
-                            # create <term>
-                            new_term_element = ET.Element('term')
-                            # create and append <tname>
-                            new_tname_element = ET.Element('tname')
-                            # new_tname_element.text = chunk.lower_
-                            new_tname_element.text = chunk.lemma_
-                            # create and append <osn>
-                            multiple_osn_helper = []
-                            for multiple_osn in doc_for_tokens:
-                                new_osn_element = ET.Element('osn')
-                                new_osn_element.text = NORWEGIAN_STEMMER.stem(multiple_osn.text)
-                                new_term_element.append(new_osn_element)
-                            # create and append <sentpos>
-                            new_sentpos_element = ET.Element('sentpos')
-                            new_sentpos_element.text = str(sentence_index) + '/' + str(chunk.start+1)
-                            new_term_element.append(new_sentpos_element)
-
-                            # append to <term>
-                            new_term_element.append(new_ttype_element)
-                            new_term_element.append(new_tname_element)
-                            new_term_element.append(new_wcount_element)
-
-                            # append to <exporterms>
-                            exporterms_element.append(new_term_element)
-
-        # create full <allterms.xml> file structure
-        # root_termsintext_element.append(filepath_element)
-        root_termsintext_element.append(exporterms_element)
-        root_termsintext_element.append(sentences_element)
-
-        return Response(ET.tostring(root_termsintext_element, encoding='utf8', method='xml'), mimetype='text/xml')
+        return Response(json.dumps(allterms), mimetype='application/json')
 
     except Exception as e:
         logging.error(e, exc_info=True)
         return abort(500)
 # --------------------------------------------------------------------------------------------------------
 # Text messages
-@app.route('/api/bot/nb/parcexml', methods=['POST'])
+@app.route('/api/bot/nb/message/xml/parce', methods=['POST'])
 def get_parcexml():
     # POS UD
     # https://universaldependencies.org/u/pos/
@@ -1542,7 +1135,7 @@ def get_parcexml():
         return abort(500)
 # --------------------------------------------------------------------------------------------------------
 # Text documents
-@app.route('/api/bot/nb/documents/parcexml', methods=['POST'])
+@app.route('/api/bot/nb/document/xml/parce', methods=['POST'])
 def get_parcexml_from_documents():
     # check if the post request has the file part
     if 'file' not in request.files:
