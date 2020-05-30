@@ -200,6 +200,11 @@ def index():
     return Response(render_template('index.html'), mimetype='text/html')
 """
 
+@app.route('/help')
+def index():
+    return Response(render_template('help.html'), mimetype='text/html')
+
+
 """
 # API ---------------------------------------------------------------------------------------------------
 # """
