@@ -769,17 +769,13 @@ def get_allterms_json():
         doc = NLP_NB(req_data['message'])
 
         # Helper list for 1-word terms
-        one_word_terms_help_list = []
         one_word_terms_help_list_json = []
         # Helper list for 2-word terms
-        two_word_terms_help_list = []
         two_word_terms_help_list_json = []
         # Helper list for 3-word terms
         three_word_terms_help_list_json = []
         # Helper list for multiple-word terms (from 4-word terms)
         multiple_word_terms_help_list = []
-
-        noun_chunks = []
 
         # Main text parsing cycle for sentences
         for sentence_index, sentence in enumerate(doc.sents):
