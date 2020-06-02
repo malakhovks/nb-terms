@@ -786,7 +786,9 @@ def get_allterms_json():
             doc_for_chunks = NLP_NB(sentence_clean)
 
             # MATCHING NOUN --------------------------------------
+
             logging.debug('Sentence: ' + doc_for_chunks.text)
+
             matches = matcher(doc_for_chunks)
             # add sentence to sent array
             sent_array.append(doc_for_chunks.text)
@@ -1014,6 +1016,8 @@ def get_parcexml():
             new_sentence_element.append(new_sent_element)
 
             doc_for_lemmas = NLP_NB(sentence.text)
+
+            logging.debug('Sentence: ' + sentence.text)
 
             # create amd append <ner>, <entity>
             # NER labels description https://spacy.io/api/annotation#named-entities
