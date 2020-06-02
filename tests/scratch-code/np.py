@@ -5,6 +5,9 @@ import textacy
 import textacy.ke
 
 nlp = spacy.load("nb_core_news_sm")
+
+nb = textacy.load_spacy_lang("nb_core_news_sm", disable=("parser",))
+
 doc = nlp("San Francisco vurderer å forby robotbud på fortauene.")
 # doc = nlp("Apple vurderer å kjøpe britisk oppstartfirma for en milliard dollar.")
 
@@ -20,8 +23,8 @@ print('-------------------------------------------------------------------------
 print('textacy -------------------------------------------------------------------------------------')
 sentence = 'I de fleste tilfeller får du beskjeden når du forsøker å handle et verdipapir som ikke er skattemessig hjemmehørende innenfor EØS, til tross for at det muligens handles på Oslo Børs. Eksempelvis er en god del oljeselskap på Oslo Børs skattemessig hjemmehørende utenfor EØS hvilket gjør at selskapet dermed faller utenfor investeringsuniverset på Aksjesparekonto. Apple vurderer å kjøpe britisk oppstartfirma for en milliard dollar. San Francisco vurderer å forby robotbud på fortauene. Apple vurderer å kjøpe britisk oppstartfirma for en milliard dollar. For å flytte aksjer fra en annen bank eller megler til Nordnet, må du sende oss signert overføringsfullmakt.'
 # pattern = r'<DET>?(<NOUN>+<ADP|CONJ>)*<NOUN>+'
-# # pattern = r'<PREP><DET>?(<NOUN>+<ADP>)*<NOUN>+'
-doc = textacy.make_spacy_doc(sentence, lang='nb_core_news_sm')
+# pattern = r'<PREP><DET>?(<NOUN>+<ADP>)*<NOUN>+'
+doc = textacy.make_spacy_doc(sentence, lang=nb)
 # lists = textacy.extract.pos_regex_matches(doc, pattern)
 # for lst in lists:
 #     print(lst.text)
@@ -30,7 +33,9 @@ doc = textacy.make_spacy_doc(sentence, lang='nb_core_news_sm')
 # print(ts.basic_counts)
 # print(list(textacy.extract.ngrams(doc, 1, filter_stops=True, filter_punct=True, filter_nums=False)))
 
+key_terms_list = textacy.ke.textrank(doc, normalize="lemma", topn=10)
 print(textacy.ke.textrank(doc, normalize="lemma", topn=10))
+print(key_terms_list[0][0])
 
 print('-------------------------------------------------------------------------------------')
 # TEXTACY --------------------------------------------
