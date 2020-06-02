@@ -51,6 +51,24 @@ allterms_new = {
     }
 }
 
+allterms_with_textrank = {
+      "termsintext": {
+        "exporterms": {
+            "term": {}
+        },
+        "keyterms": {
+            "algorithm": {
+                "textrank": {
+                    "term": {}
+                }
+            }
+        },
+        "sentences": {
+            "sent": []
+        }
+      }
+    }
+
 term = {
     "ttype": "",
     "tname": "",
