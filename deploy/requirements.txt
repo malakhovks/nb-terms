@@ -10,5 +10,6 @@ pdfminer.six>=20200402
 # for hunspell https://github.com/blatinier/pyhunspell
 hunspell>=0.5.5
 # spacy_hunspell>=0.1.0
+# textacy>=0.10.0
 # ------------------------------------------------------------------
 uWSGI>=2.0.18
