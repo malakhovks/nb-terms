@@ -35,7 +35,10 @@ doc = textacy.make_spacy_doc(sentence, lang=nb)
 
 key_terms_list = textacy.ke.textrank(doc, normalize="lemma", topn=10)
 print(textacy.ke.textrank(doc, normalize="lemma", topn=10))
-print(key_terms_list[0][0])
+# print(key_terms_list[0][0])
+
+for trm in key_terms_list:
+    print(trm[0])
 
 print('-------------------------------------------------------------------------------------')
 # TEXTACY --------------------------------------------
