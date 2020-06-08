@@ -779,9 +779,10 @@ def get_allterms_json():
         # Helper list for 1-word terms
         # one_word_terms_help_list_json = []
         # Helper list for 2-word terms
-        two_word_terms_help_list_json = []
+        # two_word_terms_help_list_json = []
         # Helper list for 3-word terms
-        three_word_terms_help_list_json = []
+        # three_word_terms_help_list_json = []
+
         # Helper list for multiple-word terms (from 4-word terms)
         multiple_word_terms_help_list = []
 
@@ -830,8 +831,9 @@ def get_allterms_json():
 
                     logging.debug('Matched span: ' + span.text + ' | Span lenght: ' + str(len(span)) + ' | Span POS: ' + str([tkn.pos_ for tkn in span]) + ' | Span\'s root: ' + span.root.lemma_ + ' | Span subtree: ' + str([sub.head for sub in span.subtree]))
 
-                    if span.lemma_ not in two_word_terms_help_list_json:
-                        two_word_terms_help_list_json.append(span.lemma_)
+                    if span.lemma_ not in terms_element:
+                    # if span.lemma_ not in two_word_terms_help_list_json:
+                        # two_word_terms_help_list_json.append(span.lemma_)
                         term_properties = {}
                         sentpos_array = []
                         term_properties['wcount'] = '2'
@@ -960,8 +962,9 @@ def get_allterms_json():
 
                     logging.debug('Matched span: ' + span.text + ' | Span lenght: ' + str(len(span)) + ' | Span POS: ' + str([tkn.pos_ for tkn in span]) + ' | Span\'s root: ' + span.root.lemma_ + ' | Span subtree: ' + str([sub.head for sub in span.subtree]))
 
-                    if span.lemma_ not in three_word_terms_help_list_json:
-                        three_word_terms_help_list_json.append(span.lemma_)
+                    if span.lemma_ not in terms_element:
+                    # if span.lemma_ not in three_word_terms_help_list_json:
+                        # three_word_terms_help_list_json.append(span.lemma_)
                         term_properties = {}
                         sentpos_array = []
                         term_properties['wcount'] = '3'
