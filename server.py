@@ -732,6 +732,13 @@ def get_allterms_json():
         "exporterms": {
             "term": {}
         },
+        "keyterms": {
+            "algorithm": {
+                "textrank": {
+                    "term": {}
+                }
+            }
+        },
         "sentences": {
             "sent": []
         }
@@ -739,6 +746,7 @@ def get_allterms_json():
     }
 
     terms_element = allterms['termsintext']['exporterms']['term']
+    terms_textrank_element = allterms['termsintext']['keyterms']['algorithm']['textrank']['term']
     sent_array = allterms['termsintext']['sentences']['sent']
     # for allterms JSON structure
 
@@ -769,7 +777,7 @@ def get_allterms_json():
         doc = NLP_NB(req_data['message'])
 
         # Helper list for 1-word terms
-        one_word_terms_help_list_json = []
+        # one_word_terms_help_list_json = []
         # Helper list for 2-word terms
         two_word_terms_help_list_json = []
         # Helper list for 3-word terms
@@ -800,8 +808,9 @@ def get_allterms_json():
 
                     logging.debug('Matched span: ' + span.text + ' | Span lenght: ' + str(len(span)) + ' | Span POS: ' + span.root.pos_)
 
-                    if span.lemma_ not in one_word_terms_help_list_json:
-                        one_word_terms_help_list_json.append(span.lemma_)
+                    if span.lemma_ not in terms_element:
+                    # if span.lemma_ not in one_word_terms_help_list_json:
+                        # one_word_terms_help_list_json.append(span.lemma_)
                         term_properties = {}
                         sentpos_array = []
                         term_properties['wcount'] = '1'
@@ -842,7 +851,7 @@ def get_allterms_json():
                                     reldown_array.append(list(terms_element).index(span.lemma_) + 1)
                                     terms_element[span.root.lemma_]['reldown'] = reldown_array
                             else:
-                                one_word_terms_help_list_json.append(span.root.lemma_)
+                                # one_word_terms_help_list_json.append(span.root.lemma_)
                                 term_properties = {}
                                 sentpos_array = []
                                 term_properties['wcount'] = '1'
@@ -867,7 +876,7 @@ def get_allterms_json():
                                             reldown_array.append(list(terms_element).index(span.lemma_) + 1)
                                             terms_element[span[1].lemma_]['reldown'] = reldown_array
                                     else:
-                                        one_word_terms_help_list_json.append(span[1].lemma_)
+                                        # one_word_terms_help_list_json.append(span[1].lemma_)
                                         term_properties = {}
                                         sentpos_array = []
                                         term_properties['wcount'] = '1'
@@ -891,7 +900,7 @@ def get_allterms_json():
                                             reldown_array.append(list(terms_element).index(span.lemma_) + 1)
                                             terms_element[span[0].lemma_]['reldown'] = reldown_array
                                     else:
-                                        one_word_terms_help_list_json.append(span[1].lemma_)
+                                        # one_word_terms_help_list_json.append(span[1].lemma_)
                                         term_properties = {}
                                         sentpos_array = []
                                         term_properties['wcount'] = '1'
