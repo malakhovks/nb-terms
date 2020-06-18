@@ -10,6 +10,9 @@ import spacy
 from spacy import displacy
 # load Matcher
 from spacy.matcher import Matcher
+# load textacy
+import textacy
+import textacy.ke
 
 # load misc utils
 import json
@@ -52,6 +55,9 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'docx'])
 NLP_NB = spacy.load('nb_core_news_sm')
 # NLP_NB_VECTORES = spacy.load('./tmp/nb_nowac_vectores')
 # NLP_EN_VECTORES = spacy.load('en_core_web_lg')
+
+# Load globally textacy spaCy model
+nb = textacy.load_spacy_lang("nb_core_news_sm", disable=("parser",))
 
 # load SnowballStemmer stemmer from nltk
 from nltk.stem.snowball import SnowballStemmer
@@ -794,6 +800,12 @@ def get_allterms_json():
 
             # for processing specific sentence
             doc_for_chunks = NLP_NB(sentence_clean)
+
+            # for processing specific sentence with textacy
+            doc_textacy = textacy.make_spacy_doc(sentence_clean, lang=nb)
+
+            # TEXTACY TextRank for KEY TERMS ---------------------
+            logging.debug('TextRank Key terms: ' + textacy.ke.textrank(doc, normalize="lemma", topn=10))
 
             # MATCHING NOUN --------------------------------------
 
