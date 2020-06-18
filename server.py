@@ -805,7 +805,7 @@ def get_allterms_json():
             doc_textacy = textacy.make_spacy_doc(sentence_clean, lang=nb)
 
             # TEXTACY TextRank for KEY TERMS ---------------------
-            logging.debug('TextRank Key terms: ' + textacy.ke.textrank(doc, normalize="lemma", topn=10))
+            logging.debug('TextRank Key terms: ' + str(textacy.ke.textrank(doc_textacy, normalize="lemma", topn=10)))
 
             # MATCHING NOUN --------------------------------------
 
