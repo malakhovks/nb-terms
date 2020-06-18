@@ -741,7 +741,7 @@ def get_allterms_json():
         "keyterms": {
             "algorithm": {
                 "textrank": {
-                    "term": {}
+                    "terms": []
                 }
             }
         },
@@ -752,7 +752,7 @@ def get_allterms_json():
     }
 
     terms_element = allterms['termsintext']['exporterms']['term']
-    terms_textrank_element = allterms['termsintext']['keyterms']['algorithm']['textrank']['term']
+    terms_textrank_array = allterms['termsintext']['keyterms']['algorithm']['textrank']['terms']
     sent_array = allterms['termsintext']['sentences']['sent']
     # for allterms JSON structure
 
@@ -804,12 +804,20 @@ def get_allterms_json():
             # for processing specific sentence with textacy
             doc_textacy = textacy.make_spacy_doc(sentence_clean, lang=nb)
 
+            logging.debug('Sentence: ' + doc_for_chunks.text)
+
             # TEXTACY TextRank for KEY TERMS ---------------------
-            logging.debug('TextRank Key terms: ' + str(textacy.ke.textrank(doc_textacy, normalize="lemma", topn=10)))
+            key_terms_list = textacy.ke.textrank(doc_textacy, normalize="lemma", topn=10)
+
+            if key_terms_list:
+                logging.debug('TextRank Key terms list: ' + str(key_terms_list))
+                for trm in key_terms_list:
+                    terms_textrank_array.append({'tname': trm[0], 'rank': trm[1], 'sentidx': sentence_index})
+            if not key_terms_list:
+                logging.debug('TextRank Key terms list: EMPTY')
+
 
             # MATCHING NOUN --------------------------------------
-
-            logging.debug('Sentence: ' + doc_for_chunks.text)
 
             matches = matcher(doc_for_chunks)
             # add sentence to sent array
