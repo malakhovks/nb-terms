@@ -789,6 +789,7 @@ def get_allterms_json():
         # Main text parsing cycle for sentences
         for sentence_index, sentence in enumerate(doc.sents):
             # default sentence normalization
+            # sentence_clean = sentence_normalization_default(sentence.text)
             sentence_clean = sentence.text
 
             # for processing specific sentence
