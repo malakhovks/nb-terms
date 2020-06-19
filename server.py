@@ -812,7 +812,8 @@ def get_allterms_json():
             if key_terms_list:
                 logging.debug('TextRank Key terms list: ' + str(key_terms_list))
                 for trm in key_terms_list:
-                    terms_textrank_array.append({'tname': trm[0], 'rank': trm[1], 'sentidx': sentence_index})
+                    if not terms_textrank_array:
+                        terms_textrank_array.append({'tname': trm[0], 'rank': trm[1], 'sentidx': sentence_index})
             if not key_terms_list:
                 logging.debug('TextRank Key terms list: EMPTY')
 
