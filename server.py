@@ -210,7 +210,6 @@ def index():
 def index():
     return Response(render_template('help.html'), mimetype='text/html')
 
-
 """
 # API ---------------------------------------------------------------------------------------------------
 # """
