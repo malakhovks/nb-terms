@@ -816,10 +816,10 @@ def get_allterms_json():
                     if terms_textrank_array:
                         indx_if_exist = next((i for i, item in enumerate(terms_textrank_array) if item["tname"] == trm[0]), None)
                         if indx_if_exist:
-                            logging.debug('Existing index: ' + str(indx_if_exist))
+                            logging.debug('Index of a sentence in which the term is: ' + str(indx_if_exist))
                             terms_textrank_array[indx_if_exist]['sentidx'].append(sentence_index)
                         if indx_if_exist is None:
-                            logging.debug('Existing index: ' + str(indx_if_exist))
+                            logging.debug('Index of a sentence in which the term is: ' + str(indx_if_exist))
                             terms_textrank_array.append({'tname': trm[0], 'rank': trm[1], 'sentidx': [sentence_index]})
             if not key_terms_list:
                 logging.debug('TextRank Key terms list: EMPTY')
