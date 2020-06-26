@@ -28,8 +28,8 @@ COPY ./deploy/mtag-master /tmp/mtag-master
 
 # give permissions to everyone. Needed to mtag
 RUN chmod a+rwx /tmp/mtag-master \
-    && chmod a+rwx /srv/nor
-CMD /tmp/mtag-master/mtag.py /tmp/mtag-master/text.txt
+    && chmod a+rwx /srv/nor \
+    && /tmp/mtag-master/mtag.py /tmp/mtag-master/text.txt
 
 RUN chmod +x ./start.sh
 CMD ["./start.sh"]
