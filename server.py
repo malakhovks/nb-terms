@@ -1303,23 +1303,41 @@ def get_parcexml():
                             process = subprocess.Popen(args, stdout=subprocess.PIPE)
                             data = process.communicate()
                             out = re.sub('[\t]', '', data[0].decode())
-                            out = out.split('\n')[1]
+                            out_0 = out[0]
+                            out_1 = out.split('\n')[1]
                             try:
-                                compound_lemma = re.search(r'\"(.*)\"', out).group(1)
-                                second_word = re.search(r'\<\+(.*)\>', out).group(1)
-                                first_word = re.search(r'(.*)' + second_word, compound_lemma).group(1)
-                                logging.debug('Compound word lemma: ' + compound_lemma)
-                                logging.debug('Compound word <first_word>: ' + first_word)
-                                logging.debug('Compound word <second_word>: ' + second_word)
-                                # create <compound>
-                                new_compound_element = ET.Element('compound')
-                                first_word_element = ET.Element('firstword')
-                                first_word_element.text = first_word
-                                new_compound_element.append(first_word_element)
-                                second_word_element = ET.Element('secondword')
-                                second_word_element.text = second_word
-                                new_compound_element.append(second_word_element)
-                                new_item_element.append(new_compound_element)
+                                compound = re.search(r'\"\<(.*)\>\"', out_0).group(1)
+                                compound_lemma = re.search(r'\"(.*)\"', out_1).group(1)
+                                if compound == compound_lemma:
+                                    second_word = re.search(r'\<\+(.*)\>', out_1).group(1)
+                                    first_word = re.search(r'(.*)' + second_word, compound_lemma).group(1)
+                                    logging.debug('Compound word lemma: ' + compound_lemma)
+                                    logging.debug('Compound word <first_word>: ' + first_word)
+                                    logging.debug('Compound word <second_word>: ' + second_word)
+                                    # create <compound>
+                                    new_compound_element = ET.Element('compound')
+                                    first_word_element = ET.Element('firstword')
+                                    first_word_element.text = first_word
+                                    new_compound_element.append(first_word_element)
+                                    second_word_element = ET.Element('secondword')
+                                    second_word_element.text = second_word
+                                    new_compound_element.append(second_word_element)
+                                    new_item_element.append(new_compound_element)
+                                else:
+                                    second_word = re.search(r'\<\+(.*)\>', out_1).group(1)
+                                    first_word = re.search(r'(.*)' + second_word, compound).group(1)
+                                    logging.debug('Compound word lemma: ' + compound)
+                                    logging.debug('Compound word <first_word>: ' + first_word)
+                                    logging.debug('Compound word <second_word>: ' + second_word)
+                                    # create <compound>
+                                    new_compound_element = ET.Element('compound')
+                                    first_word_element = ET.Element('firstword')
+                                    first_word_element.text = first_word
+                                    new_compound_element.append(first_word_element)
+                                    second_word_element = ET.Element('secondword')
+                                    second_word_element.text = second_word
+                                    new_compound_element.append(second_word_element)
+                                    new_item_element.append(new_compound_element)
                             except AttributeError:
                                 logging.debug('Word ' + lemma.lemma_ + ' is not a compound word.')
                     elif req_data['pos'] == 'udkonspekt':
