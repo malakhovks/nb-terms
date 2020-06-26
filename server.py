@@ -1299,7 +1299,7 @@ def get_parcexml():
                             except IOError as e:
                                 logging.error(e, exc_info=True)
                                 return abort(500)
-                            args = ["./mtag.py", "text.txt"]
+                            args = ["./deploy/mtag-master/mtag.py", destination_text_for_mtag]
                             process = subprocess.Popen(args, stdout=subprocess.PIPE)
                             data = process.communicate()
                             out = re.sub('[\t]', '', data[0])
