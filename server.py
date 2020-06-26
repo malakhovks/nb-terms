@@ -1303,12 +1303,12 @@ def get_parcexml():
                             process = subprocess.Popen(args, stdout=subprocess.PIPE)
                             data = process.communicate()
                             out = re.sub('[\t]', '', data[0].decode())
-                            out_0 = out[0]
+                            # out_0 = out[0]
                             out_1 = out.split('\n')[1]
                             try:
-                                compound = re.search(r'\"\<(.*)\>\"', out_0).group(1)
+                                # compound = re.search(r'\"\<(.*)\>\"', out_0).group(1)
                                 compound_lemma = re.search(r'\"(.*)\"', out_1).group(1)
-                                if compound == compound_lemma:
+                                if lemma.lemma_ == compound_lemma:
                                     second_word = re.search(r'\<\+(.*)\>', out_1).group(1)
                                     first_word = re.search(r'(.*)' + second_word, compound_lemma).group(1)
                                     logging.debug('Compound word lemma: ' + compound_lemma)
@@ -1325,8 +1325,9 @@ def get_parcexml():
                                     new_item_element.append(new_compound_element)
                                 else:
                                     second_word = re.search(r'\<\+(.*)\>', out_1).group(1)
-                                    first_word = re.search(r'(.*)' + second_word, compound).group(1)
-                                    logging.debug('Compound word lemma: ' + compound)
+                                    first_word = re.search(r'(.*)' + second_word, lemma.lemma_).group(1)
+                                    logging.debug('Compound spaCy word lemma: ' + lemma.lemma_)
+                                    logging.debug('Compound mtag word lemma: ' + compound_lemma)
                                     logging.debug('Compound word <first_word>: ' + first_word)
                                     logging.debug('Compound word <second_word>: ' + second_word)
                                     # create <compound>
