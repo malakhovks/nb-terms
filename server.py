@@ -1291,7 +1291,7 @@ def get_parcexml():
                 if 'pos' in req_data:
                     if req_data['pos'] == 'ud':
                         new_speech_element.text = lemma.pos_
-                        if lemma.pos is "NOUN":
+                        if lemma.pos_ is "NOUN":
                             destination_text_for_mtag = "/".join([tempfile.mkdtemp(), 'text.txt'])
                             try:
                                 with open(destination_text_for_mtag) as f:
