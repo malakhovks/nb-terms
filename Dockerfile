@@ -26,10 +26,12 @@ RUN apt-get -y clean \
 COPY ./deploy/nginx.conf /etc/nginx
 COPY ./deploy/mtag-master /tmp/mtag-master
 
+# run mtag first time
+RUN /tmp/mtag-master/mtag.py /tmp/mtag-master/text.txt
+
 # give permissions to everyone. Needed to mtag
 RUN chmod a+rwx /tmp/mtag-master \
-    && chmod a+rwx /srv/nor \
-    && /tmp/mtag-master/mtag.py /tmp/mtag-master/text.txt
+    && chmod a+rwx /srv/nor
 
 RUN chmod +x ./start.sh
 CMD ["./start.sh"]
