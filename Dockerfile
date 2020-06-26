@@ -31,7 +31,8 @@ RUN /tmp/mtag-master/mtag.py /tmp/mtag-master/text.txt
 
 # give permissions to everyone. Needed to mtag
 RUN chmod a+rwx /tmp/mtag-master \
-    && chmod a+rwx /srv/nor
+    && chmod a+rwx /srv/nor \
+    && chmod a+rwx /tmp/mtag-master/text.txt
 
 RUN chmod +x ./start.sh
 CMD ["./start.sh"]
