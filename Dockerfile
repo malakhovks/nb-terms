@@ -22,6 +22,6 @@ RUN apt-get -y clean \
     && apt-get -y autoremove
 
 COPY ./deploy/nginx.conf /etc/nginx
-COPY ./deploy/mtag-master /tmp
+COPY ./deploy/mtag-master /tmp/mtag-master
 RUN chmod +x ./start.sh
 CMD ["./start.sh"]
