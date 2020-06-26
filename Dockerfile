@@ -15,6 +15,8 @@ RUN apt-get -y clean \
     # && apt-get -y install unzip \
     # for hunspell https://github.com/blatinier/pyhunspell
     && apt-get -y install libhunspell-dev \
+    && apt-get -y install curl \
+    && curl https://getmic.ro | bash \
     # ------------------------------------------------------------------
     && pip install -r ./deploy/requirements.txt --src /usr/local/src \
     && rm -r /root/.cache \
@@ -23,5 +25,7 @@ RUN apt-get -y clean \
 
 COPY ./deploy/nginx.conf /etc/nginx
 COPY ./deploy/mtag-master /tmp/mtag-master
+RUN chmod a+rwx /tmp/mtag-master
+RUN chmod a+rwx /srv/nor
 RUN chmod +x ./start.sh
 CMD ["./start.sh"]

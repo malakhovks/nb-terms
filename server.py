@@ -1292,7 +1292,6 @@ def get_parcexml():
                     if req_data['pos'] == 'ud':
                         new_speech_element.text = lemma.pos_
                         if lemma.pos_ in ["NOUN"]:
-                            # destination_text_for_mtag = "/".join([tempfile.mkdtemp(), 'text.txt'])
                             destination_text_for_mtag = '/tmp/mtag-master/text.txt'
                             try:
                                 with open(destination_text_for_mtag, 'w') as f:
@@ -1300,10 +1299,10 @@ def get_parcexml():
                             except IOError as e:
                                 logging.error(e, exc_info=True)
                                 return abort(500)
-                            args = ["/tmp/mtag-master/mtag.py", 'text.txt']
+                            args = ["/tmp/mtag-master/mtag.py", destination_text_for_mtag]
                             process = subprocess.Popen(args, stdout=subprocess.PIPE)
                             data = process.communicate()
-                            out = re.sub('[\t]', '', data[0])
+                            out = re.sub('[\t]', '', data[0].decode())
                             out = out.split('\n')[1]
                             try:
                                 compound_lemma = re.search(r'\"(.*)\"', out).group(1)
