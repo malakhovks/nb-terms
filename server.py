@@ -53,6 +53,8 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'docx'])
 
 # Load globally spaCy model via package name
 NLP_NB = spacy.load('nb_core_news_sm')
+# Load lemmas only
+NLP_NB_LEMMA = spacy.load('nb_core_news_sm', disable=["parser", "tagger"])
 # NLP_NB_VECTORES = spacy.load('./tmp/nb_nowac_vectores')
 # NLP_EN_VECTORES = spacy.load('en_core_web_lg')
 
@@ -1288,9 +1290,9 @@ def get_parcexml():
                 new_item_element.append(new_number_element)
                 # create and append <speech>
                 new_speech_element = ET.Element('speech')
-                if 'pos' in req_data:
-                    if req_data['pos'] == 'ud':
-                        new_speech_element.text = lemma.pos_
+                # compound words split
+                if 'compound' in req_data:
+                    if req_data['compound']:
                         if lemma.pos_ in ["NOUN"]:
                             destination_text_for_mtag = '/tmp/mtag-master/text.txt'
                             try:
@@ -1312,35 +1314,42 @@ def get_parcexml():
                                     second_word = re.search(r'\<\+(.*)\>', out_1).group(1)
                                     first_word = re.search(r'(.*)' + second_word, compound_lemma).group(1)
                                     logging.debug('Compound word lemma: ' + compound_lemma)
-                                    logging.debug('Compound word <first_word>: ' + first_word)
-                                    logging.debug('Compound word <second_word>: ' + second_word)
+                                    doc_compound_lemma = NLP_NB_LEMMA(first_word + ' ' + second_word)
+                                    compound_lemmas_arr = [token.lemma_ for token in doc_compound_lemma]
+                                    logging.debug('Compound word <first_lemma>: ' + compound_lemmas_arr[0])
+                                    logging.debug('Compound word <second_lemma>: ' + compound_lemmas_arr[1])
                                     # create <compound>
                                     new_compound_element = ET.Element('compound')
-                                    first_word_element = ET.Element('firstword')
-                                    first_word_element.text = first_word
+                                    first_word_element = ET.Element('first_lemma')
+                                    first_word_element.text = compound_lemmas_arr[0]
                                     new_compound_element.append(first_word_element)
-                                    second_word_element = ET.Element('secondword')
-                                    second_word_element.text = second_word
+                                    second_word_element = ET.Element('second_lemma')
+                                    second_word_element.text = compound_lemmas_arr[1]
                                     new_compound_element.append(second_word_element)
                                     new_item_element.append(new_compound_element)
                                 else:
                                     second_word = re.search(r'\<\+(.*)\>', out_1).group(1)
                                     first_word = re.search(r'(.*)' + second_word, lemma.lemma_).group(1)
-                                    logging.debug('Compound spaCy word lemma: ' + lemma.lemma_)
-                                    logging.debug('Compound mtag word lemma: ' + compound_lemma)
-                                    logging.debug('Compound word <first_word>: ' + first_word)
-                                    logging.debug('Compound word <second_word>: ' + second_word)
+                                    logging.debug('Compound word spaCy lemma: ' + lemma.lemma_)
+                                    logging.debug('Compound word mtag lemma: ' + compound_lemma)
+                                    doc_compound_lemma = NLP_NB_LEMMA(first_word + ' ' + second_word)
+                                    compound_lemmas_arr = [token.lemma_ for token in doc_compound_lemma]
+                                    logging.debug('Compound word <first_lemma>: ' + compound_lemmas_arr[0])
+                                    logging.debug('Compound word <second_lemma>: ' + compound_lemmas_arr[1])
                                     # create <compound>
                                     new_compound_element = ET.Element('compound')
-                                    first_word_element = ET.Element('firstword')
-                                    first_word_element.text = first_word
+                                    first_word_element = ET.Element('first_lemma')
+                                    first_word_element.text = compound_lemmas_arr[0]
                                     new_compound_element.append(first_word_element)
-                                    second_word_element = ET.Element('secondword')
-                                    second_word_element.text = second_word
+                                    second_word_element = ET.Element('second_lemma')
+                                    second_word_element.text = compound_lemmas_arr[1]
                                     new_compound_element.append(second_word_element)
                                     new_item_element.append(new_compound_element)
                             except AttributeError:
                                 logging.debug('Word ' + lemma.lemma_ + ' is not a compound word.')
+                if 'pos' in req_data:
+                    if req_data['pos'] == 'ud':
+                        new_speech_element.text = lemma.pos_
                     elif req_data['pos'] == 'udkonspekt':
                         # relate the universal dependencies parts of speech with konspekt tags
                         new_speech_element.text = speech_dict_POS_tags[lemma.pos_]
