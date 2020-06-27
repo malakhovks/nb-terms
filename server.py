@@ -1313,7 +1313,7 @@ def get_parcexml():
                                 if lemma.lemma_ == compound_lemma:
                                     second_word = re.search(r'\<\+(.*)\>', out_1).group(1)
                                     first_word = re.search(r'(.*)' + second_word, compound_lemma).group(1)
-                                    logging.debug('Compound word lemma: ' + compound_lemma)
+                                    logging.debug('Compound word lemma (spaCy equal mtag): ' + compound_lemma)
                                     doc_compound_lemma = NLP_NB_LEMMA(first_word + ' ' + second_word)
                                     compound_lemmas_arr = [token.lemma_ for token in doc_compound_lemma]
                                     logging.debug('Compound word <first_lemma>: ' + compound_lemmas_arr[0])
@@ -1330,6 +1330,7 @@ def get_parcexml():
                                 else:
                                     second_word = re.search(r'\<\+(.*)\>', out_1).group(1)
                                     first_word = re.search(r'(.*)' + second_word, lemma.lemma_).group(1)
+                                    logging.debug('Compound word lemma (spaCy not equal mtag')
                                     logging.debug('Compound word spaCy lemma: ' + lemma.lemma_)
                                     logging.debug('Compound word mtag lemma: ' + compound_lemma)
                                     doc_compound_lemma = NLP_NB_LEMMA(first_word + ' ' + second_word)
