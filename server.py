@@ -1136,109 +1136,110 @@ def get_parcexml():
                 if 'compound' in req_data:
                     if req_data['compound']:
                         if lemma.pos_ in ["NOUN"]:
-                            destination_text_for_mtag = '/tmp/mtag-master/text.txt'
-                            try:
-                                with open(destination_text_for_mtag, 'w') as f:
-                                    f.write(lemma.lemma_ + ' . ' + lemma.text.lower())
-                            except IOError as e:
-                                logging.error(e, exc_info=True)
-                                return abort(500)
-                            args = ["/tmp/mtag-master/mtag.py", destination_text_for_mtag]
-                            process = subprocess.Popen(args, stdout=subprocess.PIPE)
-                            data = process.communicate()
-                            logging.debug('-------------------------------------------------------------------------')
-                            logging.debug('data[0]: ' + data[0].decode())
-                            logging.debug('data[1]: %s', data[1])
-
-                            if data[0].decode() == '':
-                                logging.debug('Error while processing Word <' + lemma.text + '>. Maybe spell error.')
-                            else:
-                                out = re.sub('[\t]', '', data[0].decode())
-                                out_1 = out.split('\n')[1]
-                                out_n = out.split('\n')[out.split('\n').index('"." symb') + 2]
-
-                                logging.debug('out_n: ' + out_n)
-
+                            if len(lemma.text) > 7:
+                                destination_text_for_mtag = '/tmp/mtag-master/text.txt'
                                 try:
-                                    mtag_compound_lemma = re.search(r'\"(.*)\"', out_n).group(1)
+                                    with open(destination_text_for_mtag, 'w') as f:
+                                        f.write(lemma.lemma_ + ' . ' + lemma.text.lower())
+                                except IOError as e:
+                                    logging.error(e, exc_info=True)
+                                    return abort(500)
+                                args = ["/tmp/mtag-master/mtag.py", destination_text_for_mtag]
+                                process = subprocess.Popen(args, stdout=subprocess.PIPE)
+                                data = process.communicate()
+                                logging.debug('-------------------------------------------------------------------------')
+                                logging.debug('data[0]: ' + data[0].decode())
+                                logging.debug('data[1]: %s', data[1])
 
-                                    # Check for lemma correctness
-                                    # if correct
-                                    if lemma.lemma_ == mtag_compound_lemma:
-                                        logging.debug('Compound word lemma correctness (spaCy IS EQUAL mtag): ' + mtag_compound_lemma + ' :')
+                                if data[0].decode() == '':
+                                    logging.debug('Error while processing Word <' + lemma.text + '>. Maybe spell error.')
+                                else:
+                                    out = re.sub('[\t]', '', data[0].decode())
+                                    out_1 = out.split('\n')[1]
+                                    out_n = out.split('\n')[out.split('\n').index('"." symb') + 2]
 
-                                        second_word = re.search(r'\<\+(.*)\>', out_1).group(1)
-                                        # get second_word lemma spaCy
-                                        doc_second_lemma = NLP_NB_LEMMA(second_word)
-                                        spacy_second_word_lemma_arr = [token.lemma_ for token in doc_second_lemma]
-                                        logging.debug('Compound word <second_lemma>: ' + spacy_second_word_lemma_arr[0])
+                                    logging.debug('out_n: ' + out_n)
 
-                                        first_word = re.search(r'(.*)' + second_word, mtag_compound_lemma).group(1)
-                                        # get first_word lemma mtag
-                                        try:
-                                            with open(destination_text_for_mtag, 'w') as f:
-                                                f.write(first_word)
-                                        except IOError as e:
-                                            logging.error(e, exc_info=True)
-                                            return abort(500)
-                                        args = ["/tmp/mtag-master/mtag.py", destination_text_for_mtag]
-                                        process = subprocess.Popen(args, stdout=subprocess.PIPE)
-                                        data = process.communicate()
-                                        out = re.sub('[\t]', '', data[0].decode())
-                                        out_1 = out.split('\n')[1]
-                                        mtag_first_word_lemma = re.search(r'\"(.*)\"', out_1).group(1)
-                                        logging.debug('Compound word <first_lemma>: ' + mtag_first_word_lemma)
+                                    try:
+                                        mtag_compound_lemma = re.search(r'\"(.*)\"', out_n).group(1)
 
-                                        # create <compound>
-                                        new_compound_element = ET.Element('compound')
-                                        first_word_element = ET.Element('first_lemma')
-                                        first_word_element.text = mtag_first_word_lemma
-                                        new_compound_element.append(first_word_element)
-                                        second_word_element = ET.Element('second_lemma')
-                                        second_word_element.text = spacy_second_word_lemma_arr[0]
-                                        new_compound_element.append(second_word_element)
-                                        new_item_element.append(new_compound_element)
-                                    # if not correct
-                                    else:
-                                        logging.debug('Compound word lemma correctness (lemmas IS NOT EQUAL) spaCy | mtag: ' + lemma.lemma_ + ' | ' + mtag_compound_lemma)
+                                        # Check for lemma correctness
+                                        # if correct
+                                        if lemma.lemma_ == mtag_compound_lemma:
+                                            logging.debug('Compound word lemma correctness (spaCy IS EQUAL mtag): ' + mtag_compound_lemma + ' :')
 
-                                        correct_lemma_element = new_item_element.find('lemma')
-                                        correct_lemma_element.text = mtag_compound_lemma
+                                            second_word = re.search(r'\<\+(.*)\>', out_1).group(1)
+                                            # get second_word lemma spaCy
+                                            doc_second_lemma = NLP_NB_LEMMA(second_word)
+                                            spacy_second_word_lemma_arr = [token.lemma_ for token in doc_second_lemma]
+                                            logging.debug('Compound word <second_lemma>: ' + spacy_second_word_lemma_arr[0])
 
-                                        second_word = re.search(r'\<\+(.*)\>', out_n).group(1)
-                                        # get second_word lemma spaCy
-                                        doc_second_lemma = NLP_NB_LEMMA(second_word)
-                                        spacy_second_word_lemma_arr = [token.lemma_ for token in doc_second_lemma]
-                                        logging.debug('Compound word <second_lemma>: ' + spacy_second_word_lemma_arr[0])
+                                            first_word = re.search(r'(.*)' + second_word, mtag_compound_lemma).group(1)
+                                            # get first_word lemma mtag
+                                            try:
+                                                with open(destination_text_for_mtag, 'w') as f:
+                                                    f.write(first_word)
+                                            except IOError as e:
+                                                logging.error(e, exc_info=True)
+                                                return abort(500)
+                                            args = ["/tmp/mtag-master/mtag.py", destination_text_for_mtag]
+                                            process = subprocess.Popen(args, stdout=subprocess.PIPE)
+                                            data = process.communicate()
+                                            out = re.sub('[\t]', '', data[0].decode())
+                                            out_1 = out.split('\n')[1]
+                                            mtag_first_word_lemma = re.search(r'\"(.*)\"', out_1).group(1)
+                                            logging.debug('Compound word <first_lemma>: ' + mtag_first_word_lemma)
 
-                                        first_word = re.search(r'(.*)' + spacy_second_word_lemma_arr[0], mtag_compound_lemma).group(1)
+                                            # create <compound>
+                                            new_compound_element = ET.Element('compound')
+                                            first_word_element = ET.Element('first_lemma')
+                                            first_word_element.text = mtag_first_word_lemma
+                                            new_compound_element.append(first_word_element)
+                                            second_word_element = ET.Element('second_lemma')
+                                            second_word_element.text = spacy_second_word_lemma_arr[0]
+                                            new_compound_element.append(second_word_element)
+                                            new_item_element.append(new_compound_element)
+                                        # if not correct
+                                        else:
+                                            logging.debug('Compound word lemma correctness (lemmas IS NOT EQUAL) spaCy | mtag: ' + lemma.lemma_ + ' | ' + mtag_compound_lemma)
 
-                                        # get first_word lemma mtag
-                                        try:
-                                            with open(destination_text_for_mtag, 'w') as f:
-                                                f.write(first_word)
-                                        except IOError as e:
-                                            logging.error(e, exc_info=True)
-                                            return abort(500)
-                                        args = ["/tmp/mtag-master/mtag.py", destination_text_for_mtag]
-                                        process = subprocess.Popen(args, stdout=subprocess.PIPE)
-                                        data = process.communicate()
-                                        out = re.sub('[\t]', '', data[0].decode())
-                                        out_1 = out.split('\n')[1]
-                                        mtag_first_word_lemma = re.search(r'\"(.*)\"', out_1).group(1)
-                                        logging.debug('Compound word <first_lemma>: ' + mtag_first_word_lemma)
+                                            correct_lemma_element = new_item_element.find('lemma')
+                                            correct_lemma_element.text = mtag_compound_lemma
 
-                                        # create <compound>
-                                        new_compound_element = ET.Element('compound')
-                                        first_word_element = ET.Element('first_lemma')
-                                        first_word_element.text = mtag_first_word_lemma
-                                        new_compound_element.append(first_word_element)
-                                        second_word_element = ET.Element('second_lemma')
-                                        second_word_element.text = spacy_second_word_lemma_arr[0]
-                                        new_compound_element.append(second_word_element)
-                                        new_item_element.append(new_compound_element)
-                                except AttributeError:
-                                    logging.debug('Error while processing Word <' + lemma.lemma_ + '>. Maybe not compound word.')
+                                            second_word = re.search(r'\<\+(.*)\>', out_n).group(1)
+                                            # get second_word lemma spaCy
+                                            doc_second_lemma = NLP_NB_LEMMA(second_word)
+                                            spacy_second_word_lemma_arr = [token.lemma_ for token in doc_second_lemma]
+                                            logging.debug('Compound word <second_lemma>: ' + spacy_second_word_lemma_arr[0])
+
+                                            first_word = re.search(r'(.*)' + spacy_second_word_lemma_arr[0], mtag_compound_lemma).group(1)
+
+                                            # get first_word lemma mtag
+                                            try:
+                                                with open(destination_text_for_mtag, 'w') as f:
+                                                    f.write(first_word)
+                                            except IOError as e:
+                                                logging.error(e, exc_info=True)
+                                                return abort(500)
+                                            args = ["/tmp/mtag-master/mtag.py", destination_text_for_mtag]
+                                            process = subprocess.Popen(args, stdout=subprocess.PIPE)
+                                            data = process.communicate()
+                                            out = re.sub('[\t]', '', data[0].decode())
+                                            out_1 = out.split('\n')[1]
+                                            mtag_first_word_lemma = re.search(r'\"(.*)\"', out_1).group(1)
+                                            logging.debug('Compound word <first_lemma>: ' + mtag_first_word_lemma)
+
+                                            # create <compound>
+                                            new_compound_element = ET.Element('compound')
+                                            first_word_element = ET.Element('first_lemma')
+                                            first_word_element.text = mtag_first_word_lemma
+                                            new_compound_element.append(first_word_element)
+                                            second_word_element = ET.Element('second_lemma')
+                                            second_word_element.text = spacy_second_word_lemma_arr[0]
+                                            new_compound_element.append(second_word_element)
+                                            new_item_element.append(new_compound_element)
+                                    except AttributeError:
+                                        logging.debug('Error while processing Word <' + lemma.lemma_ + '>. Maybe not compound word.')
                 if 'pos' in req_data:
                     if req_data['pos'] == 'ud':
                         new_speech_element.text = lemma.pos_
