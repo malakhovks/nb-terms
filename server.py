@@ -1137,34 +1137,33 @@ def get_parcexml():
                     if req_data['compound']:
                         if lemma.pos_ in ["NOUN"]:
                             if len(lemma.text) > 7:
+                                logging.debug('---------------------------------------------------------------------------------------------------')
                                 destination_input_text_for_mtag = '/tmp/mtag-master/input.txt'
                                 destination_output_text_for_mtag = '/tmp/mtag-master/output.txt'
-
+                                args = ["/tmp/mtag-master/mtag.py", destination_input_text_for_mtag, "-o", destination_output_text_for_mtag]
                                 try:
                                     with open(destination_input_text_for_mtag, 'w') as f:
                                         f.write(lemma.lemma_ + ' . ' + lemma.text.lower())
                                 except IOError as e:
                                     logging.error(e, exc_info=True)
                                     return abort(500)
-
-                                args = ["./mtag.py", destination_input_text_for_mtag, "-o", destination_output_text_for_mtag]
                                 try:
                                     code = subprocess.call(args, stdout=subprocess.DEVNULL)
                                     if code == 0:
-                                        logging.debug("subprocess.call: Success!")
+                                        logging.debug("subprocess.call (mtag --> output.txt): Success!")
                                     else:
-                                        logging.error("subprocess.call: Error!")
+                                        logging.error("subprocess.call (mtag --> output.txt): Error!")
                                 except OSError as e:
                                     logging.error(e, exc_info=True)
-
+                                    return abort(500)
                                 try:
                                     with open(destination_output_text_for_mtag) as f:
                                         data = f.read()
                                 except IOError as e:
                                     logging.error(e, exc_info=True)
+                                    return abort(500)
 
-                                logging.debug('-------------------------------------------------------------------------')
-                                logging.debug('data: ' + data)
+                                logging.debug('data from <output.txt>: ' + '\n' + data)
 
                                 if data == '':
                                     logging.debug('Error while processing Word <' + lemma.text + '>. Maybe spell error.')
@@ -1183,26 +1182,47 @@ def get_parcexml():
                                             logging.debug('Compound word lemma correctness (spaCy IS EQUAL mtag): ' + mtag_compound_lemma + ' :')
 
                                             second_word = re.search(r'\<\+(.*)\>', out_1).group(1)
-                                            # get second_word lemma spaCy
+                                            # get second_word lemma with spaCy
                                             doc_second_lemma = NLP_NB_LEMMA(second_word)
                                             spacy_second_word_lemma_arr = [token.lemma_ for token in doc_second_lemma]
-                                            logging.debug('Compound word <second_lemma>: ' + spacy_second_word_lemma_arr[0])
+                                            logging.debug('Compound word <second_lemma> with spaCy: ' + spacy_second_word_lemma_arr[0])
 
                                             first_word = re.search(r'(.*)' + second_word, mtag_compound_lemma).group(1)
-                                            # get first_word lemma mtag
+
+                                            # get first_word lemma with mtag
                                             try:
                                                 with open(destination_input_text_for_mtag, 'w') as f:
                                                     f.write(first_word)
                                             except IOError as e:
                                                 logging.error(e, exc_info=True)
                                                 return abort(500)
-                                            args = ["/tmp/mtag-master/mtag.py", destination_input_text_for_mtag]
-                                            process = subprocess.Popen(args, stdout=subprocess.PIPE)
-                                            data = process.communicate()
-                                            out = re.sub('[\t]', '', data[0].decode())
-                                            out_1 = out.split('\n')[1]
-                                            mtag_first_word_lemma = re.search(r'\"(.*)\"', out_1).group(1)
-                                            logging.debug('Compound word <first_lemma>: ' + mtag_first_word_lemma)
+
+                                            try:
+                                                code = subprocess.call(args, stdout=subprocess.DEVNULL)
+                                                if code == 0:
+                                                    logging.debug("subprocess.call (mtag --> output.txt): Success!")
+                                                else:
+                                                    logging.error("subprocess.call (mtag --> output.txt): Error!")
+                                            except OSError as e:
+                                                logging.error(e, exc_info=True)
+                                                return abort(500)
+
+                                            try:
+                                                with open(destination_output_text_for_mtag) as f:
+                                                    data = f.read()
+                                            except IOError as e:
+                                                logging.error(e, exc_info=True)
+                                                return abort(500)
+
+                                            logging.debug('data from <output.txt>: ' + '\n' + data)
+
+                                            if data == '':
+                                                logging.debug('Error while processing Word <' + first_word + '>. Maybe spell error.')
+                                            else:
+                                                out = re.sub('[\t]', '', data)
+                                                out_1 = out.split('\n')[1]
+                                                mtag_first_word_lemma = re.search(r'\"(.*)\"', out_1).group(1)
+                                                logging.debug('Compound word <first_lemma> with mtag: ' + mtag_first_word_lemma)
 
                                             # create <compound>
                                             new_compound_element = ET.Element('compound')
@@ -1221,27 +1241,45 @@ def get_parcexml():
                                             correct_lemma_element.text = mtag_compound_lemma
 
                                             second_word = re.search(r'\<\+(.*)\>', out_n).group(1)
-                                            # get second_word lemma spaCy
+                                            # get second_word lemma with spaCy
                                             doc_second_lemma = NLP_NB_LEMMA(second_word)
                                             spacy_second_word_lemma_arr = [token.lemma_ for token in doc_second_lemma]
-                                            logging.debug('Compound word <second_lemma>: ' + spacy_second_word_lemma_arr[0])
+                                            logging.debug('Compound word <second_lemma> with spaCy: ' + spacy_second_word_lemma_arr[0])
 
                                             first_word = re.search(r'(.*)' + spacy_second_word_lemma_arr[0], mtag_compound_lemma).group(1)
 
-                                            # get first_word lemma mtag
+                                            # get first_word lemma with mtag
                                             try:
                                                 with open(destination_input_text_for_mtag, 'w') as f:
                                                     f.write(first_word)
                                             except IOError as e:
                                                 logging.error(e, exc_info=True)
                                                 return abort(500)
-                                            args = ["/tmp/mtag-master/mtag.py", destination_input_text_for_mtag]
-                                            process = subprocess.Popen(args, stdout=subprocess.PIPE)
-                                            data = process.communicate()
-                                            out = re.sub('[\t]', '', data[0].decode())
-                                            out_1 = out.split('\n')[1]
-                                            mtag_first_word_lemma = re.search(r'\"(.*)\"', out_1).group(1)
-                                            logging.debug('Compound word <first_lemma>: ' + mtag_first_word_lemma)
+                                            try:
+                                                code = subprocess.call(args, stdout=subprocess.DEVNULL)
+                                                if code == 0:
+                                                    logging.debug("subprocess.call (mtag --> output.txt): Success!")
+                                                else:
+                                                    logging.error("subprocess.call (mtag --> output.txt): Error!")
+                                            except OSError as e:
+                                                logging.error(e, exc_info=True)
+                                                return abort(500)
+                                            try:
+                                                with open(destination_output_text_for_mtag) as f:
+                                                    data = f.read()
+                                            except IOError as e:
+                                                logging.error(e, exc_info=True)
+                                                return abort(500)
+
+                                            logging.debug('data from <output.txt>: ' + '\n' + data)
+
+                                            if data == '':
+                                                logging.debug('Error while processing Word <' + first_word + '>. Maybe spell error.')
+                                            else:
+                                                out = re.sub('[\t]', '', data)
+                                                out_1 = out.split('\n')[1]
+                                                mtag_first_word_lemma = re.search(r'\"(.*)\"', out_1).group(1)
+                                                logging.debug('Compound word <first_lemma> with mtag: ' + mtag_first_word_lemma)
 
                                             # create <compound>
                                             new_compound_element = ET.Element('compound')
@@ -1253,7 +1291,7 @@ def get_parcexml():
                                             new_compound_element.append(second_word_element)
                                             new_item_element.append(new_compound_element)
                                     except AttributeError:
-                                        logging.debug('Error while processing Word <' + lemma.lemma_ + '>. Maybe not compound word.')
+                                        logging.debug('Error while processing Word <' + lemma.text + '>. Maybe not compound word.')
                 if 'pos' in req_data:
                     if req_data['pos'] == 'ud':
                         new_speech_element.text = lemma.pos_
