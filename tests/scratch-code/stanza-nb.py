@@ -1,7 +1,7 @@
 # Stanza – A Python NLP Package for Many Human Languages
 import stanza
 
-nlp_stanza = stanza.Pipeline(lang='en', processors='tokenize,mwt,pos,lemma')
+nlp_stanza = stanza.Pipeline(lang='nb', processors='tokenize,mwt,pos,lemma')
 # doc_stanza = nlp_stanza('av henger')
 doc_stanza = nlp_stanza('til hører')
 # doc_stanza = nlp_stanza('formues skatten')
