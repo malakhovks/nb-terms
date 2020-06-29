@@ -69,7 +69,7 @@ try:
 except:
     logging.debug('Installing Stance pretrained NLP model for Norwegian Bokmaal.')
     stanza.download('nb')
-    nlp_stanza_en = stanza.Pipeline(lang='nb', processors='tokenize,mwt,pos,lemma')
+    nlp_stanza = stanza.Pipeline(lang='nb', processors='tokenize,mwt,pos,lemma')
     logging.debug('Stance pretrained NLP model for Norwegian Bokmaal is ready to use.')
 
 # load SnowballStemmer stemmer from nltk
