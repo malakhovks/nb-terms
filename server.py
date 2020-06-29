@@ -1137,7 +1137,7 @@ def get_parcexml():
                     if req_data['compound']:
                         if lemma.pos_ in ["NOUN"]:
                             if len(lemma.text) > 7:
-                                destination_text_for_mtag = '/tmp/mtag-master/text.txt'
+                                destination_text_for_mtag = '/tmp/mtag-master/input.txt'
                                 try:
                                     with open(destination_text_for_mtag, 'w') as f:
                                         f.write(lemma.lemma_ + ' . ' + lemma.text.lower())
