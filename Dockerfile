@@ -23,6 +23,8 @@ RUN apt-get -y clean \
     && apt-get -y clean \
     && apt-get -y autoremove
 
+CMD ["python", "./deploy/get-stanza-model.py"]
+
 COPY ./deploy/nginx.conf /etc/nginx
 COPY ./deploy/mtag-master /tmp/mtag-master
 
