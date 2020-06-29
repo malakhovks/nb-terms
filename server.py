@@ -63,14 +63,14 @@ nb = textacy.load_spacy_lang("nb_core_news_sm", disable=("parser",))
 
 # Stanza – A Python NLP Package for Many Human Languages
 import stanza
-
-try:
-    nlp_stanza = stanza.Pipeline(lang='nb', processors='tokenize,mwt,pos,lemma')
-except:
-    logging.debug('Installing Stance pretrained NLP model for Norwegian Bokmaal.')
-    stanza.download('nb')
-    nlp_stanza = stanza.Pipeline(lang='nb', processors='tokenize,mwt,pos,lemma')
-    logging.debug('Stance pretrained NLP model for Norwegian Bokmaal is ready to use.')
+nlp_stanza = stanza.Pipeline(lang='nb', processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
+# try:
+#     nlp_stanza = stanza.Pipeline(lang='nb', processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
+# except:
+#     logging.debug('Installing Stance pretrained NLP model for Norwegian Bokmaal.')
+#     stanza.download('nb', dir='./deploy/stanza_resources')
+#     nlp_stanza = stanza.Pipeline(lang='nb', processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
+#     logging.debug('Stance pretrained NLP model for Norwegian Bokmaal is ready to use.')
 
 # load SnowballStemmer stemmer from nltk
 from nltk.stem.snowball import SnowballStemmer
