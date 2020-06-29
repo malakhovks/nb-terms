@@ -23,13 +23,12 @@ RUN apt-get -y clean \
     && apt-get -y clean \
     && apt-get -y autoremove
 
-CMD ["python", "./deploy/get-stanza-model.py"]
-
 COPY ./deploy/nginx.conf /etc/nginx
 COPY ./deploy/mtag-master /tmp/mtag-master
 
 # run mtag first time
-RUN /tmp/mtag-master/mtag.py /tmp/mtag-master/input.txt
+RUN /tmp/mtag-master/mtag.py /tmp/mtag-master/input.txt \
+    && ["python", "./deploy/get-stanza-model.py"]
 
 # give permissions to everyone. Needed to mtag
 RUN chmod -R a+rwx /tmp/mtag-master \
