@@ -1196,7 +1196,6 @@ def get_parcexml():
                                             except IOError as e:
                                                 logging.error(e, exc_info=True)
                                                 return abort(500)
-
                                             try:
                                                 code = subprocess.call(args, stdout=subprocess.DEVNULL)
                                                 if code == 0:
@@ -1206,7 +1205,6 @@ def get_parcexml():
                                             except OSError as e:
                                                 logging.error(e, exc_info=True)
                                                 return abort(500)
-
                                             try:
                                                 with open(destination_output_text_for_mtag) as f:
                                                     data = f.read()
