@@ -61,6 +61,10 @@ NLP_NB_LEMMA = spacy.load('nb_core_news_sm', disable=["parser", "tagger"])
 # Load globally textacy spaCy model
 nb = textacy.load_spacy_lang("nb_core_news_sm", disable=("parser",))
 
+# Stanza – A Python NLP Package for Many Human Languages
+import stanza
+nlp_stanza = stanza.Pipeline(lang='nb', processors='tokenize,mwt,pos,lemma')
+
 # load SnowballStemmer stemmer from nltk
 from nltk.stem.snowball import SnowballStemmer
 # Load globally english SnowballStemmer
@@ -1179,56 +1183,26 @@ def get_parcexml():
                                         # Check for lemma correctness
                                         # if correct
                                         if lemma.lemma_ == mtag_compound_lemma:
-                                            logging.debug('Compound word lemma correctness (spaCy IS EQUAL mtag): ' + mtag_compound_lemma + ' :')
+                                            logging.debug('Compound word lemma correctness (lemmas IS EQUAL) spaCy | mtag:: '  + lemma.lemma_ + ' | ' + mtag_compound_lemma)
 
                                             second_word = re.search(r'\<\+(.*)\>', out_1).group(1)
-                                            # get second_word lemma with spaCy
-                                            doc_second_lemma = NLP_NB_LEMMA(second_word)
-                                            spacy_second_word_lemma_arr = [token.lemma_ for token in doc_second_lemma]
-                                            logging.debug('Compound word <second_lemma> with spaCy: ' + spacy_second_word_lemma_arr[0])
+                                            out_compound_word = out.split('\n')[out.split('\n').index('"." symb') + 1]
+                                            out_compound_word = re.search(r'\<(.*)\>', out_compound_word).group(1)
+                                            first_word = re.search(r'(.*)' + second_word, out_compound_word).group(1)
 
-                                            first_word = re.search(r'(.*)' + second_word, mtag_compound_lemma).group(1)
-
-                                            # get first_word lemma with mtag
-                                            try:
-                                                with open(destination_input_text_for_mtag, 'w') as f:
-                                                    f.write(first_word)
-                                            except IOError as e:
-                                                logging.error(e, exc_info=True)
-                                                return abort(500)
-                                            try:
-                                                code = subprocess.call(args, stdout=subprocess.DEVNULL)
-                                                if code == 0:
-                                                    logging.debug("subprocess.call (mtag --> output.txt): Success!")
-                                                else:
-                                                    logging.error("subprocess.call (mtag --> output.txt): Error!")
-                                            except OSError as e:
-                                                logging.error(e, exc_info=True)
-                                                return abort(500)
-                                            try:
-                                                with open(destination_output_text_for_mtag) as f:
-                                                    data = f.read()
-                                            except IOError as e:
-                                                logging.error(e, exc_info=True)
-                                                return abort(500)
-
-                                            logging.debug('data from <output.txt>: ' + '\n' + data)
-
-                                            if data == '':
-                                                logging.debug('Error while processing Word <' + first_word + '>. Maybe spell error.')
-                                            else:
-                                                out = re.sub('[\t]', '', data)
-                                                out_1 = out.split('\n')[1]
-                                                mtag_first_word_lemma = re.search(r'\"(.*)\"', out_1).group(1)
-                                                logging.debug('Compound word <first_lemma> with mtag: ' + mtag_first_word_lemma)
+                                            # get second_word lemma with Stanza
+                                            doc_stanza = nlp_stanza(first_word + ' ' + second_word)
+                                            compound_words_lemmas_arr = [word.lemma for sent in doc_stanza.sentences for word in sent.words]
+                                            logging.debug('Compound word <first_lemma> with Stanza: ' + compound_words_lemmas_arr[0])
+                                            logging.debug('Compound word <second_lemma> with Stanza: ' + compound_words_lemmas_arr[1])
 
                                             # create <compound>
                                             new_compound_element = ET.Element('compound')
                                             first_word_element = ET.Element('first_lemma')
-                                            first_word_element.text = mtag_first_word_lemma
+                                            first_word_element.text = compound_words_lemmas_arr[0]
                                             new_compound_element.append(first_word_element)
                                             second_word_element = ET.Element('second_lemma')
-                                            second_word_element.text = spacy_second_word_lemma_arr[0]
+                                            second_word_element.text = compound_words_lemmas_arr[1]
                                             new_compound_element.append(second_word_element)
                                             new_item_element.append(new_compound_element)
                                         # if not correct
