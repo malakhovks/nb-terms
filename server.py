@@ -1137,27 +1137,41 @@ def get_parcexml():
                     if req_data['compound']:
                         if lemma.pos_ in ["NOUN"]:
                             if len(lemma.text) > 7:
-                                destination_text_for_mtag = '/tmp/mtag-master/input.txt'
+                                destination_input_text_for_mtag = '/tmp/mtag-master/input.txt'
+                                destination_output_text_for_mtag = '/tmp/mtag-master/output.txt'
+
                                 try:
-                                    with open(destination_text_for_mtag, 'w') as f:
+                                    with open(destination_input_text_for_mtag, 'w') as f:
                                         f.write(lemma.lemma_ + ' . ' + lemma.text.lower())
                                 except IOError as e:
                                     logging.error(e, exc_info=True)
                                     return abort(500)
-                                args = ["/tmp/mtag-master/mtag.py", destination_text_for_mtag]
-                                process = subprocess.Popen(args, stdout=subprocess.PIPE)
-                                data = process.communicate()
-                                logging.debug('-------------------------------------------------------------------------')
-                                logging.debug('data[0]: ' + data[0].decode())
-                                logging.debug('data[1]: %s', data[1])
 
-                                if data[0].decode() == '':
+                                args = ["./mtag.py", destination_input_text_for_mtag, "-o", destination_output_text_for_mtag]
+                                try:
+                                    code = subprocess.call(args, stdout=subprocess.DEVNULL)
+                                    if code == 0:
+                                        logging.debug("subprocess.call: Success!")
+                                    else:
+                                        logging.error("subprocess.call: Error!")
+                                except OSError as e:
+                                    logging.error(e, exc_info=True)
+
+                                try:
+                                    with open(destination_output_text_for_mtag) as f:
+                                        data = f.read()
+                                except IOError as e:
+                                    logging.error(e, exc_info=True)
+
+                                logging.debug('-------------------------------------------------------------------------')
+                                logging.debug('data: ' + data)
+
+                                if data == '':
                                     logging.debug('Error while processing Word <' + lemma.text + '>. Maybe spell error.')
                                 else:
-                                    out = re.sub('[\t]', '', data[0].decode())
+                                    out = re.sub('[\t]', '', data)
                                     out_1 = out.split('\n')[1]
                                     out_n = out.split('\n')[out.split('\n').index('"." symb') + 2]
-
                                     logging.debug('out_n: ' + out_n)
 
                                     try:
@@ -1177,12 +1191,12 @@ def get_parcexml():
                                             first_word = re.search(r'(.*)' + second_word, mtag_compound_lemma).group(1)
                                             # get first_word lemma mtag
                                             try:
-                                                with open(destination_text_for_mtag, 'w') as f:
+                                                with open(destination_input_text_for_mtag, 'w') as f:
                                                     f.write(first_word)
                                             except IOError as e:
                                                 logging.error(e, exc_info=True)
                                                 return abort(500)
-                                            args = ["/tmp/mtag-master/mtag.py", destination_text_for_mtag]
+                                            args = ["/tmp/mtag-master/mtag.py", destination_input_text_for_mtag]
                                             process = subprocess.Popen(args, stdout=subprocess.PIPE)
                                             data = process.communicate()
                                             out = re.sub('[\t]', '', data[0].decode())
@@ -1216,12 +1230,12 @@ def get_parcexml():
 
                                             # get first_word lemma mtag
                                             try:
-                                                with open(destination_text_for_mtag, 'w') as f:
+                                                with open(destination_input_text_for_mtag, 'w') as f:
                                                     f.write(first_word)
                                             except IOError as e:
                                                 logging.error(e, exc_info=True)
                                                 return abort(500)
-                                            args = ["/tmp/mtag-master/mtag.py", destination_text_for_mtag]
+                                            args = ["/tmp/mtag-master/mtag.py", destination_input_text_for_mtag]
                                             process = subprocess.Popen(args, stdout=subprocess.PIPE)
                                             data = process.communicate()
                                             out = re.sub('[\t]', '', data[0].decode())
