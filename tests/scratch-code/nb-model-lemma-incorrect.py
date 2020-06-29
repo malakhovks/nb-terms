@@ -7,7 +7,7 @@ NORWEGIAN_STEMMER = SnowballStemmer("norwegian")
 nlp = spacy.load("nb_core_news_sm")
 doc = nlp("Formuesskatten er en skatt som utlignes på grunnlag av nettoformuen din.")
 # doc1 = nlp("sparekontoer")
-doc1 = nlp("formues")
+doc1 = nlp("til hører")
 
 for token in doc:
     print(token.text, token.lemma_, token.pos_, token.tag_, token.dep_,
