@@ -11,7 +11,6 @@ RUN apt-get -y clean \
     && apt-get -y install nginx \
     && apt-get -y install python-dev \
     && apt-get -y install build-essential \
-    # && apt-get -y install curl \
     # && apt-get -y install unzip \
     # for hunspell https://github.com/blatinier/pyhunspell
     && apt-get -y install libhunspell-dev \
@@ -27,8 +26,7 @@ COPY ./deploy/nginx.conf /etc/nginx
 COPY ./deploy/mtag-master /tmp/mtag-master
 
 # run mtag first time
-RUN /tmp/mtag-master/mtag.py /tmp/mtag-master/input.txt \
-    && ./deploy/get-stanza-model.py
+RUN /tmp/mtag-master/mtag.py /tmp/mtag-master/input.txt
 
 # give permissions to everyone. Needed to mtag
 RUN chmod -R a+rwx /tmp/mtag-master \
