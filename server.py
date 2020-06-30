@@ -52,18 +52,21 @@ NLP_NB_LEMMA = spacy.load('nb_core_news_sm', disable=["parser", "tagger"])
 
 # Stanza – A Python NLP Package for Many Human Languages
 import stanza
-
+from spacy_stanza import StanzaLanguage
 try:
-    nlp_stanza = stanza.Pipeline(lang='nb', processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
+    snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
+    stanza_nlp = StanzaLanguage(snlp)
 except:
     logging.debug('Installing Stance pretrained NLP model for Norwegian Bokmaal.')
     stanza.download('nb', dir='./deploy/stanza_resources')
     logging.debug('Stance pretrained NLP model for Norwegian Bokmaal is ready to use.')
 
 try:
-    nlp_stanza = stanza.Pipeline(lang='nb', processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
+    snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
+    stanza_nlp = StanzaLanguage(snlp)
 except:
-    nlp_stanza = stanza.Pipeline(lang='nb', processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
+    snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
+    stanza_nlp = StanzaLanguage(snlp)
 
 # load SnowballStemmer stemmer from nltk
 from nltk.stem.snowball import SnowballStemmer
@@ -384,8 +387,8 @@ def get_parcexml():
                                             first_word = re.search(r'(.*)' + second_word, out_compound_word).group(1)
 
                                             # get second_word lemma with Stanza
-                                            doc_stanza = nlp_stanza(first_word + ' ' + second_word)
-                                            compound_words_lemmas_arr = [word.lemma for sent in doc_stanza.sentences for word in sent.words]
+                                            stanza_doc = stanza_nlp(first_word + ' ' + second_word)
+                                            compound_words_lemmas_arr = [word.lemma_ for word in doc]
                                             logging.debug('Compound word <first_lemma> with Stanza: ' + compound_words_lemmas_arr[0])
                                             logging.debug('Compound word <second_lemma> with Stanza: ' + compound_words_lemmas_arr[1])
 
