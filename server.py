@@ -388,7 +388,7 @@ def get_parcexml():
 
                                             # get second_word lemma with Stanza
                                             stanza_doc = stanza_nlp(first_word + ' ' + second_word)
-                                            compound_words_lemmas_arr = [word.lemma_ for word in doc]
+                                            compound_words_lemmas_arr = [word.lemma_ for word in stanza_doc]
                                             logging.debug('Compound word <first_lemma> with Stanza: ' + compound_words_lemmas_arr[0])
                                             logging.debug('Compound word <second_lemma> with Stanza: ' + compound_words_lemmas_arr[1])
 
