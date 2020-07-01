@@ -3,8 +3,6 @@ FROM python:3.8-slim
 LABEL maintainer "Kyrylo Malakhov <malakhovks@nas.gov.ua> and Vitalii Velychko <aduisukr@gmail.com>"
 LABEL description "nb-terms is an NLU-powered network toolkit (Web service with API) for the contextual and semantic analysis of the natural language text messages (Norwegian Bokmål)."
 
-USER root
-
 COPY . /srv/nor
 WORKDIR /srv/nor
 
