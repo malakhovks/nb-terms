@@ -429,55 +429,79 @@ def get_parcexml():
                                             correct_lemma_element = new_item_element.find('lemma')
                                             correct_lemma_element.text = mtag_compound_lemma
 
+                                            # second_word = re.search(r'\<\+(.*)\>', out_n).group(1)
+
                                             second_word = re.search(r'\<\+(.*)\>', out_n).group(1)
+                                            out_compound_word = out.split('\n')[out.split('\n').index('"." symb') + 1]
+                                            out_compound_word = re.search(r'\<(.*)\>', out_compound_word).group(1)
+                                            first_word = re.search(r'(.*)' + second_word, out_compound_word).group(1)
+                                            # Check if first_word ending with <e> or <s>
+                                            if re.search(r'[es]$', first_word):
+                                                # Check if first_word ending with <e>
+                                                if re.search(r'[e]$', first_word):
+                                                    vowel_counts = dict((c, first_word.count(c)) for c in VOWELS)
+                                                    counts = vowel_counts.values()
+                                                    # Check if first_word includes 2 vowels
+                                                    if sum(counts) == 2:
+                                                        first_word = first_word[:-1]
+                                                # Check if first_word ending with <s>
+                                                if re.search(r'[s]$', first_word):
+                                                    first_word = first_word[:-1]
+                                            # get lemmas with spaCy
+                                            spacy_doc_lemmas = NLP_NB_LEMMA(first_word + ' ' + second_word)
+                                            spacy_compound_words_lemmas_arr = [token.lemma_ for token in spacy_doc_lemmas]
+                                            logging.debug('Compound word <first_lemma> with spaCy: ' + spacy_compound_words_lemmas_arr[0])
+                                            logging.debug('Compound word <second_lemma> with spaCy: ' + spacy_compound_words_lemmas_arr[1])
 
                                             # get lemmas with spaCy
-                                            doc_second_lemma = NLP_NB_LEMMA(second_word)
-                                            spacy_second_word_lemma_arr = [token.lemma_ for token in doc_second_lemma]
-                                            logging.debug('Compound word <second_lemma> with spaCy: ' + spacy_second_word_lemma_arr[0])
+                                            # doc_second_lemma = NLP_NB_LEMMA(second_word)
+                                            # spacy_second_word_lemma_arr = [token.lemma_ for token in doc_second_lemma]
+                                            # logging.debug('Compound word <second_lemma> with spaCy: ' + spacy_second_word_lemma_arr[0])
 
-                                            first_word = re.search(r'(.*)' + spacy_second_word_lemma_arr[0], mtag_compound_lemma).group(1)
+                                            # first_word = re.search(r'(.*)' + spacy_second_word_lemma_arr[0], mtag_compound_lemma).group(1)
 
-                                            # get first_word lemma with mtag
-                                            try:
-                                                with open(destination_input_text_for_mtag, 'w') as f:
-                                                    f.write(first_word)
-                                            except IOError as e:
-                                                logging.error(e, exc_info=True)
-                                                return abort(500)
-                                            try:
-                                                code = subprocess.call(args, stdout=subprocess.DEVNULL)
-                                                if code == 0:
-                                                    logging.debug("subprocess.call (mtag --> output.txt): Success!")
-                                                else:
-                                                    logging.error("subprocess.call (mtag --> output.txt): Error!")
-                                            except OSError as e:
-                                                logging.error(e, exc_info=True)
-                                                return abort(500)
-                                            try:
-                                                with open(destination_output_text_for_mtag) as f:
-                                                    data = f.read()
-                                            except IOError as e:
-                                                logging.error(e, exc_info=True)
-                                                return abort(500)
+                                            # # get first_word lemma with mtag
+                                            # try:
+                                            #     with open(destination_input_text_for_mtag, 'w') as f:
+                                            #         f.write(first_word)
+                                            # except IOError as e:
+                                            #     logging.error(e, exc_info=True)
+                                            #     return abort(500)
+                                            # try:
+                                            #     code = subprocess.call(args, stdout=subprocess.DEVNULL)
+                                            #     if code == 0:
+                                            #         logging.debug("subprocess.call (mtag --> output.txt): Success!")
+                                            #     else:
+                                            #         logging.error("subprocess.call (mtag --> output.txt): Error!")
+                                            # except OSError as e:
+                                            #     logging.error(e, exc_info=True)
+                                            #     return abort(500)
+                                            # try:
+                                            #     with open(destination_output_text_for_mtag) as f:
+                                            #         data = f.read()
+                                            # except IOError as e:
+                                            #     logging.error(e, exc_info=True)
+                                            #     return abort(500)
 
-                                            logging.debug('data from <output.txt>: ' + '\n' + data)
+                                            # logging.debug('data from <output.txt>: ' + '\n' + data)
 
-                                            if data == '':
-                                                logging.debug('Error while processing Word <' + first_word + '>. Maybe spell error.')
-                                            else:
-                                                out = re.sub('[\t]', '', data)
-                                                out_1 = out.split('\n')[1]
-                                                mtag_first_word_lemma = re.search(r'\"(.*)\"', out_1).group(1)
-                                                logging.debug('Compound word <first_lemma> with mtag: ' + mtag_first_word_lemma)
+                                            # if data == '':
+                                            #     logging.debug('Error while processing Word <' + first_word + '>. Maybe spell error.')
+                                            # else:
+                                            #     out = re.sub('[\t]', '', data)
+                                            #     out_1 = out.split('\n')[1]
+                                            #     mtag_first_word_lemma = re.search(r'\"(.*)\"', out_1).group(1)
+                                            #     logging.debug('Compound word <first_lemma> with mtag: ' + mtag_first_word_lemma)
 
                                             # create <compound>
                                             new_compound_element = ET.Element('compound')
                                             first_word_element = ET.Element('first_lemma')
-                                            first_word_element.text = mtag_first_word_lemma
+                                            # first_word_element.text = mtag_first_word_lemma
+                                            first_word_element.text = spacy_compound_words_lemmas_arr[0]
                                             new_compound_element.append(first_word_element)
                                             second_word_element = ET.Element('second_lemma')
-                                            second_word_element.text = spacy_second_word_lemma_arr[0]
+                                            # second_word_element.text = spacy_second_word_lemma_arr[0]
+                                            second_word_element.text = spacy_compound_words_lemmas_arr[1]
                                             new_compound_element.append(second_word_element)
                                             new_item_element.append(new_compound_element)
                                     except AttributeError:
