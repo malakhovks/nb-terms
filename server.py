@@ -392,13 +392,14 @@ def get_parcexml():
                                                         first_word = first_word[:-1]
                                                 # Check if first_word ending with <s>
                                                 if re.search(r'[s]$', first_word):
+                                                    first_word = first_word[:-1]
                                                     # Check if first_word includes 1 vowel
-                                                    vowel_counts = dict((c, first_word.count(c)) for c in VOWELS)
-                                                    counts = vowel_counts.values()
-                                                    if sum(counts) == 1:
-                                                        first_word = first_word[:-1]
+                                                    # vowel_counts = dict((c, first_word.count(c)) for c in VOWELS)
+                                                    # counts = vowel_counts.values()
+                                                    # if sum(counts) == 1:
+                                                    #     first_word = first_word[:-1]
 
-                                            # get lemmas eith spaCy
+                                            # get lemmas with spaCy
                                             spacy_doc_lemmas = NLP_NB_LEMMA(first_word + ' ' + second_word)
                                             spacy_compound_words_lemmas_arr = [token.lemma_ for token in spacy_doc_lemmas]
                                             logging.debug('Compound word <first_lemma> with spaCy: ' + spacy_compound_words_lemmas_arr[0])
@@ -419,15 +420,18 @@ def get_parcexml():
                                             second_word_element.text = spacy_compound_words_lemmas_arr[1]
                                             new_compound_element.append(second_word_element)
                                             new_item_element.append(new_compound_element)
+                                        # Check for lemma correctness
                                         # if not correct
                                         else:
                                             logging.debug('Compound word lemma correctness (lemmas IS NOT EQUAL) spaCy | mtag: ' + lemma.lemma_ + ' | ' + mtag_compound_lemma)
 
+                                            # Changing for correct lemma
                                             correct_lemma_element = new_item_element.find('lemma')
                                             correct_lemma_element.text = mtag_compound_lemma
 
                                             second_word = re.search(r'\<\+(.*)\>', out_n).group(1)
-                                            # get second_word lemma with spaCy
+
+                                            # get lemmas with spaCy
                                             doc_second_lemma = NLP_NB_LEMMA(second_word)
                                             spacy_second_word_lemma_arr = [token.lemma_ for token in doc_second_lemma]
                                             logging.debug('Compound word <second_lemma> with spaCy: ' + spacy_second_word_lemma_arr[0])
