@@ -18,3 +18,11 @@ for token in doc1:
             token.shape_, token.is_alpha, token.is_stop)
 
 print(NORWEGIAN_STEMMER.stem('formues'))
+
+VOWELS = set(['a', 'e', 'i', 'o', 'u', 'y', 'æ', 'ø', 'å'])
+
+vowel_counts = dict((c, 'formues'.count(c)) for c in VOWELS)
+counts = vowel_counts.values()
+total_vowels = sum(counts)
+print(total_vowels)
+print('formues'[:-1])
