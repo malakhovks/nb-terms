@@ -44,6 +44,8 @@ from flask_cors import CORS
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'docx'])
 
+VOWELS = set(['a', 'e', 'i', 'o', 'u', 'y', 'æ', 'ø', 'å'])
+
 # Load globally spaCy model via package name
 NLP_NB = spacy.load('nb_core_news_sm')
 # Load lemmas only
@@ -60,13 +62,15 @@ except:
     logging.debug('Installing Stance pretrained NLP model for Norwegian Bokmaal.')
     stanza.download('nb', dir='./deploy/stanza_resources')
     logging.debug('Stance pretrained NLP model for Norwegian Bokmaal is ready to use.')
+    snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
+    stanza_nlp = StanzaLanguage(snlp)
 
-try:
-    snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
-    stanza_nlp = StanzaLanguage(snlp)
-except:
-    snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
-    stanza_nlp = StanzaLanguage(snlp)
+# try:
+#     snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
+#     stanza_nlp = StanzaLanguage(snlp)
+# except:
+#     snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
+#     stanza_nlp = StanzaLanguage(snlp)
 
 # load SnowballStemmer stemmer from nltk
 from nltk.stem.snowball import SnowballStemmer
