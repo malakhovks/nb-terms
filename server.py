@@ -52,7 +52,7 @@ NLP_NB = spacy.load('nb_core_news_sm')
 NLP_NB_LEMMA = spacy.load('nb_core_news_sm', disable=["parser", "tagger"])
 
 # Stanza – A Python NLP Package for Many Human Languages
-import stanza
+""" import stanza
 from spacy_stanza import StanzaLanguage
 try:
     snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
@@ -62,7 +62,7 @@ except:
     stanza.download('nb', dir='./deploy/stanza_resources')
     logging.debug('Stance pretrained NLP model for Norwegian Bokmaal is ready to use.')
     snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
-    stanza_nlp = StanzaLanguage(snlp)
+    stanza_nlp = StanzaLanguage(snlp) """
 
 # load SnowballStemmer stemmer from nltk
 from nltk.stem.snowball import SnowballStemmer
@@ -382,19 +382,42 @@ def get_parcexml():
                                             out_compound_word = re.search(r'\<(.*)\>', out_compound_word).group(1)
                                             first_word = re.search(r'(.*)' + second_word, out_compound_word).group(1)
 
+                                            # Check if first_word ending with <e> or <s>
+                                            if re.search(r'[es]$', first_word):
+                                                # Check if first_word ending with <e>
+                                                if re.search(r'[e]$', first_word):
+                                                    vowel_counts = dict((c, first_word.count(c)) for c in VOWELS)
+                                                    counts = vowel_counts.values()
+                                                    # Check if first_word includes 2 vowels
+                                                    if sum(counts) == 2:
+                                                        first_word = first_word[:-1]
+                                                # Check if first_word ending with <s>
+                                                if re.search(r'[s]$', first_word):
+                                                    # Check if first_word includes 1 vowel
+                                                    vowel_counts = dict((c, first_word.count(c)) for c in VOWELS)
+                                                    counts = vowel_counts.values()
+                                                    if sum(counts) == 1:
+                                                        first_word = first_word[:-1]
+
+                                            # get lemmas eith spaCy
+                                            spacy_doc_lemmas = NLP_NB_LEMMA(first_word + ' ' + second_word)
+                                            spacy_compound_words_lemmas_arr = [token.lemma_ for token in spacy_doc_lemmas]
+                                            logging.debug('Compound word <first_lemma> with spaCy: ' + spacy_compound_words_lemmas_arr[0])
+                                            logging.debug('Compound word <second_lemma> with spaCy: ' + spacy_compound_words_lemmas_arr[1]
+
                                             # get second_word lemma with Stanza
-                                            stanza_doc = stanza_nlp(first_word + ' ' + second_word)
-                                            compound_words_lemmas_arr = [word.lemma_ for word in stanza_doc]
-                                            logging.debug('Compound word <first_lemma> with Stanza: ' + compound_words_lemmas_arr[0])
-                                            logging.debug('Compound word <second_lemma> with Stanza: ' + compound_words_lemmas_arr[1])
+                                            # stanza_doc = stanza_nlp(first_word + ' ' + second_word)
+                                            # compound_words_lemmas_arr = [word.lemma_ for word in stanza_doc]
+                                            # logging.debug('Compound word <first_lemma> with Stanza: ' + compound_words_lemmas_arr[0])
+                                            # logging.debug('Compound word <second_lemma> with Stanza: ' + compound_words_lemmas_arr[1])
 
                                             # create <compound>
                                             new_compound_element = ET.Element('compound')
                                             first_word_element = ET.Element('first_lemma')
-                                            first_word_element.text = compound_words_lemmas_arr[0]
+                                            first_word_element.text = spacy_compound_words_lemmas_arr[0]
                                             new_compound_element.append(first_word_element)
                                             second_word_element = ET.Element('second_lemma')
-                                            second_word_element.text = compound_words_lemmas_arr[1]
+                                            second_word_element.text = spacy_compound_words_lemmas_arr[1]
                                             new_compound_element.append(second_word_element)
                                             new_item_element.append(new_compound_element)
                                         # if not correct
