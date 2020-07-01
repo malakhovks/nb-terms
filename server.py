@@ -43,7 +43,6 @@ from flask import Flask, jsonify, flash, request, Response, redirect, url_for, a
 from flask_cors import CORS
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'docx'])
-
 VOWELS = set(['a', 'e', 'i', 'o', 'u', 'y', 'æ', 'ø', 'å'])
 
 # Load globally spaCy model via package name
@@ -52,17 +51,17 @@ NLP_NB = spacy.load('nb_core_news_sm')
 NLP_NB_LEMMA = spacy.load('nb_core_news_sm', disable=["parser", "tagger"])
 
 # Stanza – A Python NLP Package for Many Human Languages
-""" import stanza
-from spacy_stanza import StanzaLanguage
-try:
-    snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
-    stanza_nlp = StanzaLanguage(snlp)
-except:
-    logging.debug('Installing Stance pretrained NLP model for Norwegian Bokmaal.')
-    stanza.download('nb', dir='./deploy/stanza_resources')
-    logging.debug('Stance pretrained NLP model for Norwegian Bokmaal is ready to use.')
-    snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
-    stanza_nlp = StanzaLanguage(snlp) """
+# import stanza
+# from spacy_stanza import StanzaLanguage
+# try:
+#     snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
+#     stanza_nlp = StanzaLanguage(snlp)
+# except:
+#     logging.debug('Installing Stance pretrained NLP model for Norwegian Bokmaal.')
+#     stanza.download('nb', dir='./deploy/stanza_resources')
+#     logging.debug('Stance pretrained NLP model for Norwegian Bokmaal is ready to use.')
+#     snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
+#     stanza_nlp = StanzaLanguage(snlp)
 
 # load SnowballStemmer stemmer from nltk
 from nltk.stem.snowball import SnowballStemmer
@@ -403,7 +402,7 @@ def get_parcexml():
                                             spacy_doc_lemmas = NLP_NB_LEMMA(first_word + ' ' + second_word)
                                             spacy_compound_words_lemmas_arr = [token.lemma_ for token in spacy_doc_lemmas]
                                             logging.debug('Compound word <first_lemma> with spaCy: ' + spacy_compound_words_lemmas_arr[0])
-                                            logging.debug('Compound word <second_lemma> with spaCy: ' + spacy_compound_words_lemmas_arr[1]
+                                            logging.debug('Compound word <second_lemma> with spaCy: ' + spacy_compound_words_lemmas_arr[1])
 
                                             # get second_word lemma with Stanza
                                             # stanza_doc = stanza_nlp(first_word + ' ' + second_word)
