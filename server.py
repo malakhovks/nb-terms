@@ -50,30 +50,19 @@ VOWELS = set(['a', 'e', 'i', 'o', 'u', 'y', 'æ', 'ø', 'å'])
 NLP_NB = spacy.load('nb_core_news_sm')
 # Load lemmas only
 NLP_NB_LEMMA = spacy.load('nb_core_news_sm', disable=["parser", "tagger"])
-# NLP_NB_VECTORES = spacy.load('./tmp/nb_nowac_vectores')
 
 # Stanza – A Python NLP Package for Many Human Languages
 import stanza
 from spacy_stanza import StanzaLanguage
 try:
-    # snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
-    snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma')
+    snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
     stanza_nlp = StanzaLanguage(snlp)
 except:
     logging.debug('Installing Stance pretrained NLP model for Norwegian Bokmaal.')
-    # stanza.download('nb', dir='./deploy/stanza_resources')
-    stanza.download('nb')
+    stanza.download('nb', dir='./deploy/stanza_resources')
     logging.debug('Stance pretrained NLP model for Norwegian Bokmaal is ready to use.')
-    # snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
-    snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma')
+    snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
     stanza_nlp = StanzaLanguage(snlp)
-
-# try:
-#     snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
-#     stanza_nlp = StanzaLanguage(snlp)
-# except:
-#     snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
-#     stanza_nlp = StanzaLanguage(snlp)
 
 # load SnowballStemmer stemmer from nltk
 from nltk.stem.snowball import SnowballStemmer
