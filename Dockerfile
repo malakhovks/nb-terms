@@ -23,16 +23,9 @@ RUN apt-get -y clean \
     && apt-get -y autoremove
 
 COPY ./deploy/nginx.conf /etc/nginx
-COPY ./deploy/mtag-master /tmp/mtag-master
-
-# run mtag first time
-RUN /tmp/mtag-master/mtag.py /tmp/mtag-master/input.txt
 
 # give permissions to everyone. Needed to mtag
-RUN chmod -R a+rwx /tmp/mtag-master \
-    && chmod -R a+rwx /srv/nor \
-    && chmod a+rwx /tmp/mtag-master/input.txt \
-    && chmod a+rwx /tmp/mtag-master/output.txt
+# RUN chmod -R a+rwx /srv/nor
 
 RUN chmod +x ./start.sh
 CMD ["./start.sh"]
