@@ -415,7 +415,7 @@ def databaseSearch(key):
     return tag
 ####################################
 def sok(key):
-    if __debug__: logging.debug('sok(%(key)s)', vars())
+    # if __debug__: logging.debug('sok(%(key)s)', vars())
     res = ''
 
     if key != '':
@@ -432,7 +432,7 @@ def sok(key):
         # Delete non-letter at the start
         key_lstrip = re.sub(q(r"^[^{letters}\d]+"), '', key)
         if key_lstrip and key_lstrip != key:
-            if __debug__: logging.debug('databaseSearch(%(key_lstrip)s)', vars())
+            # if __debug__: logging.debug('databaseSearch(%(key_lstrip)s)', vars())
             res = databaseSearch(key_lstrip)
             key = key_lstrip
 
@@ -554,22 +554,22 @@ def gaaGjennomPeriodeElementer(periode, inputOK, nestePeriode, periodeFullstendi
                 muligReinPeriodeLower = ' ' + muligReinPeriodeLower
 
                 ikkjeTerminerForkKey = '%d#%s' % (count, muligReinPeriodeLower[len(muligReinPeriodeLower)-count:])
-                if __debug__: logging.debug('ikkjeTerminerFork.get1(%(ikkjeTerminerForkKey)s)', vars())
+                # if __debug__: logging.debug('ikkjeTerminerFork.get1(%(ikkjeTerminerForkKey)s)', vars())
                 if ikkjeTerminerFork.get(ikkjeTerminerForkKey):
-                    if __debug__: logging.debug(' == True!')
+                    # if __debug__: logging.debug(' == True!')
                     erNamn = sjekkNamn(nesteOrd)
                     if erNamn:
                         erPeriodeSlutt = False
                         break
                     else:
-                        if __debug__: logging.debug('Legg på terminering')
+                        # if __debug__: logging.debug('Legg på terminering')
                         muligReinPeriode += ' .' # Legg paa terminering
 
             sjekkFork = muligReinPeriode[len(muligReinPeriode)-count:]
             sjekkFork = re.sub(q(r'^[{quotsParantes}]'), ' ', sjekkFork)
-            if __debug__: logging.debug('ikkjeTerminerFork.get2(%(count)s#%(sjekkFork)s)', vars())
+            # if __debug__: logging.debug('ikkjeTerminerFork.get2(%(count)s#%(sjekkFork)s)', vars())
             if ikkjeTerminerFork.get('%d#%s' % (count, sjekkFork)):
-                if __debug__: logging.debug(' == True!')
+                # if __debug__: logging.debug(' == True!')
                 erNamn = sjekkNamn(nesteOrd)
 
                 # Sjekk om ordet framfor forkortinga er eit namn. I så fall er
@@ -578,7 +578,7 @@ def gaaGjennomPeriodeElementer(periode, inputOK, nestePeriode, periodeFullstendi
                     erPeriodeSlutt = False
                     break
                 else:
-                    if __debug__: logging.debug('Legg på terminering')
+                    # if __debug__: logging.debug('Legg på terminering')
                     muligReinPeriode += ' .' # Legg paa terminering
 
         # Sjekk om siste ordet i perioden kan vere ein tittel
@@ -611,17 +611,17 @@ def gaaGjennomPeriodeElementer(periode, inputOK, nestePeriode, periodeFullstendi
             nestePeriode = restAvMulig + ''.join(periodeElementer)
             periodeElementer = []
 
-            if __debug__:
-                logging.debug("before konverterSkilleteikn\n")
-                logging.debug("periode = '%(periode)s'", vars())
+            # if __debug__:
+            #     logging.debug("before konverterSkilleteikn\n")
+            #     logging.debug("periode = '%(periode)s'", vars())
             periode = konverterSkilleteikn(periode)
             periodeFullstendig = True
 
             break
 
-    if __debug__:
-        logging.debug("end of gaaGjennomPeriodeElementer")
-        logging.debug("periode = '%(periode)s'", vars())
+    # if __debug__:
+    #     logging.debug("end of gaaGjennomPeriodeElementer")
+    #     logging.debug("periode = '%(periode)s'", vars())
     return (needMoreData, periode, nestePeriode, periodeFullstendig)
 ####################################
 def sjekkInterjeksjon(key):
@@ -674,11 +674,11 @@ def finnTal(periode, periodeStart):
     # avslutta med komma og fleire desimaler etter komma.
     # Til slutt kan det foelge eit punktum eller eit prosentteikn.
 
-    if __debug__: logging.debug('periode = <<<%(periode)s>>>', vars())
+    # if __debug__: logging.debug('periode = <<<%(periode)s>>>', vars())
     m = re.search(r'^(([+-]?\d{1,3}[. ]?(\d{3,3}[. ]?)*(,\d*)?[.%]?)([/-][+-]?\d{1,3}[. ]?(\d{3,3}[. ]?)*(,\d*)?[.%]?)?) ', periode)
     if m:
         word = m.group(1)
-        if __debug__: logging.debug('word = <<<%(word)s>>>', vars())
+        # if __debug__: logging.debug('word = <<<%(word)s>>>', vars())
         antal = len(word)+1
         if word.endswith('.'):
             tagTekst += TAG_LINE.format(word, ADJ_ORDEN)
@@ -852,10 +852,10 @@ def sokEtterledd(etterledd, sokOrd):
     if etterledd.startswith('-'):
          etterledd = etterledd[1:]
          forledd += '-'
-    if __debug__:
-        logging.debug("forledd = '%(forledd)s'", vars())
-        logging.debug("etterledd = '%(etterledd)s'", vars())
-        logging.debug("sokOrd = '%(sokOrd)s'", vars())
+    # if __debug__:
+    #     logging.debug("forledd = '%(forledd)s'", vars())
+    #     logging.debug("etterledd = '%(etterledd)s'", vars())
+    #     logging.debug("sokOrd = '%(sokOrd)s'", vars())
     tagTekstOrig = ''
     tagTekstOrig = sok('-' + etterledd)
     tagTekstOrig += sok(etterledd)
@@ -931,10 +931,10 @@ def analyserForledd(forledd):
         return []
 
     if rootVal and rootOrdklasseList:
-        if __debug__:
-            logging.debug('forledd=%(forledd)s, numLedd = %(numLedd)s, ' +
-                          'rootOrdklasseList=%(rootOrdklasseList)s',
-                          vars())
+        # if __debug__:
+        #     logging.debug('forledd=%(forledd)s, numLedd = %(numLedd)s, ' +
+        #                   'rootOrdklasseList=%(rootOrdklasseList)s',
+        #                   vars())
         rootHash[forledd] = [numLedd] + list(set(rootOrdklasseList))
         return rootHash[forledd]
 
@@ -950,15 +950,15 @@ def analyserForledd(forledd):
         ledd2OK = ledd2Analyse and ledd2Analyse[0]
 
         if ledd1OK and ledd2OK:
-            if __debug__:
-                logging.debug('%(ledd1)s + %(ledd2)s', vars())
-                logging.debug('%(ledd1Analyse)s', vars())
-                logging.debug('%(ledd2Analyse)s', vars())
+            # if __debug__:
+            #     logging.debug('%(ledd1)s + %(ledd2)s', vars())
+            #     logging.debug('%(ledd1Analyse)s', vars())
+            #     logging.debug('%(ledd2Analyse)s', vars())
 
             numLedd = ledd1Analyse[0] + ledd2Analyse[0]
             rootOrdklasseList = rootOrdklasser(ledd2)
-            if __debug__:
-                logging.debug("rootHash[%(forledd)s] = [%(numLedd)s, %(rootOrdklasseList)s]", vars())
+            # if __debug__:
+            #     logging.debug("rootHash[%(forledd)s] = [%(numLedd)s, %(rootOrdklasseList)s]", vars())
             resultater.append([numLedd] + rootOrdklasseList)
 
         ledd1kortAnalyse = analyserForledd(ledd1kort)
@@ -967,10 +967,10 @@ def analyserForledd(forledd):
         fugeFormativOK = re.search(r'^[es-]$', fugeFormativ)
 
         if ledd1kortOK and fugeFormativOK and ledd2OK:
-            if __debug__:
-                logging.debug("%(ledd1kort)s + fuge + %(ledd2)s", vars())
-                logging.debug("%(ledd1kortAnalyse)s", vars())
-                logging.debug("%(ledd2Analyse)s", vars())
+            # if __debug__:
+            #     logging.debug("%(ledd1kort)s + fuge + %(ledd2)s", vars())
+            #     logging.debug("%(ledd1kortAnalyse)s", vars())
+            #     logging.debug("%(ledd2Analyse)s", vars())
 
             numLedd = ledd1kortAnalyse[0] + ledd2Analyse[0]
             resultater.append([numLedd] + rootOrdklasser(ledd2))
@@ -980,13 +980,13 @@ def analyserForledd(forledd):
         ordklasser = sum((result[1:] for result in resultater
                                      if result[0] == resultater[0][0]),
                          [])
-        if __debug__: logging.debug('ordklasser = %(ordklasser)s', vars())
+        # if __debug__: logging.debug('ordklasser = %(ordklasser)s', vars())
         retVal = [resultater[0][0]] + ordklasser
-        if __debug__: logging.debug('retVal = %(retVal)s', vars())
+        # if __debug__: logging.debug('retVal = %(retVal)s', vars())
         rootHash[forledd] = retVal
         return retVal
 
-    if __debug__: logging.debug("didn't work after all")
+    # if __debug__: logging.debug("didn't work after all")
     rootHash[forledd] = []
     return []
 
@@ -1003,9 +1003,9 @@ def analyserForleddOgEtterledd(sokOrd):
         forledd = sokOrd[0:i]
         etterledd = sokOrd[i:]
         kortEtterledd = sokOrd[i+1:]
-        if __debug__: logging.debug("forledd+etterledd = %(forledd)s + %(etterledd)s", vars())
+        # if __debug__: logging.debug("forledd+etterledd = %(forledd)s + %(etterledd)s", vars())
         forleddAnalyse = analyserForledd(forledd)
-        if __debug__: logging.debug("forleddAnalyse = %(forleddAnalyse)s", vars())
+        # if __debug__: logging.debug("forleddAnalyse = %(forleddAnalyse)s", vars())
         if not (forleddAnalyse and forleddAnalyse[0]):
             continue
         etterleddOK = len(etterledd) > 1 and databaseSearchForSuffixOrWord(etterledd)
@@ -1015,9 +1015,9 @@ def analyserForleddOgEtterledd(sokOrd):
         if etterledd.startswith('s') and kortEtterleddOK:
             # Lexical compounding is preferable to compounding with epenthetic phones.
             lengreForleddAnalyse = analyserForledd(forledd + 's')
-            if __debug__:
-                logging.debug('lengreForledd = %(forledd)ss', vars())
-                logging.debug('lengreForleddAnalyse = %(lengreForleddAnalyse)s', vars())
+            # if __debug__:
+            #     logging.debug('lengreForledd = %(forledd)ss', vars())
+            #     logging.debug('lengreForleddAnalyse = %(lengreForleddAnalyse)s', vars())
             if lengreForleddAnalyse and lengreForleddAnalyse[0] == 1:
                 continue # FIXME: wouldn't "kortEtterleddOK = False" be better here?
             # Epenthetic -s- can only follow noun stems.
@@ -1041,7 +1041,7 @@ def analyserForleddOgEtterledd(sokOrd):
                 kortEtterleddOK = False
 
         if etterleddOK and kortEtterleddOK:
-            if __debug__: logging.debug('sokEtterledd1(%(etterledd)s, %(sokOrd)s)', vars())
+            # if __debug__: logging.debug('sokEtterledd1(%(etterledd)s, %(sokOrd)s)', vars())
             etterleddInfoList = sokEtterledd(etterledd, sokOrd)
             verbalEtterledd = any(etterleddInfo['ordklasse'] == 'verb'
                                   for etterleddInfo in etterleddInfoList)
@@ -1062,22 +1062,22 @@ def analyserForleddOgEtterledd(sokOrd):
 
         if forleddAnalyse and forleddAnalyse[0] and (etterleddOK or kortEtterleddOK):
             minEtterledd = etterledd if etterleddOK else kortEtterledd
-            if __debug__: logging.debug("sokEtterledd2(%(minEtterledd)s, %(sokOrd)s)", vars())
+            # if __debug__: logging.debug("sokEtterledd2(%(minEtterledd)s, %(sokOrd)s)", vars())
             etterleddInfoList = sokEtterledd(minEtterledd, sokOrd)
 
             if etterleddInfoList:
                 etterleddRoots = set(etterleddInfo['root']
                                      for etterleddInfo in etterleddInfoList)
-                if __debug__: logging.debug("etterleddRoots = %(etterleddRoots)s", vars())
+                # if __debug__: logging.debug("etterleddRoots = %(etterleddRoots)s", vars())
                 sortedEtterleddRoots = sorted(etterleddRoots, key=lambda k: compoundHash.get(k, [1])[0])
                 numForledd = forleddAnalyse[0]
                 if len(sortedEtterleddRoots) > 0:
                     numEtterledd = compoundHash.get(sortedEtterleddRoots[0], [1])[0] * SAMSET_LEKS_WEIGHT
                 else:
                     numEtterledd = 1
-                if __debug__:
-                    logging.debug("numEtterledd = %(numEtterledd)s", vars())
-                    logging.debug("sortedEtterleddRoots = %(sortedEtterleddRoots)s", vars())
+                # if __debug__:
+                #     logging.debug("numEtterledd = %(numEtterledd)s", vars())
+                #     logging.debug("sortedEtterleddRoots = %(sortedEtterleddRoots)s", vars())
                 if numEtterledd < 1:
                     numEtterledd = 1
                 # If two analyses are equal with respect to epenthesis
@@ -1104,7 +1104,7 @@ def analyserForleddOgEtterledd(sokOrd):
                 isNoun = any(etterleddInfo['ordklasse'] == 'subst'
                              for etterleddInfo in etterleddInfoList)
                 if isNoun and not (kortEtterleddOK and etterledd.startswith('e')) and numEtterledd < 1.5:
-                    if __debug__: logging.debug('break')
+                    # if __debug__: logging.debug('break')
                     break
     return resultater
 
@@ -1118,7 +1118,7 @@ def analyserBareEtterledd(sokOrd):
         if len(etterledd) > 2:
             searchResult = databaseSearchForSuffixOrWord(etterledd)
             if re.search(r'\b(subst|adj)\b', searchResult):
-                if __debug__: logging.debug("sokEtterledd3(%(etterledd)s, %(sokOrd)s)", vars())
+                # if __debug__: logging.debug("sokEtterledd3(%(etterledd)s, %(sokOrd)s)", vars())
                 etterleddInfoList = sokEtterledd(etterledd, sokOrd)
                 if etterleddInfoList:
                     if etterledd in compoundHash:
@@ -1174,7 +1174,7 @@ def analyserSammensetning(sokOrd, periodeStart):
                                        ''.join(' ' + tag for tag in resHash[resultTekst]
                                                          if tag),
                                        "\n"])
-        if __debug__: logging.debug('resultater: %(resultater)s', vars())
+        # if __debug__: logging.debug('resultater: %(resultater)s', vars())
     return resultTagTekst
 ####################################
 def abbrFeat(fult, forkortet, tt):
@@ -1196,7 +1196,7 @@ def uniq_prefix(lines):
     return result
 
 def sort_feat(line, periodeStart):
-    if __debug__: logging.debug('sort_feat(%(line)s, %(periodeStart)s)', vars())
+    # if __debug__: logging.debug('sort_feat(%(line)s, %(periodeStart)s)', vars())
     wordPattern = r'^\s*"(.*)"\s+'
     m = re.search(wordPattern, line)
     line = re.sub(wordPattern, '', line)
@@ -1219,7 +1219,7 @@ def sort_feat(line, periodeStart):
     if addStar:
         feats.append("<*>")
     result = '\t"{}" '.format(word)
-    if __debug__: logging.debug('feats = <<<%(feats)s>>>', vars())
+    # if __debug__: logging.debug('feats = <<<%(feats)s>>>', vars())
     if SPRAAK == 'bm':
         result += ' '.join(sorted(feats, key=lambda k: feat_idx.get(k, float('inf'))))
     elif SPRAAK == 'nn':
@@ -1249,10 +1249,10 @@ def prepareTagTekst(tagTekst, periodeStart):
     tagTekst = re.sub(r'^(\t".*".*)\s\@DET>\b', r'\1 @det>', tagTekst, flags=re.M)
     tagTekst = re.sub(r'^(\t".*".*)\bCLB\b', r'\1clb', tagTekst, flags=re.M)
     tagTekst = re.sub(r'^(\t".*".*)\s+(normert|unormert|klammeform)\b', r'\1', tagTekst, flags=re.M | re.I)
-    if __debug__: logging.debug('tagTekstBeforeSort = %(tagTekst)s', vars())
+    # if __debug__: logging.debug('tagTekstBeforeSort = %(tagTekst)s', vars())
     tagTekst = ''.join(sort_feat(tagLine, periodeStart) + "\n"
                        for tagLine in tagTekst.rstrip("\n").split("\n"))
-    if __debug__: logging.debug('tagTekstAfterSort = %(tagTekst)s', vars())
+    # if __debug__: logging.debug('tagTekstAfterSort = %(tagTekst)s', vars())
 
     nyTagTekst = tagTekst
     for m in re.finditer(r'^\s*"(.*)"\s+adj\b.*\b(nøyt|adv)\b', tagTekst, flags=re.M):
@@ -1272,9 +1272,9 @@ def prepareTagTekst(tagTekst, periodeStart):
             if subst_count == 0:
                 break
 
-    if __debug__: logging.debug('tagTekstBefore = <<<%(tagTekst)s>>>', vars())
+    # if __debug__: logging.debug('tagTekstBefore = <<<%(tagTekst)s>>>', vars())
     tagTekst = "\n".join(sorted(uniq_prefix(tagTekst.rstrip("\n").split("\n")))) + "\n"
-    if __debug__: logging.debug('tagTekstAfter = <<<%(tagTekst)s>>>', vars())
+    # if __debug__: logging.debug('tagTekstAfter = <<<%(tagTekst)s>>>', vars())
     return tagTekst
 
 def printTag(word, tagTekst):
@@ -1380,8 +1380,8 @@ def tagTekstSkille(word, periode):
     return result
 ####################################
 def sokVarianter(sokOrd, periode, periodeStart, forrigeAnf):
-    if __debug__:
-        logging.debug('sokVarianter(%(sokOrd)s, %(periode)s, %(periodeStart)s, %(forrigeAnf)s', vars())
+    # if __debug__:
+    #     logging.debug('sokVarianter(%(sokOrd)s, %(periode)s, %(periodeStart)s, %(forrigeAnf)s', vars())
     tagTekst = ''
     wordLower = initcap2lower(sokOrd)
     wordAllLower = allcap2lower(sokOrd)
@@ -1455,13 +1455,13 @@ def taggPeriode(periode):
         # uttrykk eller uforståeleg tekst i hermeteikn
 
         tagTekstTal, lengdeTal = finnTal(periode, periodeStart)
-        if __debug__:
-            logging.debug('tagTekstTal = %(tagTekstTal)s, lengdeTal = %(lengdeTal)s', vars())
+        # if __debug__:
+        #     logging.debug('tagTekstTal = %(tagTekstTal)s, lengdeTal = %(lengdeTal)s', vars())
         tagTekstUttrykk, lengdeUttrykk = finnUttrykk(periode, periodeStart)
         tagTekstUforstaeleg, lengdeUforstaeleg = finnUforstaeleg(periode, periodeStart)
 
         if lengdeTal >= lengdeUttrykk and lengdeTal >= lengdeUforstaeleg:
-            if __debug__: logging.debug('going in')
+            # if __debug__: logging.debug('going in')
             tagTekst += tagTekstTal
             count = lengdeTal
 
@@ -1531,12 +1531,12 @@ def taggPeriode(periode):
                         # Sjekk om namnet ender paa s,
                         # det kan daa vere ein ikkje-genitiv
                         if re.search(r'[^s]s$', sokOrd):
-                            logging.info(logLine.format('SUBST PROP:'))
+                            # logging.info(logLine.format('SUBST PROP:'))
                             tagTekst = TAG_LINE.format(stor2stjerne(sokOrd), SUBST_PROP)
-                        logging.info(logLine.format('SUBST PROP GEN:'))
+                        # logging.info(logLine.format('SUBST PROP GEN:'))
                         tagTekst += TAG_LINE.format(stor2stjerne(genOrd), q("{SUBST_PROP} {GEN}"))
                     else:
-                        logging.info(logLine.format('SUBST PROP:'))
+                        # logging.info(logLine.format('SUBST PROP:'))
                         tagTekst = TAG_LINE.format(stor2stjerne(sokOrd), SUBST_PROP)
                     propHash[sokOrd] = True
                     substProp += 1
@@ -1550,7 +1550,7 @@ def taggPeriode(periode):
                         if tagInterjeksjon:
                             tagTekst += tagInterjeksjon
                         elif periodeStart:
-                            logging.info(logLine.format('SUBST PROP:'))
+                            # logging.info(logLine.format('SUBST PROP:'))
                             tagTekst = TAG_LINE.format(stor2stjerne(sokOrd), SUBST_PROP)
                             propHash[sokOrd] = True
                             substProp += 1
@@ -1558,13 +1558,13 @@ def taggPeriode(periode):
                             genOrd = finnGenitivRot(sokOrd)
                             if genOrd:
                                 tagTekst += TAG_LINE.format(stor2stjerne(genOrd), q("{SUBST_PROP} {GEN}"))
-                                logging.info(logLine.format('SUBST PROP GEN:'))
+                                # logging.info(logLine.format('SUBST PROP GEN:'))
                         elif all(unicodedata.category(char)[0] != 'L' for char in word):
                             # Sequences of non-letters are symbols
                             tagTekst += TAG_LINE.format(stor2stjerne(word), 'symb')
                         else:
                             tagTekst += TAG_LINE.format(stor2stjerne(word), 'ukjent')
-                            logging.info(logLine.format('UKJENT'))
+                            # logging.info(logLine.format('UKJENT'))
                             ukjent += 1
         forrigeAnf = bool(re.search(q(r'({CONSTanfoersel}|{CONSTparstart})( <<<)?$'),
                                     tagTekst))
@@ -1615,7 +1615,7 @@ def anal(input_filename):
     while inputOK:
         periodeFullstendig = False
         periode = nestePeriode
-        if __debug__: logging.debug("(neste)periode = <<<%(periode)s>>>", vars())
+        # if __debug__: logging.debug("(neste)periode = <<<%(periode)s>>>", vars())
 
         # Ein vil alltid ha lest ei linje meir enn naudsynt.
         # Dersom linja som sist er lest er identisk med den perioden
@@ -1631,7 +1631,7 @@ def anal(input_filename):
             # Sett inn backslash foer eventuelle meta-teikn.
             #Variabelen skal brukast i regulaere uttrykk
             muligOverskrift = re.escape(muligOverskrift)
-            if __debug__: logging.debug('muligOverskrift = <<<%(muligOverskrift)s>>>', vars())
+            # if __debug__: logging.debug('muligOverskrift = <<<%(muligOverskrift)s>>>', vars())
 
         periode = re.sub(r'\n', ' ', periode)
         periode = re.sub(r'\s+', ' ', periode)
@@ -1729,11 +1729,11 @@ def anal(input_filename):
                                           lettersla=lettersla, specLetters=specLetters),
                                  r'\1| \2', periode)
 
-            if __debug__: logging.debug("(before gaaGjennom)periode = <<<%(periode)s>>>", vars())
+            # if __debug__: logging.debug("(before gaaGjennom)periode = <<<%(periode)s>>>", vars())
             needMoreData, periode, nestePeriode, periodeFullstendig = \
                 gaaGjennomPeriodeElementer(periode, inputOK, nestePeriode, periodeFullstendig)
 
-        if __debug__: logging.debug("taggPeriode(%(periode)s)", vars())
+        # if __debug__: logging.debug("taggPeriode(%(periode)s)", vars())
         taggPeriode(periode)
 
     sluttTid = time.time()
@@ -1747,7 +1747,7 @@ def anal(input_filename):
     Tid brukt: %10.2f minutt
     """ % tidBrukt)
 
-    for logline in msg.strip().split("\n"):
-        logging.info(logline)
+    # for logline in msg.strip().split("\n"):
+    #     logging.info(logline)
 
     return OUTPUT_RESULT_LIST
