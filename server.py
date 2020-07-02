@@ -72,6 +72,9 @@ NORWEGIAN_STEMMER = SnowballStemmer("norwegian")
 import hunspell
 nb_spell = hunspell.HunSpell('./deploy/dictionary/nb.dic', './deploy/dictionary/nb.aff')
 
+# load mtag
+import mtag
+
 __author__ = "Kyrylo Malakhov <malakhovks@nas.gov.ua> and Vitalii Velychko <aduisukr@gmail.com>"
 __copyright__ = "Copyright (C) 2020 Kyrylo Malakhov <malakhovks@nas.gov.ua> and Vitalii Velychko <aduisukr@gmail.com>"
 
