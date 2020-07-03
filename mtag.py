@@ -1630,7 +1630,7 @@ def anal(input_filename):
             if needMoreData: # Treng meir data fraa fila
                 line = inputfile.readline()
                 # line = lst
-                print("1" + line)
+                # print("1" + line)
                 linjeNr += 1
 
                 while re.search(r'/\*', line): # Les heile kommentarar
@@ -1639,7 +1639,7 @@ def anal(input_filename):
                     line = re.sub(r'\n', ' ', line)
                     line += inputfile.readline()
                     # line += ''
-                    print("2" + line)
+                    # print("2" + line)
                     linjeNr += 1
 
                 line = line.replace(remove, ' ') # Fjern ulovlege teikn (\xA0)
@@ -1661,7 +1661,7 @@ def anal(input_filename):
                     holdLinje = line
                     line = inputfile.readline()
                     # line += ''
-                    print("3" + line)
+                    # print("3" + line)
                     linjeNr += 1
 
                     if not line:
