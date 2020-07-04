@@ -31,7 +31,7 @@ Johannessen, J. B., & Hauglin, H. (1998). An automatic analysis of Norwegian com
 
 from collections import defaultdict
 from collections import OrderedDict
-from io import open
+from io import open, StringIO
 import os
 import re
 import time
