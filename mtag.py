@@ -1563,12 +1563,12 @@ def taggPeriode(periode):
 ####################################
 # 
 ####################################
-def anal(input_filename):
+def anal(sentence_list):
 # def anal(input_sentence):
     if OUTPUT_RESULT_LIST:
         OUTPUT_RESULT_LIST.clear()
-    inputfile = fileinput.input(files = input_filename)
-    # lst = input_sentence
+    # inputfile = fileinput.input(files = input_filename)
+    inputfile = StringIO('\n'.join(sentence_list))
     initDB()
     global spesialTabMin, spesialTabMax, ikkjeTerminerForkMin
     spesialTabMin += 1

@@ -336,17 +336,18 @@ def get_quick_parcexml():
                             if len(lemma.text) > 7:
                                 logging.debug('---------------------------------------------------------------------------------------------------')
 
-                                temp_file = secure_filename('dbskv.txt')
-                                destination = "/".join([tempfile.mkdtemp(),temp_file])
-                                try:
-                                    with open(destination, 'w') as f:
-                                        f.write(lemma.lemma_ + ' . ' + lemma.text.lower())
-                                except IOError as e:
-                                    logging.error(e, exc_info=True)
-                                    return abort(500)
+                                # temp_file = secure_filename('dbskv.txt')
+                                # destination = "/".join([tempfile.mkdtemp(),temp_file])
+                                # try:
+                                #     with open(destination, 'w') as f:
+                                #         f.write(lemma.lemma_ + ' . ' + lemma.text.lower())
+                                # except IOError as e:
+                                #     logging.error(e, exc_info=True)
+                                #     return abort(500)
 
                                 try:
-                                    result_list = mtag.anal(destination)
+                                    # result_list = mtag.anal(destination)
+                                    result_list = mtag.anal([lemma.lemma_ + ' . ' + lemma.text.lower()])
                                 except Exception as e:
                                     logging.error(e, exc_info=True)
                                     return abort(500)
