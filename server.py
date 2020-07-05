@@ -338,6 +338,7 @@ def get_parcexml_message():
                             if len(lemma.text) > 7:
                                 logging.debug('---------------------------------------------------------------------------------------------------')
 
+                                # FIXME: abort(jsonify(message="Message goes here"), 500)
                                 try:
                                     # result_list = mtag.anal(destination)
                                     result_list = mtag.anal([lemma.lemma_ + ' . ' + lemma.text.lower()])
