@@ -72,6 +72,8 @@ NORWEGIAN_STEMMER = SnowballStemmer("norwegian")
 import hunspell
 nb_spell = hunspell.HunSpell('./deploy/dictionary/nb.dic', './deploy/dictionary/nb.aff')
 
+# https://github.com/textlab/mtag
+# The compound analyser has been written by Michał Kosek, using rules formulated by Janne Bondi Johannessen and Helge Hauglin (1998).
 # load mtag
 import mtag
 
@@ -218,7 +220,7 @@ def index():
 # --------------------------------------------------------------------------------------------------------
 # Text messages
 @app.route('/api/bot/nb/message/xml/parce', methods=['POST'])
-def get_quick_parcexml():
+def get_parcexml_message():
     # POS UD
     # https://universaldependencies.org/u/pos/
     if request.args.get('pos', None) == 'udkonspekt':
@@ -506,7 +508,7 @@ def get_quick_parcexml():
 # --------------------------------------------------------------------------------------------------------
 # Text documents
 @app.route('/api/bot/nb/document/xml/parce', methods=['POST'])
-def get_parcexml_from_documents():
+def get_parcexml_document():
     # check if the post request has the file part
     if 'file' not in request.files:
         flash('No file part')
