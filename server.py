@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # load tempfile for temporary dir creation
-import sys, os, tempfile, subprocess
+import sys, os, tempfile
 
 # load libraries for NLP pipeline
 import spacy
@@ -225,7 +225,7 @@ def get_parcexml_message():
     # https://universaldependencies.org/u/pos/
     if request.args.get('pos', None) == 'udkonspekt':
         speech_dict_POS_tags = {'NOUN':'S1', 'ADJ':'S2', 'VERB': 'S4', 'INTJ':'S21', 'PUNCT':'98', 'SYM':'98', 'CONJ':'U', 'NUM':'S7', 'X':'99', 'PRON':'S11', 'ADP':'P', 'PROPN':'S22', 'ADV':'S16', 'AUX':'99', 'CCONJ':'U', 'DET':'99', 'PART':'99', 'SCONJ':'U', 'SPACE':'98'}
-    # TODO Correctly relate the parts of speech with spaCy
+    # FIXME Correctly relate the parts of speech with spaCy
     # tag_map.py in https://github.com/explosion/spaCy/tree/master/spacy/lang
     # POS spaCy
     if request.args.get('pos', None) == 'spacykonspekt':
@@ -338,15 +338,6 @@ def get_parcexml_message():
                             if len(lemma.text) > 7:
                                 logging.debug('---------------------------------------------------------------------------------------------------')
 
-                                # temp_file = secure_filename('dbskv.txt')
-                                # destination = "/".join([tempfile.mkdtemp(),temp_file])
-                                # try:
-                                #     with open(destination, 'w') as f:
-                                #         f.write(lemma.lemma_ + ' . ' + lemma.text.lower())
-                                # except IOError as e:
-                                #     logging.error(e, exc_info=True)
-                                #     return abort(500)
-
                                 try:
                                     # result_list = mtag.anal(destination)
                                     result_list = mtag.anal([lemma.lemma_ + ' . ' + lemma.text.lower()])
@@ -454,6 +445,7 @@ def get_parcexml_message():
                                             second_word_element.text = spacy_compound_words_lemmas_arr[1]
                                             new_compound_element.append(second_word_element)
                                             new_item_element.append(new_compound_element)
+                                    # FIXME: write a normal check if the word is not compound
                                     except AttributeError:
                                         logging.debug('Error while processing Word <' + lemma.text + '>. Maybe not compound word.')
                 if 'pos' in req_data:
