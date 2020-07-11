@@ -50,19 +50,6 @@ NLP_NB = spacy.load('nb_core_news_sm')
 # Load lemmas only
 NLP_NB_LEMMA = spacy.load('nb_core_news_sm', disable=["parser", "tagger"])
 
-# Stanza – A Python NLP Package for Many Human Languages
-# import stanza
-# from spacy_stanza import StanzaLanguage
-# try:
-#     snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
-#     stanza_nlp = StanzaLanguage(snlp)
-# except:
-#     logging.debug('Installing Stance pretrained NLP model for Norwegian Bokmaal.')
-#     stanza.download('nb', dir='./deploy/stanza_resources')
-#     logging.debug('Stance pretrained NLP model for Norwegian Bokmaal is ready to use.')
-#     snlp = stanza.Pipeline(lang="nb", processors='tokenize,mwt,pos,lemma', dir='./deploy/stanza_resources')
-#     stanza_nlp = StanzaLanguage(snlp)
-
 # load SnowballStemmer stemmer from nltk
 from nltk.stem.snowball import SnowballStemmer
 # Load globally english SnowballStemmer
@@ -383,11 +370,6 @@ def get_parcexml_message():
                                                 # Check if first_word ending with <s>
                                                 if re.search(r'[s]$', first_word):
                                                     first_word = first_word[:-1]
-                                                    # Check if first_word includes 1 vowel
-                                                    # vowel_counts = dict((c, first_word.count(c)) for c in VOWELS)
-                                                    # counts = vowel_counts.values()
-                                                    # if sum(counts) == 1:
-                                                    #     first_word = first_word[:-1]
 
                                             # get lemmas with spaCy
                                             spacy_doc_lemmas = NLP_NB_LEMMA(first_word + ' ' + second_word)
