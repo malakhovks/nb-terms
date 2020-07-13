@@ -44,6 +44,7 @@ from flask_cors import CORS
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'docx'])
 VOWELS = set(['a', 'e', 'i', 'o', 'u', 'y', 'æ', 'ø', 'å'])
+E_EXCEPTIONS = set(['rente', 'aksje'])
 
 # Load globally spaCy model via package name
 NLP_NB = spacy.load('nb_core_news_sm')
@@ -368,14 +369,19 @@ def get_parcexml_message():
                                                     # FIXME: not always need to remove e
                                                     # Check if first_word includes 2 vowels
                                                     if sum(counts) == 2:
-                                                        first_word = first_word[:-1]
+                                                        if first_word not in E_EXCEPTIONS:
+                                                            first_word = first_word[:-1]
                                                 # Check if first_word ending with <s>
                                                 if re.search(r'[s]$', first_word):
                                                     first_word = first_word[:-1]
 
                                             # get lemmas with spaCy
-                                            spacy_doc_lemmas = NLP_NB_LEMMA(first_word + ' ' + second_word)
+                                            # spacy_doc_lemmas = NLP_NB_LEMMA(first_word + ' ' + second_word)
+                                            # spacy_compound_words_lemmas_arr = [token.lemma_ for token in spacy_doc_lemmas]
+                                            spacy_doc_lemmas = NLP_NB_LEMMA(first_word)
                                             spacy_compound_words_lemmas_arr = [token.lemma_ for token in spacy_doc_lemmas]
+                                            spacy_doc_lemmas = NLP_NB_LEMMA(second_word)
+                                            spacy_compound_words_lemmas_arr.append(''.join([token.lemma_ for token in spacy_doc_lemmas]))
                                             logging.debug('Compound word <first_lemma> with spaCy: ' + spacy_compound_words_lemmas_arr[0])
                                             logging.debug('Compound word <second_lemma> with spaCy: ' + spacy_compound_words_lemmas_arr[1])
 
@@ -409,13 +415,18 @@ def get_parcexml_message():
                                                     counts = vowel_counts.values()
                                                     # Check if first_word includes 2 vowels
                                                     if sum(counts) == 2:
-                                                        first_word = first_word[:-1]
+                                                        if first_word not in E_EXCEPTIONS:
+                                                            first_word = first_word[:-1]
                                                 # Check if first_word ending with <s>
                                                 if re.search(r'[s]$', first_word):
                                                     first_word = first_word[:-1]
                                             # get lemmas with spaCy
-                                            spacy_doc_lemmas = NLP_NB_LEMMA(first_word + ' ' + second_word)
+                                            # spacy_doc_lemmas = NLP_NB_LEMMA(first_word + ' ' + second_word)
+                                            # spacy_compound_words_lemmas_arr = [token.lemma_ for token in spacy_doc_lemmas]
+                                            spacy_doc_lemmas = NLP_NB_LEMMA(first_word)
                                             spacy_compound_words_lemmas_arr = [token.lemma_ for token in spacy_doc_lemmas]
+                                            spacy_doc_lemmas = NLP_NB_LEMMA(second_word)
+                                            spacy_compound_words_lemmas_arr.append(''.join([token.lemma_ for token in spacy_doc_lemmas]))
                                             logging.debug('Compound word <first_lemma> with spaCy: ' + spacy_compound_words_lemmas_arr[0])
                                             logging.debug('Compound word <second_lemma> with spaCy: ' + spacy_compound_words_lemmas_arr[1])
 
