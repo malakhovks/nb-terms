@@ -48,7 +48,8 @@ VOWELS = set(['a', 'e', 'i', 'o', 'u', 'y', 'æ', 'ø', 'å'])
 # Load globally spaCy model via package name
 NLP_NB = spacy.load('nb_core_news_sm')
 # Load lemmas only
-NLP_NB_LEMMA = spacy.load('nb_core_news_sm', disable=["parser", "tagger"])
+# keeping only tagger component needed for lemmatization
+NLP_NB_LEMMA = spacy.load('nb_core_news_sm', disable=["parser", "ner"])
 
 # load SnowballStemmer stemmer from nltk
 from nltk.stem.snowball import SnowballStemmer
