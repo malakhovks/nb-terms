@@ -365,6 +365,7 @@ def get_parcexml_message():
                                                 if re.search(r'[e]$', first_word):
                                                     vowel_counts = dict((c, first_word.count(c)) for c in VOWELS)
                                                     counts = vowel_counts.values()
+                                                    # FIXME: not always need to remove e
                                                     # Check if first_word includes 2 vowels
                                                     if sum(counts) == 2:
                                                         first_word = first_word[:-1]
